@@ -8,10 +8,15 @@ export default new Vuex.Store({
     tasks: [
       { title: "First task" },
       { title: "Second task" },
-      { title: "Third task" }
+      { title: "Third *very* **important** task" },
+      { title: "Fourth [task](https://en.wikipedia.org/)" }
     ]
   },
-  mutations: {},
+  mutations: {
+    updateTasks(state, value) {
+      state.tasks = value;
+    }
+  },
   actions: {},
   modules: {}
 });
