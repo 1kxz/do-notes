@@ -1,19 +1,20 @@
 <template>
   <div class="task">
-    <router-link v-bind:to="link">#</router-link>
-    <vue-markdown>{{ task.title }}</vue-markdown>
-    <draggable class="subtasks" v-if="task.subtasks" v-model="task.subtasks">
-      <Task v-for="subtask in task.subtasks" v-bind:key="subtask" v-bind:id="subtask" />
-    </draggable>
+    <nav>
+      <router-link v-bind:to="link">#{{ id }}</router-link>
+      <router-link v-bind:to="edit">edit</router-link>
+    </nav>
+    <vue-markdown v-bind:source="task.title"></vue-markdown>
+    <TaskList v-bind:id="id" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Draggable from "vuedraggable";
+import TaskList from "@/components/TaskList.vue";
 import VueMarkdown from "vue-markdown";
 
-@Component({ components: { Draggable, VueMarkdown } })
+@Component({ components: { TaskList, VueMarkdown } })
 export default class Task extends Vue {
   @Prop() private id!: string;
   get task() {
@@ -21,6 +22,9 @@ export default class Task extends Vue {
   }
   get link() {
     return { name: "TaskView", params: { id: this.id } };
+  }
+  get edit() {
+    return { name: "TaskEditor", params: { id: this.id } };
   }
 }
 </script>
@@ -32,6 +36,13 @@ export default class Task extends Vue {
   margin: 2px 0;
   background: #fff;
   border-radius: 2px;
+  position: relative;
+}
+.task nav {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 .task.sortable-chosen {
   border-color: #f00;

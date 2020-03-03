@@ -1,13 +1,13 @@
 <template>
   <div class="agenda">
-    <Task id />
+    <TaskList id="root" />
   </div>
 </template>
 
 <script>
 import { Component, Vue } from "vue-property-decorator";
-import Task from "@/components/Task.vue";
+import TaskList from "@/components/TaskList.vue";
 
-@Component({ components: { Task } })
+@Component({ components: { TaskList } })
 export default class Agenda extends Vue {}
 </script>

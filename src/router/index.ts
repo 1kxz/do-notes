@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Agenda from "../views/Agenda.vue";
-import TaskView from "../views/Task.vue";
+import TaskView from "../views/TaskView.vue";
+import TaskEditor from "../views/TaskEditor.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/task/:id",
     name: "TaskView",
     component: TaskView
+  },
+  {
+    path: "/task/:id/editor",
+    name: "TaskEditor",
+    component: TaskEditor
   },
   {
     path: "/about",

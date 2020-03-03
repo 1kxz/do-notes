@@ -16,9 +16,12 @@ export interface TaskUpdate {
 export default new Vuex.Store({
   state: {
     tasks: {
-      "": { subtasks: ["1", "2", "3"] } as Task,
+      root: { subtasks: ["1", "2", "3"] } as Task,
       "1": { title: "First task" } as Task,
-      "2": { title: "Second task", subtasks: ["4"] } as Task,
+      "2": {
+        title: "Second task \n* Hello\n* World",
+        subtasks: ["4"]
+      } as Task,
       "3": {
         title: "### Third *very* **important** task",
         subtasks: ["5", "6"]
@@ -31,6 +34,9 @@ export default new Vuex.Store({
   mutations: {
     updateTasks(state, payload: TaskUpdate) {
       state.tasks[payload.id].subtasks = payload.subtasks;
+    },
+    updateTitle(state, payload) {
+      state.tasks[payload.id].title = payload.title;
     }
   },
   actions: {},
