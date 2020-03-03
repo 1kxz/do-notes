@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Agenda from "../views/Agenda.vue";
+import TaskView from "../views/Task.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/agenda",
     name: "Agenda",
     component: Agenda
+  },
+  {
+    path: "/task/:id",
+    name: "TaskView",
+    component: TaskView
   },
   {
     path: "/about",
