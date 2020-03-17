@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Agenda from "../views/Agenda.vue";
+import BoardView from "../views/BoardView.vue";
+import DashView from "../views/DashView.vue";
 import TaskView from "../views/TaskView.vue";
-import TaskEditor from "../views/TaskEditor.vue";
 
 Vue.use(VueRouter);
 
@@ -14,19 +14,19 @@ const routes = [
     component: Home
   },
   {
-    path: "/agenda",
-    name: "Agenda",
-    component: Agenda
+    path: "/board/:id",
+    name: "BoardView",
+    component: BoardView
+  },
+  {
+    path: "/dash/:id",
+    name: "DashView",
+    component: DashView
   },
   {
     path: "/task/:id",
     name: "TaskView",
     component: TaskView
-  },
-  {
-    path: "/task/:id/editor",
-    name: "TaskEditor",
-    component: TaskEditor
   },
   {
     path: "/about",

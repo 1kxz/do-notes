@@ -16,19 +16,31 @@ export interface TaskUpdate {
 export default new Vuex.Store({
   state: {
     tasks: {
-      root: { subtasks: ["1", "2", "3"] } as Task,
-      "1": { title: "First task" } as Task,
-      "2": {
-        title: "Second task \n* Hello\n* World",
-        subtasks: ["4"]
+      root: {
+        title: "Hello world!",
+        subtasks: ["todoboard"]
       } as Task,
+      todoboard: {
+        title: "To do",
+        subtasks: ["inbox", "todo", "done"]
+      } as Task,
+      inbox: { title: "Inbox", subtasks: [] as string[] } as Task,
+      todo: { title: "To do", subtasks: ["1"] } as Task,
+      done: { title: "Done", subtasks: ["4", "5"] } as Task,
+      "1": {
+        title: "Persistence\nBlablabla this is a test!",
+        subtasks: ["2", "3"]
+      } as Task,
+      "2": { title: "Save locally", subtasks: [] as string[] } as Task,
       "3": {
-        title: "### Third *very* **important** task",
-        subtasks: ["5", "6"]
+        title: "Save to a server",
+        subtasks: [] as string[]
       } as Task,
-      "4": { title: "Fourth [task](https://en.wikipedia.org/)" } as Task,
-      "5": { title: "#### Subtask number one" } as Task,
-      "6": { title: "#### Subtask number **two**" } as Task
+      "4": {
+        title: "Allow to move subtasks between tasks",
+        subtasks: [] as string[]
+      } as Task,
+      "5": { title: "Multiple columns", subtasks: [] as string[] } as Task
     } as { [key: string]: Task }
   },
   mutations: {

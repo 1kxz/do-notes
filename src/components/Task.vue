@@ -1,11 +1,31 @@
 <template>
-  <div class="task">
-    <nav>
-      <router-link v-bind:to="link">#{{ id }}</router-link>
-      <router-link v-bind:to="edit">edit</router-link>
-    </nav>
-    <vue-markdown v-bind:source="task.title"></vue-markdown>
-    <TaskList v-bind:id="id" />
+  <div class="task bg-white border border-gray-300 rounded p-2 m-2">
+    <header class="flex items-center">
+      <div v-if="expand" class="px-1 w-6 text-center">
+        <font-awesome-icon icon="chevron-down" v-on:click="toggle" />
+      </div>
+      <div v-else class="px-1 w-6 text-center">
+        <font-awesome-icon icon="chevron-right" v-on:click="toggle" />
+      </div>
+      <vue-markdown class="flex-grow" v-bind:source="content.title"></vue-markdown>
+    </header>
+    <div v-if="expand">
+      <hr />
+      <vue-markdown v-bind:source="content.body"></vue-markdown>
+      <TaskList v-bind:id="id" />
+      <hr />
+      <nav class="flex items-center text-blue-600 px-1">
+        <router-link v-bind:to="edit" class="flex-1 text-center">
+          <font-awesome-icon icon="edit" />
+        </router-link>
+        <div class="flex-1 text-center">
+          <font-awesome-icon icon="plus" />
+        </div>
+        <div class="flex-1 text-center">
+          <font-awesome-icon icon="trash" />
+        </div>
+      </nav>
+    </div>
   </div>
 </template>
 
@@ -13,38 +33,49 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import TaskList from "@/components/TaskList.vue";
 import VueMarkdown from "vue-markdown";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faEdit,
+  faChevronRight,
+  faChevronDown,
+  faPlus,
+  faTrash
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-@Component({ components: { TaskList, VueMarkdown } })
+library.add(faEdit, faChevronDown, faChevronRight, faPlus, faTrash);
+
+@Component({ components: { TaskList, VueMarkdown, FontAwesomeIcon } })
 export default class Task extends Vue {
   @Prop() private id!: string;
+  @Prop() private expand!: boolean;
   get task() {
     return this.$store.state.tasks[this.id];
   }
-  get link() {
-    return { name: "TaskView", params: { id: this.id } };
+  get content() {
+    let title = "";
+    let body = this.task.title;
+    while (!title.length && body.length) {
+      [title] = body.split("\n", 1);
+      body = body.slice(title.length + 1);
+    }
+    return { title, body };
+  }
+  get board() {
+    return { name: "Board", params: { id: this.id } };
   }
   get edit() {
-    return { name: "TaskEditor", params: { id: this.id } };
+    return { name: "TaskView", params: { id: this.id } };
+  }
+  toggle() {
+    this.$props.expand = !this.$props.expand;
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .task {
-  padding: 0 10px;
-  border: 1px solid #eee;
-  margin: 2px 0;
-  background: #fff;
-  border-radius: 2px;
-  position: relative;
-}
-.task nav {
-  display: inline-block;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-.task.sortable-chosen {
-  border-color: #f00;
+  border-left-width: 3px;
+  max-width: 42rem;
 }
 </style>

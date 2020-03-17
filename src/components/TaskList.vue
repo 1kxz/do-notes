@@ -1,6 +1,6 @@
 <template>
-  <draggable class="task-list" v-if="tasks" v-model="tasks">
-    <Task v-for="task in tasks" v-bind:key="task" v-bind:id="task" />
+  <draggable class="task-list" v-model="tasks" group="tasks">
+    <Task v-for="task in tasks" v-bind:key="task" v-bind:id="task" v-bind:expand="expand" />
   </draggable>
 </template>
 
@@ -14,6 +14,7 @@ const Task = () => import("@/components/Task.vue");
 @Component({ components: { Draggable, Task } })
 export default class TaskList extends Vue {
   @Prop() private id!: string;
+  @Prop() private expand!: boolean;
   get tasks() {
     return this.$store.state.tasks[this.id].subtasks;
   }
@@ -22,3 +23,12 @@ export default class TaskList extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.task-list .sortable-chosen {
+  @apply border-red-500;
+}
+.task-list {
+  min-height: 1rem;
+}
+</style>
