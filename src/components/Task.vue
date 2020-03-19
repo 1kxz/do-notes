@@ -54,7 +54,7 @@ export default class Task extends Vue {
   }
   get content() {
     let title = "";
-    let body = this.task.title;
+    let body = this.task.text;
     while (!title.length && body.length) {
       [title] = body.split("\n", 1);
       body = body.slice(title.length + 1);

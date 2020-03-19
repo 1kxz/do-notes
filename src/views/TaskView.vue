@@ -1,6 +1,6 @@
 <template>
   <div>
-    <textarea v-model="title"></textarea>
+    <textarea v-model="text"></textarea>
     <task v-bind:id="id" expand="true" />
   </div>
 </template>
@@ -18,13 +18,13 @@ export default class TaskView extends Vue {
   get task() {
     return this.$store.state.tasks[this.id];
   }
-  get title() {
-    return this.task.title;
+  get text() {
+    return this.task.text;
   }
-  set title(value) {
-    this.$store.commit("updateTitle", {
+  set text(value) {
+    this.$store.commit("updateText", {
       id: this.id,
-      title: value
+      text: value
     });
   }
 }
