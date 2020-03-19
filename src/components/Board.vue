@@ -1,12 +1,12 @@
 <template>
   <draggable class="board flex mb-4">
     <div
-      class="column flex-1"
       v-for="(task, id) in subtasks"
       v-bind:key="task.text"
+      class="column flex-1"
     >
       <h2 class="px-4 py-2 text-gray-500">{{ task.title }}</h2>
-      <task-list class="-my-2" v-bind:id="id" expand="true" />
+      <task-list v-bind:id="id" expand="true" class="-my-2" />
     </div>
   </draggable>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="task" class="task bg-white border border-gray-300 rounded p-2 m-2">
+  <div v-if="task" class="task m-2 p-2 bg-white border border-gray-300 rounded">
     <header class="flex items-center">
       <div v-if="expand" class="px-1 w-6 text-center">
         <font-awesome-icon icon="chevron-down" v-on:click="toggle" />
@@ -8,8 +8,8 @@
         <font-awesome-icon icon="chevron-right" v-on:click="toggle" />
       </div>
       <vue-markdown
-        class="flex-grow"
         v-bind:source="content.title"
+        class="flex-grow"
       ></vue-markdown>
     </header>
     <div v-if="expand">
@@ -38,15 +38,15 @@ import TaskList from '@/components/TaskList.vue';
 import VueMarkdown from 'vue-markdown';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-  faEdit,
-  faChevronRight,
   faChevronDown,
+  faChevronRight,
+  faEdit,
   faPlus,
   faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faEdit, faChevronDown, faChevronRight, faPlus, faTrash);
+library.add(faChevronDown, faChevronRight, faEdit, faPlus, faTrash);
 
 @Component({ components: { TaskList, VueMarkdown, FontAwesomeIcon } })
 export default class Task extends Vue {
