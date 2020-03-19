@@ -1,5 +1,5 @@
 <template>
-  <Board v-bind:id="id" />
+  <board v-bind:id="id" />
 </template>
 
 <script>

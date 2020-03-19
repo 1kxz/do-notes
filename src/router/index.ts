@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import BoardView from "../views/BoardView.vue";
-import DashView from "../views/DashView.vue";
 import TaskView from "../views/TaskView.vue";
 
 Vue.use(VueRouter);
@@ -17,11 +16,6 @@ const routes = [
     path: "/board/:id",
     name: "BoardView",
     component: BoardView
-  },
-  {
-    path: "/dash/:id",
-    name: "DashView",
-    component: DashView
   },
   {
     path: "/task/:id",

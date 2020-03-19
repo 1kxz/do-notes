@@ -1,7 +1,7 @@
 <template>
   <div>
     <textarea v-model="title"></textarea>
-    <Task v-bind:id="id" expand="true" />
+    <task v-bind:id="id" expand="true" />
   </div>
 </template>
 

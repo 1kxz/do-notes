@@ -1,6 +1,6 @@
 <template>
   <draggable class="task-list" v-model="tasks" group="tasks">
-    <Task v-for="task in tasks" v-bind:key="task" v-bind:id="task" v-bind:expand="expand" />
+    <task v-for="task in tasks" v-bind:key="task" v-bind:id="task" v-bind:expand="expand" />
   </draggable>
 </template>
 
@@ -16,7 +16,8 @@ export default class TaskList extends Vue {
   @Prop() private id!: string;
   @Prop() private expand!: boolean;
   get tasks() {
-    return this.$store.state.tasks[this.id].subtasks;
+    const task = this.$store.state.tasks[this.id];
+    return task.subtasks;
   }
   set tasks(value) {
     this.$store.commit("updateTasks", { id: this.id, subtasks: value });
@@ -26,7 +27,7 @@ export default class TaskList extends Vue {
 
 <style scoped>
 .task-list .sortable-chosen {
-  @apply border-red-500;
+  @apply border-blue-500;
 }
 .task-list {
   min-height: 1rem;

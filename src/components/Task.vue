@@ -1,5 +1,5 @@
 <template>
-  <div class="task bg-white border border-gray-300 rounded p-2 m-2">
+  <div v-if="task" class="task bg-white border border-gray-300 rounded p-2 m-2">
     <header class="flex items-center">
       <div v-if="expand" class="px-1 w-6 text-center">
         <font-awesome-icon icon="chevron-down" v-on:click="toggle" />
@@ -12,17 +12,17 @@
     <div v-if="expand">
       <hr />
       <vue-markdown v-bind:source="content.body"></vue-markdown>
-      <TaskList v-bind:id="id" />
+      <task-list v-bind:id="id" />
       <hr />
       <nav class="flex items-center text-blue-600 px-1">
         <router-link v-bind:to="edit" class="flex-1 text-center">
           <font-awesome-icon icon="edit" />
         </router-link>
         <div class="flex-1 text-center">
-          <font-awesome-icon icon="plus" />
+          <font-awesome-icon icon="plus" v-on:click="create" />
         </div>
         <div class="flex-1 text-center">
-          <font-awesome-icon icon="trash" />
+          <font-awesome-icon icon="trash" v-on:click="trash" />
         </div>
       </nav>
     </div>
@@ -69,6 +69,12 @@ export default class Task extends Vue {
   }
   toggle() {
     this.$props.expand = !this.$props.expand;
+  }
+  trash() {
+    this.$store.commit("delete", this.id);
+  }
+  create() {
+    this.$store.commit("create", this.id);
   }
 }
 </script>
