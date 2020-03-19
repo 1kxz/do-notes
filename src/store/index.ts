@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
@@ -14,7 +14,6 @@ export interface TaskUpdate {
 }
 
 function recursivelyDelete(tasks: { [key: string]: Task }, id: string) {
-  console.log(`deleting ${id}`);
   for (const key of tasks[id].subtasks) {
     recursivelyDelete(tasks, key);
   }
@@ -32,33 +31,33 @@ function recursivelyDelete(tasks: { [key: string]: Task }, id: string) {
 
 export default new Vuex.Store({
   state: {
-    shortcuts: ["/board/work", "/task/groceries"],
+    shortcuts: ['/board/work', '/task/groceries'],
     tasks: {
       groceries: {
-        text: "Shopping list",
+        text: 'Shopping list',
         subtasks: [] as string[]
       },
       work: {
-        text: "To do",
-        subtasks: ["inbox", "todo", "done"]
+        text: 'To do',
+        subtasks: ['inbox', 'todo', 'done']
       } as Task,
-      inbox: { text: "Inbox", subtasks: [] as string[] } as Task,
-      todo: { text: "To do", subtasks: ["persist"] } as Task,
-      done: { text: "Done", subtasks: ["move", "columns"] } as Task,
+      inbox: { text: 'Inbox', subtasks: [] as string[] } as Task,
+      todo: { text: 'To do', subtasks: ['persist'] } as Task,
+      done: { text: 'Done', subtasks: ['move', 'columns'] } as Task,
       persist: {
-        text: "Persistence\nBlablabla this is a test!",
-        subtasks: ["local", "server"]
+        text: 'Persistence\nBlablabla this is a test!',
+        subtasks: ['local', 'server']
       } as Task,
-      local: { text: "Save locally", subtasks: [] as string[] } as Task,
+      local: { text: 'Save locally', subtasks: [] as string[] } as Task,
       server: {
-        text: "Save to a server",
+        text: 'Save to a server',
         subtasks: [] as string[]
       } as Task,
       move: {
-        text: "Allow to move subtasks between tasks",
+        text: 'Allow to move subtasks between tasks',
         subtasks: [] as string[]
       } as Task,
-      columns: { text: "Multiple columns", subtasks: [] as string[] } as Task
+      columns: { text: 'Multiple columns', subtasks: [] as string[] } as Task
     } as { [key: string]: Task }
   },
   mutations: {
@@ -74,7 +73,7 @@ export default new Vuex.Store({
     create(state, parentId) {
       const parent = state.tasks[parentId];
       const id = `${parentId}-${parent.subtasks.length + 1}`;
-      Vue.set(state.tasks, id, { text: "New task", subtasks: [] });
+      Vue.set(state.tasks, id, { text: 'New task', subtasks: [] });
       parent.subtasks.push(id);
     }
   },

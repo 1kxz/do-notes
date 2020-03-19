@@ -7,7 +7,10 @@
       <div v-else class="px-1 w-6 text-center">
         <font-awesome-icon icon="chevron-right" v-on:click="toggle" />
       </div>
-      <vue-markdown class="flex-grow" v-bind:source="content.title"></vue-markdown>
+      <vue-markdown
+        class="flex-grow"
+        v-bind:source="content.title"
+      ></vue-markdown>
     </header>
     <div v-if="expand">
       <hr />
@@ -30,18 +33,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import TaskList from "@/components/TaskList.vue";
-import VueMarkdown from "vue-markdown";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import TaskList from '@/components/TaskList.vue';
+import VueMarkdown from 'vue-markdown';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faEdit,
   faChevronRight,
   faChevronDown,
   faPlus,
   faTrash
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faEdit, faChevronDown, faChevronRight, faPlus, faTrash);
 
@@ -53,28 +56,28 @@ export default class Task extends Vue {
     return this.$store.state.tasks[this.id];
   }
   get content() {
-    let title = "";
+    let title = '';
     let body = this.task.text;
     while (!title.length && body.length) {
-      [title] = body.split("\n", 1);
+      [title] = body.split('\n', 1);
       body = body.slice(title.length + 1);
     }
     return { title, body };
   }
   get board() {
-    return { name: "Board", params: { id: this.id } };
+    return { name: 'Board', params: { id: this.id } };
   }
   get edit() {
-    return { name: "TaskView", params: { id: this.id } };
+    return { name: 'TaskView', params: { id: this.id } };
   }
   toggle() {
     this.$props.expand = !this.$props.expand;
   }
   trash() {
-    this.$store.commit("delete", this.id);
+    this.$store.commit('delete', this.id);
   }
   create() {
-    this.$store.commit("create", this.id);
+    this.$store.commit('create', this.id);
   }
 }
 </script>

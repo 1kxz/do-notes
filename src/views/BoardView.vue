@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { Component, Vue } from "vue-property-decorator";
-import Board from "@/components/Board.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import Board from '@/components/Board.vue';
 
 @Component({ components: { Board } })
 export default class BoardView extends Vue {
