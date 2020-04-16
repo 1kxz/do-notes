@@ -35,29 +35,52 @@ export default new Vuex.Store({
     tasks: {
       groceries: {
         text: 'Shopping list',
-        subtasks: [] as string[]
+        subtasks: []
       },
       work: {
         text: 'To do',
-        subtasks: ['inbox', 'todo', 'done']
-      } as Task,
-      inbox: { text: 'Inbox', subtasks: [] as string[] } as Task,
-      todo: { text: 'To do', subtasks: ['persist'] } as Task,
-      done: { text: 'Done', subtasks: ['move', 'columns'] } as Task,
-      persist: {
-        text: 'Persistence\nBlablabla this is a test!',
-        subtasks: ['local', 'server']
-      } as Task,
-      local: { text: 'Save locally', subtasks: [] as string[] } as Task,
-      server: {
+        subtasks: ['inbx', 'todo', 'done']
+      },
+      inbx: { text: 'Inbox', subtasks: [] },
+      todo: {
+        text: 'To do',
+        subtasks: ['pers', 'typs', 'tggl', 'tags']
+      },
+      done: { text: 'Done', subtasks: ['move', 'mpcl'] },
+      pers: {
+        text: 'Persistence\nSave modifications made to the tasks.',
+        subtasks: ['locl', 'srvr']
+      },
+      locl: { text: 'Save locally', subtasks: [] },
+      srvr: {
         text: 'Save to a server',
-        subtasks: [] as string[]
-      } as Task,
+        subtasks: []
+      },
+      typs: {
+        text: 'Card types\n* Single card\n * Board\n * Timeline',
+        subtasks: ['ctbd']
+      },
+      ctbd: {
+        text: 'Display cards based on their type, remember type',
+        subtasks: []
+      },
+      tggl: {
+        text: 'Remember if cards ar expanded or contracted',
+        subtasks: []
+      },
+      tags: {
+        text: 'Allow tagging tasks',
+        subtasks: ['tgst']
+      },
+      tgst: {
+        text: 'Style based on tags',
+        subtasks: []
+      },
       move: {
         text: 'Allow to move subtasks between tasks',
-        subtasks: [] as string[]
-      } as Task,
-      columns: { text: 'Multiple columns', subtasks: [] as string[] } as Task
+        subtasks: []
+      },
+      mpcl: { text: 'Multiple columns', subtasks: [] }
     } as { [key: string]: Task }
   },
   mutations: {

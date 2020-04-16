@@ -5,7 +5,7 @@
       v-bind:key="task.text"
       class="column flex-1"
     >
-      <h2 class="px-4 py-2 text-gray-500">{{ task.title }}</h2>
+      <h2 class="px-4 py-2 text-gray-500">{{ task.text }}</h2>
       <task-list v-bind:id="id" expand="true" class="-my-2" />
     </div>
   </draggable>

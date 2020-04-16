@@ -14,7 +14,11 @@
     </header>
     <div v-if="expand">
       <hr />
-      <vue-markdown v-bind:source="content.body"></vue-markdown>
+      <vue-markdown
+        v-if="content.body"
+        v-bind:source="content.body"
+        class="task-body m-2"
+      ></vue-markdown>
       <task-list v-bind:id="id" />
       <hr />
       <nav class="flex items-center text-blue-600 px-1">

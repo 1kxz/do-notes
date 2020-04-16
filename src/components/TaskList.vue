@@ -35,6 +35,6 @@ export default class TaskList extends Vue {
   @apply border-blue-500;
 }
 .task-list {
-  min-height: 1rem;
+  min-height: 1.5rem;
 }
 </style>
