@@ -3,101 +3,101 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-export interface Task {
+export interface Item {
   text: string;
-  subtasks: string[];
+  subitems: string[];
 }
 
-export interface TaskUpdate {
+export interface ItemUpdate {
   id: string;
-  subtasks: string[];
+  subitems: string[];
 }
 
-function recursivelyDelete(tasks: { [key: string]: Task }, id: string) {
-  for (const key of tasks[id].subtasks) {
-    recursivelyDelete(tasks, key);
+function recursivelyDelete(items: { [key: string]: Item }, id: string) {
+  for (const key of items[id].subitems) {
+    recursivelyDelete(items, key);
   }
-  for (const key in tasks) {
-    const task = tasks[key];
-    for (let i = 0; i < task.subtasks.length; i++) {
-      if (task.subtasks[i] == id) {
-        task.subtasks.splice(i, 1);
+  for (const key in items) {
+    const item = items[key];
+    for (let i = 0; i < item.subitems.length; i++) {
+      if (item.subitems[i] == id) {
+        item.subitems.splice(i, 1);
         continue;
       }
     }
   }
-  delete tasks[id];
+  delete items[id];
 }
 
 export default new Vuex.Store({
   state: {
     shortcuts: ['/board/work', '/task/groceries'],
-    tasks: {
+    items: {
       groceries: {
         text: 'Shopping list',
-        subtasks: []
+        subitems: []
       },
       work: {
         text: 'To do',
-        subtasks: ['inbx', 'todo', 'done']
+        subitems: ['inbx', 'todo', 'done']
       },
-      inbx: { text: 'Inbox', subtasks: [] },
+      inbx: { text: 'Inbox', subitems: [] },
       todo: {
         text: 'To do',
-        subtasks: ['pers', 'typs', 'tggl', 'tags']
+        subitems: ['pers', 'typs', 'tggl', 'tags']
       },
-      done: { text: 'Done', subtasks: ['move', 'mpcl'] },
+      done: { text: 'Done', subitems: ['move', 'mpcl'] },
       pers: {
-        text: 'Persistence\nSave modifications made to the tasks.',
-        subtasks: ['locl', 'srvr']
+        text: 'Persistence\nSave modifications made to the items.',
+        subitems: ['locl', 'srvr']
       },
-      locl: { text: 'Save locally', subtasks: [] },
+      locl: { text: 'Save locally', subitems: [] },
       srvr: {
         text: 'Save to a server',
-        subtasks: []
+        subitems: []
       },
       typs: {
         text: 'Card types\n* Single card\n * Board\n * Timeline',
-        subtasks: ['ctbd']
+        subitems: ['ctbd']
       },
       ctbd: {
         text: 'Display cards based on their type, remember type',
-        subtasks: []
+        subitems: []
       },
       tggl: {
         text: 'Remember if cards ar expanded or contracted',
-        subtasks: []
+        subitems: []
       },
       tags: {
-        text: 'Allow tagging tasks',
-        subtasks: ['tgst']
+        text: 'Allow tagging items',
+        subitems: ['tgst']
       },
       tgst: {
         text: 'Style based on tags',
-        subtasks: []
+        subitems: []
       },
       move: {
-        text: 'Allow to move subtasks between tasks',
-        subtasks: []
+        text: 'Allow to move subitems between items',
+        subitems: []
       },
-      mpcl: { text: 'Multiple columns', subtasks: [] }
-    } as { [key: string]: Task }
+      mpcl: { text: 'Multiple columns', subitems: [] }
+    } as { [key: string]: Item }
   },
   mutations: {
-    updateTasks(state, payload: TaskUpdate) {
-      state.tasks[payload.id].subtasks = payload.subtasks;
+    updateitems(state, payload: ItemUpdate) {
+      state.items[payload.id].subitems = payload.subitems;
     },
     updateText(state, payload) {
-      state.tasks[payload.id].text = payload.text;
+      state.items[payload.id].text = payload.text;
     },
     delete(state, id) {
-      recursivelyDelete(state.tasks, id);
+      recursivelyDelete(state.items, id);
     },
     create(state, parentId) {
-      const parent = state.tasks[parentId];
-      const id = `${parentId}-${parent.subtasks.length + 1}`;
-      Vue.set(state.tasks, id, { text: 'New task', subtasks: [] });
-      parent.subtasks.push(id);
+      const parent = state.items[parentId];
+      const id = `${parentId}-${parent.subitems.length + 1}`;
+      Vue.set(state.items, id, { text: 'New task', subitems: [] });
+      parent.subitems.push(id);
     }
   },
   actions: {},

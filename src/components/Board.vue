@@ -1,11 +1,11 @@
 <template>
   <draggable class="board flex mb-4">
     <div
-      v-for="(task, id) in subtasks"
-      v-bind:key="task.text"
+      v-for="(item, id) in subitems"
+      v-bind:key="item.text"
       class="column flex-1"
     >
-      <h2 class="px-4 py-2 text-gray-500">{{ task.text }}</h2>
+      <h2 class="px-4 py-2 text-gray-500">{{ item.text }}</h2>
       <task-list v-bind:id="id" expand="true" class="-my-2" />
     </div>
   </draggable>
@@ -16,23 +16,23 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import TaskList from '@/components/TaskList.vue';
 import Draggable from 'vuedraggable';
 
-interface Task {
+interface Item {
   text: string;
-  subtasks: string[];
+  subitems: string[];
 }
 
 @Component({ components: { Draggable, TaskList } })
 export default class Board extends Vue {
   @Prop() private id!: string;
-  get task() {
-    return this.$store.state.tasks[this.$props.id];
+  get item() {
+    return this.$store.state.items[this.$props.id];
   }
-  get subtasks() {
-    const tasks = {} as { [key: string]: Task };
-    for (const taskId of this.task.subtasks) {
-      tasks[taskId] = this.$store.state.tasks[taskId];
+  get subitems() {
+    const items = {} as { [key: string]: Item };
+    for (const itemId of this.item.subitems) {
+      items[itemId] = this.$store.state.items[itemId];
     }
-    return tasks;
+    return items;
   }
 }
 </script>

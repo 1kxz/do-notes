@@ -1,9 +1,9 @@
 <template>
-  <draggable v-model="tasks" group="tasks" class="task-list">
+  <draggable v-model="items" group="items" class="task-list">
     <task
-      v-for="task in tasks"
-      v-bind:key="task"
-      v-bind:id="task"
+      v-for="item in items"
+      v-bind:key="item"
+      v-bind:id="item"
       v-bind:expand="expand"
     />
   </draggable>
@@ -20,12 +20,12 @@ const Task = () => import('@/components/Task.vue');
 export default class TaskList extends Vue {
   @Prop() private id!: string;
   @Prop() private expand!: boolean;
-  get tasks() {
-    const task = this.$store.state.tasks[this.id];
-    return task.subtasks;
+  get items() {
+    const item = this.$store.state.items[this.id];
+    return item.subitems;
   }
-  set tasks(value) {
-    this.$store.commit('updateTasks', { id: this.id, subtasks: value });
+  set items(value) {
+    this.$store.commit('updateitems', { id: this.id, subitems: value });
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="task" class="task m-2 p-2 bg-white border border-gray-300 rounded">
+  <div v-if="item" class="task m-2 p-2 bg-white border border-gray-300 rounded">
     <header class="flex items-center">
       <div v-if="expand" class="px-1 w-6 text-center">
         <font-awesome-icon icon="chevron-down" v-on:click="toggle" />
@@ -56,12 +56,12 @@ library.add(faChevronDown, faChevronRight, faEdit, faPlus, faTrash);
 export default class Task extends Vue {
   @Prop() private id!: string;
   @Prop() private expand!: boolean;
-  get task() {
-    return this.$store.state.tasks[this.id];
+  get item() {
+    return this.$store.state.items[this.id];
   }
   get content() {
     let title = '';
-    let body = this.task.text;
+    let body = this.item.text;
     while (!title.length && body.length) {
       [title] = body.split('\n', 1);
       body = body.slice(title.length + 1);
