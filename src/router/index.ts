@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import BoardView from '../views/BoardView.vue';
 import TaskView from '../views/TaskView.vue';
+import ItemView from '../views/ItemView.vue';
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/task/:id',
     name: 'TaskView',
     component: TaskView
+  },
+  {
+    path: '/:id',
+    name: 'ItemView',
+    component: ItemView
   },
   {
     path: '/about',

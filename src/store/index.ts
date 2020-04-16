@@ -31,56 +31,67 @@ function recursivelyDelete(items: { [key: string]: Item }, id: string) {
 
 export default new Vuex.Store({
   state: {
-    shortcuts: ['/board/work', '/task/groceries'],
+    shortcuts: ['work', 'groceries'],
     items: {
       groceries: {
         text: 'Shopping list',
+        view: 'task',
         subitems: []
       },
       work: {
         text: 'To do',
+        view: 'board',
         subitems: ['inbx', 'todo', 'done']
       },
-      inbx: { text: 'Inbox', subitems: [] },
+      inbx: { text: 'Inbox', view: 'task', subitems: [] },
       todo: {
         text: 'To do',
+        view: 'task',
         subitems: ['pers', 'typs', 'tggl', 'tags']
       },
-      done: { text: 'Done', subitems: ['move', 'mpcl'] },
+      done: { text: 'Done', view: 'task', subitems: ['move', 'mpcl'] },
       pers: {
         text: 'Persistence\nSave modifications made to the items.',
+        view: 'task',
         subitems: ['locl', 'srvr']
       },
-      locl: { text: 'Save locally', subitems: [] },
+      locl: { text: 'Save locally', view: 'task', subitems: [] },
       srvr: {
         text: 'Save to a server',
+        view: 'task',
         subitems: []
       },
       typs: {
-        text: 'Card types\n* Single card\n * Board\n * Timeline',
+        text: 'Card views\n* Single card\n * Board\n * Timeline',
+        view: 'task',
         subitems: ['ctbd']
       },
       ctbd: {
-        text: 'Display cards based on their type, remember type',
+        text: 'Display cards based on their view, remember view',
+        view: 'task',
         subitems: []
       },
       tggl: {
         text: 'Remember if cards ar expanded or contracted',
+        view: 'task',
         subitems: []
       },
       tags: {
         text: 'Allow tagging items',
+        view: 'task',
         subitems: ['tgst']
       },
       tgst: {
         text: 'Style based on tags',
+        view: 'task',
         subitems: []
       },
       move: {
         text: 'Allow to move subitems between items',
+        view: 'task',
         subitems: []
       },
-      mpcl: { text: 'Multiple columns', subitems: [] }
+      mpcl: { text: 'Multiple columns', view: 'task', subitems: [] }
     } as { [key: string]: Item }
   },
   mutations: {
