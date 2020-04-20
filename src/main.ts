@@ -11,5 +11,15 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  beforeCreate() {
+    const savedState = localStorage.getItem('store');
+    if (savedState) {
+      store.commit('initialise', JSON.parse(savedState));
+    }
+  }
 }).$mount('#app');
+
+store.subscribe((mutation, state) => {
+  localStorage.setItem('store', JSON.stringify(state));
+});

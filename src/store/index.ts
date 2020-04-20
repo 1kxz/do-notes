@@ -95,6 +95,9 @@ export default new Vuex.Store({
     } as { [key: string]: Item }
   },
   mutations: {
+    initialise(state, initialState) {
+      this.replaceState(Object.assign(state, initialState));
+    },
     updateitems(state, payload: ItemUpdate) {
       state.items[payload.id].subitems = payload.subitems;
     },
