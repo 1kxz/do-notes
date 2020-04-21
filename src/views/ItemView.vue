@@ -22,8 +22,6 @@ export default class ItemView extends Vue {
       case 'board':
         return Board;
       default:
-        console.log(this.id, this.item, this.$store.state.items[this.id]);
-
         throw `invalid item type ${this.item.type}`;
     }
   }
