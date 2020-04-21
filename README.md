@@ -1,4 +1,4 @@
-# or-not-todo
+# do-notes
 
 ## Project setup
 ```
