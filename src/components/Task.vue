@@ -21,7 +21,7 @@
       ></vue-markdown>
       <task-list v-bind:id="id" />
       <hr />
-      <nav class="flex items-center text-blue-600 px-1">
+      <nav class="flex items-center px-1">
         <router-link v-bind:to="edit" class="flex-1 text-center">
           <font-awesome-icon icon="edit" />
         </router-link>
@@ -57,7 +57,8 @@ export default class Task extends Vue {
   @Prop() private id!: string;
   @Prop() private expand!: boolean;
   get item() {
-    return this.$store.state.items[this.id];
+    // return this.$store.state.items[this.id];
+    return { text: 'Placeholder' };
   }
   get content() {
     let title = '';
@@ -78,10 +79,10 @@ export default class Task extends Vue {
     this.$props.expand = !this.$props.expand;
   }
   trash() {
-    this.$store.commit('delete', this.id);
+    // this.$store.commit('delete', this.id);
   }
   create() {
-    this.$store.commit('create', this.id);
+    // this.$store.commit('create', this.id);
   }
 }
 </script>

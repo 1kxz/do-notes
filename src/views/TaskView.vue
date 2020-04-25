@@ -16,16 +16,17 @@ export default class TaskView extends Vue {
     return this.$route.params.id;
   }
   get item() {
-    return this.$store.state.items[this.id];
+    // return this.$store.state.items[this.id];
+    return { text: '' };
   }
   get text() {
     return this.item.text;
   }
   set text(value) {
-    this.$store.commit('updateText', {
-      id: this.id,
-      text: value
-    });
+    // this.$store.commit('updateText', {
+    //   id: this.id,
+    //   text: value
+    // });
   }
 }
 </script>

@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
-import BoardView from '../views/BoardView.vue';
-import TaskView from '../views/TaskView.vue';
+import Editor from '../views/Editor.vue';
 import ItemView from '../views/ItemView.vue';
 
 Vue.use(VueRouter);
@@ -14,14 +13,12 @@ const routes = [
     component: Home
   },
   {
-    path: '/board/:id',
-    name: 'BoardView',
-    component: BoardView
-  },
-  {
-    path: '/task/:id',
-    name: 'TaskView',
-    component: TaskView
+    path: '/help',
+    name: 'Help',
+    // route level code-splitting
+    // this generates a separate chunk (help.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/Help.vue')
   },
   {
     path: '/:id',
@@ -29,12 +26,9 @@ const routes = [
     component: ItemView
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/About.vue')
+    path: '/:id/edit',
+    name: 'Editor',
+    component: Editor
   }
 ];
 

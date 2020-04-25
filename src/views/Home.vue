@@ -1,17 +1,17 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <hello-world msg="Welcome to Your Vue.js App" />
-  </div>
+  <div class="home">Hello {{ user.name }}!</div>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue';
+import { Component, Vue } from 'vue-property-decorator';
+import { db } from '@/db';
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+@Component({
+  firestore: {
+    user: db.collection('users').doc('Sys9gLK44wJRytsgYAbt')
   }
-};
+})
+export default class Home extends Vue {
+  user = { name: 'placeholder' };
+}
 </script>

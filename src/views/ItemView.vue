@@ -1,29 +1,36 @@
 <template>
-  <component v-bind:is="type" v-bind:id="id" expand="true" />
+  <component v-if="item" v-bind:item="item" v-bind:is="type" />
 </template>
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import Task from '@/components/Task.vue';
+import { db } from '@/db';
 import Board from '@/components/Board.vue';
+import Note from '@/components/Note.vue';
 
-@Component({ components: { Task, Board } })
+const items = db.collection('items');
+
+@Component
 export default class ItemView extends Vue {
+  item = null;
+
   get id() {
     return this.$route.params.id;
   }
-  get item() {
-    return this.$store.state.items[this.id];
-  }
+
   get type() {
     switch (this.item.view) {
-      case 'task':
-        return Task;
+      case 'note':
+        return Note;
       case 'board':
         return Board;
       default:
         throw `invalid item type ${this.item.type}`;
     }
+  }
+
+  mounted() {
+    this.$bind('item', items.doc(this.id));
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
-  <div class="board">
+  <div class="note">
+    <router-link v-bind:to="editUrl()" class="permalink">#</router-link>
     <header>
       <vue-markdown
         class="title"
@@ -21,13 +22,16 @@
 </template>
 
 <style lang="scss" scoped>
-.board {
+.note {
   @apply m-2;
   @apply rounded;
   @apply bg-soft;
   @apply border;
   @apply border-hard;
   overflow: hidden;
+  .permalink {
+    float: right;
+  }
   .title {
     @apply bg-hard;
     @apply p-2;
@@ -36,20 +40,12 @@
     @apply p-2;
   }
 }
-ul {
-  @apply flex;
-}
-li {
-  @apply flex-1;
-}
 </style>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VueMarkdown from 'vue-markdown';
-import Draggable from 'vuedraggable';
 import splitText from '@/notes';
-import Note from '@/components/Note.vue';
 import { db } from '@/db';
 
 class Item {
@@ -59,14 +55,18 @@ class Item {
 
 const items = db.collection('items');
 
-@Component({ components: { VueMarkdown, Draggable, Note } })
-export default class Board extends Vue {
+@Component({ components: { VueMarkdown } })
+export default class Note extends Vue {
   subitems = [];
 
   @Prop() private item!: Item;
 
   get content() {
     return splitText(this.item.text);
+  }
+
+  editUrl() {
+    return { name: 'Editor', params: { id: this.item.id } };
   }
 
   mounted() {

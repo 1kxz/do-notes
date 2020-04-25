@@ -21,18 +21,19 @@ export default class TaskList extends Vue {
   @Prop() private id!: string;
   @Prop() private expand!: boolean;
   get items() {
-    const item = this.$store.state.items[this.id];
-    return item.subitems;
+    // const item = this.$store.state.items[this.id];
+    // return item.subitems;
+    return [];
   }
   set items(value) {
-    this.$store.commit('updateitems', { id: this.id, subitems: value });
+    // this.$store.commit('updateitems', { id: this.id, subitems: value });
   }
 }
 </script>
 
 <style scoped>
 .task-list .sortable-chosen {
-  @apply border-blue-500;
+  /* @apply border-blue-500; */
 }
 .task-list {
   min-height: 1.5rem;
