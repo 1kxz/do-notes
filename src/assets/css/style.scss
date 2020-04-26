@@ -1,7 +1,7 @@
 
 body {
   @apply font-body;
-  background: #ebdccc;
+  @apply bg-contrast;
 }
 .note .body {
   h1 {

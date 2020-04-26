@@ -4,6 +4,7 @@
     v-bind:item="item"
     v-bind:is="type"
     v-bind:depth="depth"
+    class="item"
   />
 </template>
 

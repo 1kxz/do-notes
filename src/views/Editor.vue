@@ -10,8 +10,9 @@ div.editor {
   @apply flex;
   > * {
     @apply flex-1;
+    @apply m-1;
   }
-  textarea {
+  > textarea {
     @apply p-2;
   }
 }
