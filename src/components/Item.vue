@@ -1,18 +1,28 @@
 <template>
-  <component v-if="item" v-bind:item="item" v-bind:is="type" />
+  <component
+    v-if="item"
+    v-bind:item="item"
+    v-bind:is="type"
+    v-bind:depth="depth"
+  />
 </template>
 
-<script>
-import { Component, Vue } from 'vue-property-decorator';
-import { db } from '@/db';
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import Board from '@/components/Board.vue';
 import Note from '@/components/Note.vue';
 
-const items = db.collection('items');
+class ItemData {
+  id!: string;
+  text!: string;
+  view!: string;
+  type!: string;
+}
 
 @Component
-export default class ItemView extends Vue {
-  item = null;
+export default class Item extends Vue {
+  @Prop() private item!: ItemData;
+  @Prop() private depth!: number;
 
   get id() {
     return this.$route.params.id;
@@ -27,10 +37,6 @@ export default class ItemView extends Vue {
       default:
         throw `invalid item type ${this.item.type}`;
     }
-  }
-
-  mounted() {
-    this.$bind('item', items.doc(this.id));
   }
 }
 </script>

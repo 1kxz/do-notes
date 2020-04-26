@@ -13,9 +13,9 @@
       v-if="content.body"
       v-bind:source="content.body"
     ></vue-markdown>
-    <ul>
+    <ul v-if="depth > 0">
       <li v-for="item in subitems" v-bind:key="item.id">
-        <note v-bind:item="item" />
+        <item v-bind:item="item" v-bind:depth="depth - 1" />
       </li>
     </ul>
   </div>
@@ -31,6 +31,7 @@
   overflow: hidden;
   .permalink {
     float: right;
+    @apply p-2;
   }
   .title {
     @apply bg-hard;
@@ -48,18 +49,21 @@ import VueMarkdown from 'vue-markdown';
 import splitText from '@/notes';
 import { db } from '@/db';
 
-class Item {
+const Item = () => import('@/components/Item.vue');
+
+class ItemData {
   id!: string;
   text!: string;
 }
 
 const items = db.collection('items');
 
-@Component({ components: { VueMarkdown } })
+@Component({ components: { Item, VueMarkdown } })
 export default class Note extends Vue {
   subitems = [];
 
-  @Prop() private item!: Item;
+  @Prop() private item!: ItemData;
+  @Prop() private depth!: number;
 
   get content() {
     return splitText(this.item.text);

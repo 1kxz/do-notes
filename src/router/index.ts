@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Editor from '../views/Editor.vue';
-import ItemView from '../views/ItemView.vue';
+import Viewer from '../views/Viewer.vue';
 
 Vue.use(VueRouter);
 
@@ -22,8 +22,8 @@ const routes = [
   },
   {
     path: '/:id',
-    name: 'ItemView',
-    component: ItemView
+    name: 'Viewer',
+    component: Viewer
   },
   {
     path: '/:id/edit',
