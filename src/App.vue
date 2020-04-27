@@ -17,10 +17,16 @@
 <style lang="scss" scoped>
 #app {
   nav {
-    @apply bg-color;
+    @apply bg-color text-soft flex;
   }
   a {
-    @apply p-2;
+    @apply block p-2;
+    &:hover {
+      @apply bg-contrast;
+    }
+    &.router-link-exact-active {
+      @apply bg-contrast;
+    }
   }
   div {
     @apply m-2;
