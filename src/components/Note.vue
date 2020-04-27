@@ -47,12 +47,12 @@ div.board {
     }
   }
   > div.body {
-    @apply p-2;
+    @apply m-2;
   }
   > ul.subitems {
     @apply flex;
     @apply flex-col;
-    @apply p-1;
+    @apply m-1;
     > li {
       @apply flex-1;
       @apply m-1;
