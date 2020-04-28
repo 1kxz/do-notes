@@ -17,7 +17,7 @@
         <router-link v-bind:to="editUrl()">
           <font-awesome-icon icon="edit" /> Edit
         </router-link>
-        <a v-on:click="addClick">
+        <a v-on:click="addClick" v-if="depth > 0">
           <font-awesome-icon icon="plus" /> Add note
         </a>
         <a v-on:click="deleteClick" v-if="!subitems.length">

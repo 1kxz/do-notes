@@ -1,5 +1,5 @@
 <template>
-  <item v-if="item" v-bind:item="item" v-bind:depth="3" />
+  <item v-if="item" v-bind:item="item" v-bind:depth="5" />
 </template>
 
 <script lang="ts">
