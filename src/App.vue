@@ -17,7 +17,7 @@
 <style lang="scss" scoped>
 #app {
   nav {
-    @apply bg-color text-soft flex;
+    @apply bg-color text-soft flex leading-none;
   }
   a {
     @apply block p-2;

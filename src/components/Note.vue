@@ -7,7 +7,7 @@
         v-bind:source="content.title"
       />
       <button class="showNav" v-on:click="showNav = !showNav">
-        <font-awesome-icon icon="ellipsis-v" />
+        <font-awesome-icon icon="ellipsis-h" />
       </button>
       <button class="hideNav" v-on:click="showNav = false" v-if="showNav" />
       <nav v-if="showNav">
@@ -18,7 +18,7 @@
           <font-awesome-icon icon="edit" /> Edit
         </router-link>
         <a v-on:click="addClick">
-          <font-awesome-icon icon="plus" /> New note
+          <font-awesome-icon icon="plus" /> Add note
         </a>
         <a v-on:click="deleteClick" v-if="!subitems.length">
           <font-awesome-icon icon="trash" /> Delete
@@ -43,7 +43,7 @@ div.note,
 div.board {
   @apply bg-soft border-hard border-2 rounded;
   > header {
-    @apply flex bg-hard relative;
+    @apply flex bg-hard relative leading-none;
     > div.title {
       @apply flex-1 m-2;
     }
@@ -54,7 +54,7 @@ div.board {
       @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
     }
     > nav {
-      @apply flex flex-col bg-contrast rounded overflow-hidden absolute right-0 text-soft z-20;
+      @apply flex flex-col bg-contrast rounded overflow-hidden absolute right-0 text-soft z-20 shadow py-1;
       > a {
         @apply p-2;
         &:hover {
@@ -84,7 +84,7 @@ import router from '@/router/index';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faEdit,
-  faEllipsisV,
+  faEllipsisH,
   faLink,
   faPlus,
   faTrash
@@ -103,7 +103,7 @@ class ItemData {
 const items = db.collection('items');
 const users = db.collection('users');
 
-library.add(faEdit, faEllipsisV, faLink, faPlus, faTrash);
+library.add(faEdit, faEllipsisH, faLink, faPlus, faTrash);
 
 @Component({ components: { FontAwesomeIcon, Item, VueMarkdown } })
 export default class Note extends Vue {
