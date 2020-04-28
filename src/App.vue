@@ -1,16 +1,25 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">doNotes</router-link>
-      <router-link
-        v-for="item in items"
-        v-bind:key="item.id"
-        v-bind:to="{ name: 'Viewer', params: { id: item.id } }"
-        >{{ item.text.split('\n', 1)[0] }}</router-link
+      <router-link to="/">doNotes 4</router-link>
+      <draggable
+        group="items"
+        class="shortcuts"
+        v-bind:list="items"
+        v-on:change="dragChange"
       >
+        <router-link
+          v-for="(item, i) in items"
+          v-bind:key="i"
+          v-bind:to="{ name: 'Viewer', params: { id: item.id } }"
+          >{{ item.text.split('\n', 1)[0] }} ({{ item.order }})</router-link
+        >
+      </draggable>
       <router-link to="/help">Help</router-link>
     </nav>
-    <router-view />
+    <section>
+      <router-view />
+    </section>
   </div>
 </template>
 
@@ -28,7 +37,10 @@
       @apply bg-contrast;
     }
   }
-  div {
+  div.shortcuts {
+    @apply flex;
+  }
+  section {
     @apply m-2;
   }
 }
@@ -36,15 +48,40 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { items } from '@/models/db';
+import { items } from '@/models/database';
+import ItemData from '@/models/ItemData';
+import { functions } from '@/models/functions';
+import Draggable from 'vuedraggable';
 
-@Component
+class Moved {
+  newIndex!: number;
+  oldIndex!: number;
+  element!: ItemData;
+}
+
+class Change {
+  moved?: Moved;
+}
+
+@Component({ components: { Draggable } })
 export default class App extends Vue {
   items = [];
 
   mounted() {
     const freeItems = items.where('parent', '==', null).orderBy('order');
     this.$bind('items', freeItems);
+  }
+
+  dragChange(change: Change) {
+    const moved = change.moved;
+    if (moved) {
+      const moveItems = functions.httpsCallable('moveItems');
+      moveItems({
+        id: moved.element.parent,
+        old: moved.oldIndex,
+        new: moved.newIndex
+      }).then(console.log);
+    }
   }
 }
 </script>

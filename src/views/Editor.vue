@@ -19,7 +19,7 @@ div.editor {
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { items } from '@/models/db';
+import { items } from '@/models/database';
 import { ThrottleSetter } from 'lodash-decorators';
 import Item from '@/components/Item.vue';
 import ItemData from '@/models/ItemData';
@@ -38,10 +38,7 @@ export default class TaskView extends Vue {
 
   @ThrottleSetter(1000)
   set text(value) {
-    items
-      .doc(this.id)
-      .update({ text: value })
-      .then(() => console.log('updated!'));
+    items.doc(this.id).update({ text: value });
   }
 
   mounted() {

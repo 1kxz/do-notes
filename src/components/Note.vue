@@ -78,7 +78,7 @@ div.board {
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { FontAwesomeIcon as Icon } from '@fortawesome/vue-fontawesome';
-import { items, splitText, users } from '@/models/db';
+import { items, splitText, users } from '@/models/database';
 import ItemData from '@/models/ItemData';
 import router from '@/router/index';
 import VueMarkdown from 'vue-markdown';
@@ -117,7 +117,6 @@ export default class Note extends Vue {
   }
 
   addClick() {
-    console.log(this.item.owner);
     items
       .add({
         text: 'New',

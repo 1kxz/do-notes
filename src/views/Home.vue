@@ -4,7 +4,7 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import { users } from '@/models/db';
+import { users } from '@/models/database';
 
 @Component({
   firestore: {
