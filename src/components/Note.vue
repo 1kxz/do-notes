@@ -7,21 +7,21 @@
         v-bind:source="content.title"
       />
       <button class="showNav" v-on:click="showNav = !showNav">
-        <font-awesome-icon icon="ellipsis-h" />
+        <icon icon="ellipsis-h" />
       </button>
       <button class="hideNav" v-on:click="showNav = false" v-if="showNav" />
       <nav v-if="showNav">
         <router-link v-bind:to="viewUrl()" v-if="false">
-          <font-awesome-icon icon="link" /> Permalink
+          <icon icon="link" /> Permalink
         </router-link>
         <router-link v-bind:to="editUrl()">
-          <font-awesome-icon icon="edit" /> Edit
+          <icon icon="edit" /> Edit
         </router-link>
         <a v-on:click="addClick" v-if="depth > 0">
-          <font-awesome-icon icon="plus" /> Add note
+          <icon icon="plus" /> Add note
         </a>
         <a v-on:click="deleteClick" v-if="!subitems.length">
-          <font-awesome-icon icon="trash" /> Delete
+          <icon icon="trash" /> Delete
         </a>
       </nav>
     </header>
@@ -77,35 +77,15 @@ div.board {
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import VueMarkdown from 'vue-markdown';
-import splitText from '@/notes';
-import { db } from '@/db';
+import { FontAwesomeIcon as Icon } from '@fortawesome/vue-fontawesome';
+import { items, splitText, users } from '@/models/db';
+import ItemData from '@/models/ItemData';
 import router from '@/router/index';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faEdit,
-  faEllipsisH,
-  faLink,
-  faPlus,
-  faTrash
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import VueMarkdown from 'vue-markdown';
 
 const Item = () => import('@/components/Item.vue');
 
-class ItemData {
-  id!: string;
-  text!: string;
-  owner!: string;
-  view!: string;
-}
-
-const items = db.collection('items');
-const users = db.collection('users');
-
-library.add(faEdit, faEllipsisH, faLink, faPlus, faTrash);
-
-@Component({ components: { FontAwesomeIcon, Item, VueMarkdown } })
+@Component({ components: { Icon, Item, VueMarkdown } })
 export default class Note extends Vue {
   subitems = [];
   showNav = false;

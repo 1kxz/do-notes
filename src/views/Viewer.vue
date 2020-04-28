@@ -4,10 +4,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { db } from '@/db';
+import { items } from '@/models/db';
 import Item from '@/components/Item.vue';
-
-const items = db.collection('items');
 
 @Component({ components: { Item } })
 export default class Viewer extends Vue {

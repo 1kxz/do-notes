@@ -19,19 +19,12 @@ div.editor {
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { db } from '@/db';
-import Item from '@/components/Item.vue';
-import VueMarkdown from 'vue-markdown';
+import { items } from '@/models/db';
 import { ThrottleSetter } from 'lodash-decorators';
+import Item from '@/components/Item.vue';
+import ItemData from '@/models/ItemData';
 
-class ItemData {
-  id!: string;
-  text!: string;
-}
-
-const items = db.collection('items');
-
-@Component({ components: { Item, VueMarkdown } })
+@Component({ components: { Item } })
 export default class TaskView extends Vue {
   item: ItemData | null = null;
 

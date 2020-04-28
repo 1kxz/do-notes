@@ -36,9 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { db } from '@/db';
-
-const items = db.collection('items');
+import { items } from '@/models/db';
 
 @Component
 export default class App extends Vue {

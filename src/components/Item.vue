@@ -11,14 +11,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Board from '@/components/Board.vue';
+import ItemData from '@/models/ItemData';
 import Note from '@/components/Note.vue';
-
-class ItemData {
-  id!: string;
-  text!: string;
-  view!: string;
-  type!: string;
-}
 
 @Component
 export default class Item extends Vue {

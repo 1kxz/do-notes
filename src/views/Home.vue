@@ -4,11 +4,11 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import { db } from '@/db';
+import { users } from '@/models/db';
 
 @Component({
   firestore: {
-    user: db.collection('users').doc('Sys9gLK44wJRytsgYAbt')
+    user: users.doc('Sys9gLK44wJRytsgYAbt')
   }
 })
 export default class Home extends Vue {
