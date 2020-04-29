@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">doNotes 4</router-link>
+      <router-link to="/">notes (4)</router-link>
       <draggable
         group="items"
         class="shortcuts"
@@ -26,7 +26,7 @@
 <style lang="scss" scoped>
 #app {
   nav {
-    @apply bg-color text-soft flex leading-none;
+    @apply bg-color flex leading-none;
   }
   a {
     @apply block p-2;

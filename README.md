@@ -1,4 +1,4 @@
-# do-notes
+# notes
 
 ## Project setup
 ```

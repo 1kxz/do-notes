@@ -41,7 +41,7 @@
 <style lang="scss">
 div.note,
 div.board {
-  @apply bg-soft border-hard border-2 rounded;
+  @apply bg-soft border-hard border-2 rounded text-contrast;
   > header {
     @apply flex bg-hard relative leading-none;
     > div.title {

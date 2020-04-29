@@ -12,7 +12,7 @@ div.editor {
     @apply flex-1 m-1;
   }
   > textarea {
-    @apply p-2;
+    @apply p-2 text-contrast;
   }
 }
 </style>
