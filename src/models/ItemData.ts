@@ -1,7 +1,7 @@
 export default class ItemData {
   id!: string;
   owner!: string;
-  parent!: string;
+  parent?: ItemData;
   text!: string;
   type!: string;
   view!: string;

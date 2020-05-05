@@ -1,11 +1,7 @@
 <template>
   <div v-bind:class="item.view">
     <header>
-      <vue-markdown
-        class="title"
-        v-if="content.title"
-        v-bind:source="content.title"
-      />
+      <vue-markdown class="title" v-bind:source="content.title" />
       <button class="showNav" v-on:click="showNav = !showNav">
         <icon icon="ellipsis-h" />
       </button>
@@ -30,11 +26,19 @@
       v-if="content.body"
       v-bind:source="content.body"
     />
-    <ul v-if="subitems.length && depth" class="subitems">
+    <draggable
+      tag="ul"
+      group="items"
+      class="subitems"
+      handle="header"
+      v-if="subitems.length && depth"
+      v-bind:list="subitems"
+      v-on:change="dragChange"
+    >
       <li v-for="item in subitems" v-bind:key="item.id">
         <item v-bind:item="item" v-bind:depth="depth - 1" />
       </li>
-    </ul>
+    </draggable>
   </div>
 </template>
 
@@ -79,13 +83,16 @@ div.board {
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { FontAwesomeIcon as Icon } from '@fortawesome/vue-fontawesome';
 import { items, splitText, users } from '@/models/database';
+import { moveItems } from '@/models/functions';
+import Change from '@/models/Change';
 import ItemData from '@/models/ItemData';
 import router from '@/router/index';
 import VueMarkdown from 'vue-markdown';
+import Draggable from 'vuedraggable';
 
 const Item = () => import('@/components/Item.vue');
 
-@Component({ components: { Icon, Item, VueMarkdown } })
+@Component({ components: { Draggable, Icon, Item, VueMarkdown } })
 export default class Note extends Vue {
   subitems = [];
   showNav = false;
@@ -131,6 +138,17 @@ export default class Note extends Vue {
   deleteClick() {
     if (this.subitems.length == 0) {
       items.doc(this.item.id).delete();
+    }
+  }
+
+  dragChange(change: Change) {
+    const moved = change.moved;
+    if (moved) {
+      moveItems({
+        parent: moved.element.parent?.id,
+        old: moved.oldIndex,
+        new: moved.newIndex
+      }).then(console.log);
     }
   }
 

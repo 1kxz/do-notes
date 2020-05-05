@@ -9,8 +9,8 @@
         v-on:change="dragChange"
       >
         <router-link
-          v-for="(item, i) in items"
-          v-bind:key="i"
+          v-for="item in items"
+          v-bind:key="item.id"
           v-bind:to="{ name: 'Viewer', params: { id: item.id } }"
           >{{ item.text.split('\n', 1)[0] }} ({{ item.order }})</router-link
         >
@@ -49,19 +49,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { items } from '@/models/database';
-import ItemData from '@/models/ItemData';
-import { functions } from '@/models/functions';
+import { moveItems } from '@/models/functions';
+import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
-
-class Moved {
-  newIndex!: number;
-  oldIndex!: number;
-  element!: ItemData;
-}
-
-class Change {
-  moved?: Moved;
-}
 
 @Component({ components: { Draggable } })
 export default class App extends Vue {
@@ -75,9 +65,8 @@ export default class App extends Vue {
   dragChange(change: Change) {
     const moved = change.moved;
     if (moved) {
-      const moveItems = functions.httpsCallable('moveItems');
       moveItems({
-        id: moved.element.parent,
+        parent: moved.element.parent?.id,
         old: moved.oldIndex,
         new: moved.newIndex
       }).then(console.log);
