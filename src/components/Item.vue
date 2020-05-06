@@ -4,9 +4,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Board from '@/components/Board.vue';
-import ItemData from '@/models/ItemData';
 import Note from '@/components/Note.vue';
+import ItemData from '@/models/ItemData';
 
 @Component
 export default class Item extends Vue {
@@ -18,10 +17,9 @@ export default class Item extends Vue {
 
   get type() {
     switch (this.item.view) {
-      case 'note':
-        return Note;
+      case 'pad':
       case 'board':
-        return Board;
+        return Note;
       default:
         throw `invalid item type ${this.item.type}`;
     }

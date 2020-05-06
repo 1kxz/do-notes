@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="item.view">
+  <div v-bind:class="['note', item.view]">
     <header>
       <vue-markdown class="title" v-bind:source="content.title" />
       <button class="showNav" v-on:click="showNav = !showNav">
@@ -42,11 +42,10 @@
   </div>
 </template>
 
-<style lang="scss">
-div.note,
-div.board {
+<style lang="scss" scoped>
+div.note {
   @apply bg-soft border-hard border-2 rounded text-contrast;
-  > header {
+  header {
     @apply flex bg-hard relative leading-none;
     > div.title {
       @apply flex-1 m-2;
@@ -77,8 +76,17 @@ div.board {
     }
   }
 }
+div.pad {
+  > ul.subitems {
+    @apply flex-col;
+  }
+}
+div.board {
+  > ul.subitems {
+    @apply flex-row;
+  }
+}
 </style>
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { FontAwesomeIcon as Icon } from '@fortawesome/vue-fontawesome';
@@ -101,17 +109,6 @@ export default class Note extends Vue {
 
   get content() {
     return splitText(this.item.text);
-  }
-
-  get icon() {
-    switch (this.item.view) {
-      case 'note':
-        return 'sticky-note';
-      case 'board':
-        return 'columns';
-      default:
-        return 'link';
-    }
   }
 
   viewUrl() {
