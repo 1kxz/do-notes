@@ -1,11 +1,5 @@
 <template>
-  <component
-    v-if="item"
-    v-bind:item="item"
-    v-bind:is="type"
-    v-bind:depth="depth"
-    class="item"
-  />
+  <component v-if="item" v-bind:item="item" v-bind:is="type" class="item" />
 </template>
 
 <script lang="ts">
@@ -17,7 +11,6 @@ import Note from '@/components/Note.vue';
 @Component
 export default class Item extends Vue {
   @Prop() private item!: ItemData;
-  @Prop() private depth!: number;
 
   get id() {
     return this.$route.params.id;

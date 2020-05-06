@@ -1,7 +1,7 @@
 <template>
   <div v-if="item" class="editor">
     <textarea v-model="text"></textarea>
-    <item v-bind:item="item" v-bind:depth="0" />
+    <item v-bind:item="item" />
   </div>
 </template>
 

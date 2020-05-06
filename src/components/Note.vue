@@ -7,16 +7,16 @@
       </button>
       <button class="hideNav" v-on:click="showNav = false" v-if="showNav" />
       <nav v-if="showNav">
-        <router-link v-bind:to="viewUrl()" v-if="false">
+        <router-link v-bind:to="viewUrl()">
           <icon icon="link" /> Permalink
         </router-link>
         <router-link v-bind:to="editUrl()">
           <icon icon="edit" /> Edit
         </router-link>
-        <a v-on:click="addClick" v-if="depth > 0">
+        <a v-on:click="addClick" v-if="subitems.length < 100">
           <icon icon="plus" /> Add note
         </a>
-        <a v-on:click="deleteClick" v-if="!subitems.length">
+        <a v-on:click="deleteClick" v-if="subitems.length === 0">
           <icon icon="trash" /> Delete
         </a>
       </nav>
@@ -31,12 +31,12 @@
       group="items"
       class="subitems"
       handle="header"
-      v-if="subitems.length && depth"
+      v-if="subitems.length > 0"
       v-bind:list="subitems"
       v-on:change="dragChange"
     >
       <li v-for="item in subitems" v-bind:key="item.id">
-        <item v-bind:item="item" v-bind:depth="depth - 1" />
+        <item v-bind:item="item" />
       </li>
     </draggable>
   </div>
@@ -98,7 +98,6 @@ export default class Note extends Vue {
   showNav = false;
 
   @Prop() private item!: ItemData;
-  @Prop() private depth!: number;
 
   get content() {
     return splitText(this.item.text);
