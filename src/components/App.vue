@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">notes (4)</router-link>
+      <router-link to="/">notes (5)</router-link>
       <draggable
         group="items"
         class="shortcuts"
@@ -12,7 +12,7 @@
           v-for="item in items"
           v-bind:key="item.id"
           v-bind:to="{ name: 'Viewer', params: { id: item.id } }"
-          >{{ item.text.split('\n', 1)[0] }} ({{ item.order }})</router-link
+          >{{ item.text.split('\n', 1)[0] }}</router-link
         >
       </draggable>
       <router-link to="/help">Help</router-link>
