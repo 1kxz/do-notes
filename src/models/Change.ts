@@ -1,5 +1,14 @@
 import ItemData from './ItemData';
 
+class Added {
+  newIndex!: number;
+  element!: ItemData;
+}
+class Removed {
+  oldIndex!: number;
+  element!: ItemData;
+}
+
 class Moved {
   newIndex!: number;
   oldIndex!: number;
@@ -7,5 +16,7 @@ class Moved {
 }
 
 export default class Change {
+  added?: Added;
+  removed?: Removed;
   moved?: Moved;
 }

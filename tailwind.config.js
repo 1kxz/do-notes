@@ -26,10 +26,10 @@ module.exports = {
       contrast: '#19162b'
     },
     colors: {
-      soft: '#eeeeee',
-      hard: '#b3c8dd',
-      color: '#356ea1',
-      contrast: '#112233'
+      soft: '#eff3f4',
+      hard: '#b3d4e5',
+      color: '#336699',
+      contrast: '#0f1f3f'
     },
     extend: {}
   },

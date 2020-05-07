@@ -40,16 +40,13 @@
   div.shortcuts {
     @apply flex;
   }
-  section {
-    @apply m-2;
-  }
 }
 </style>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { items } from '@/models/database';
-import { moveItems } from '@/models/functions';
+import { itemMove } from '@/models/functions';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 
@@ -65,7 +62,7 @@ export default class App extends Vue {
   dragChange(change: Change) {
     const moved = change.moved;
     if (moved) {
-      moveItems({
+      itemMove({
         parent: moved.element.parent?.id,
         old: moved.oldIndex,
         new: moved.newIndex

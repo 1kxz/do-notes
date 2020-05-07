@@ -1,7 +1,7 @@
 <template>
   <div v-if="item" class="editor">
     <textarea v-model="text"></textarea>
-    <item v-bind:item="item" />
+    <item v-bind:item="item" class="root" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 div.editor {
   @apply flex;
   > * {
-    @apply flex-1 m-1;
+    @apply flex-1;
   }
   > textarea {
     @apply p-2 text-contrast;

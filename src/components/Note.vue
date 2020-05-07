@@ -1,11 +1,16 @@
 <template>
   <div v-bind:class="['note', item.view]">
     <header>
-      <vue-markdown class="title" v-bind:source="content.title" />
+      <vue-markdown
+        v-if="content.title"
+        v-bind:source="content.title"
+        class="title"
+      />
+      {{ item.id }} [{{ item.order }}]
       <button class="showNav" v-on:click="showNav = !showNav">
         <icon icon="ellipsis-h" />
       </button>
-      <button class="hideNav" v-on:click="showNav = false" v-if="showNav" />
+      <button v-if="showNav" v-on:click="showNav = false" class="hideNav" />
       <nav v-if="showNav">
         <router-link v-bind:to="viewUrl()">
           <icon icon="link" /> Permalink
@@ -30,9 +35,9 @@
       tag="ul"
       group="items"
       class="subitems"
-      handle="header"
+      handle=".title"
       v-if="subitems.length > 0"
-      v-bind:list="subitems"
+      v-model="subitems"
       v-on:change="dragChange"
     >
       <li v-for="item in subitems" v-bind:key="item.id">
@@ -44,20 +49,20 @@
 
 <style lang="scss" scoped>
 div.note {
-  @apply bg-soft border-hard border-2 rounded text-contrast;
+  @apply relative;
   header {
-    @apply flex bg-hard relative leading-none;
+    @apply leading-tight;
     > div.title {
-      @apply flex-1 m-2;
+      @apply p-2;
     }
     > button.showNav {
-      @apply p-2;
+      @apply absolute top-0 right-0 p-2;
     }
     > button.hideNav {
       @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
     }
     > nav {
-      @apply flex flex-col bg-contrast rounded overflow-hidden absolute right-0 text-soft z-20 shadow py-1;
+      @apply absolute right-0 top-0 z-20 flex flex-col bg-contrast text-soft rounded overflow-hidden shadow;
       > a {
         @apply p-2;
         &:hover {
@@ -76,6 +81,17 @@ div.note {
     }
   }
 }
+div.note:not(.root) {
+  @apply bg-soft text-contrast border-2 border-hard rounded;
+  header {
+    > div.title {
+      @apply bg-hard;
+    }
+    > button.showNav {
+      @apply bg-hard rounded-bl;
+    }
+  }
+}
 div.pad {
   > ul.subitems {
     @apply flex-col;
@@ -91,7 +107,7 @@ div.board {
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { FontAwesomeIcon as Icon } from '@fortawesome/vue-fontawesome';
 import { items, splitText, users } from '@/models/database';
-import { moveItems } from '@/models/functions';
+import { itemAdd, itemMove, itemRemove } from '@/models/functions';
 import Change from '@/models/Change';
 import ItemData from '@/models/ItemData';
 import router from '@/router/index';
@@ -123,7 +139,7 @@ export default class Note extends Vue {
     items
       .add({
         text: 'New',
-        view: 'note',
+        view: 'pad',
         parent: items.doc(this.item.id),
         owner: users.doc('Sys9gLK44wJRytsgYAbt'),
         order: this.subitems ? this.subitems.length : 0
@@ -138,12 +154,27 @@ export default class Note extends Vue {
   }
 
   dragChange(change: Change) {
-    const moved = change.moved;
-    if (moved) {
-      moveItems({
-        parent: moved.element.parent?.id,
-        old: moved.oldIndex,
-        new: moved.newIndex
+    if (change.added) {
+      console.log(`A this=${this.item.id}, other=${change.added.element.id}`);
+      itemAdd({
+        item: change.added.element.id,
+        parent: this.item.id,
+        index: change.added.newIndex
+      }).then(console.log);
+    } else if (change.moved) {
+      console.log(`M this=${this.item.id}, other=${change.moved.element.id}`);
+      console.log(itemMove);
+      // itemMove({
+      //   parent: change.moved.element.parent?.id,
+      //   old: change.moved.oldIndex,
+      //   new: change.moved.newIndex
+      // }).then(console.log);
+    } else if (change.removed) {
+      console.log(`R this=${this.item.id}, other=${change.removed.element.id}`);
+      itemRemove({
+        item: change.removed.element.id,
+        parent: this.item.id,
+        index: change.removed.oldIndex
       }).then(console.log);
     }
   }
