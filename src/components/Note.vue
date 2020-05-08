@@ -18,7 +18,7 @@
       </button>
       <button v-if="showNav" v-on:click="showNav = false" class="hideNav" />
       <nav v-if="showNav">
-        <router-link v-bind:to="editUrl()">
+        <router-link v-bind:to="editUrl">
           <fa-icon icon="edit" /> Edit
         </router-link>
         <a v-on:click="addClick" v-if="subitems.length < 100">
@@ -27,6 +27,9 @@
         <a v-on:click="deleteClick" v-if="subitems.length === 0">
           <fa-icon icon="trash" /> Delete
         </a>
+        <router-link v-bind:to="viewUrl">
+          <fa-icon icon="link" /> Permalink
+        </router-link>
       </nav>
     </header>
     <vue-markdown
@@ -56,7 +59,7 @@ div.note {
   header {
     @apply leading-tight;
     > div.title {
-      @apply p-2;
+      @apply p-2 pr-8;
     }
     > button.showNav {
       @apply absolute top-0 right-0 p-2;
@@ -138,11 +141,11 @@ export default class Note extends Vue {
     return this.subitems.map(item => item.id);
   }
 
-  viewUrl() {
+  get viewUrl() {
     return { name: 'Viewer', params: { id: this.item.id } };
   }
 
-  editUrl() {
+  get editUrl() {
     return { name: 'Editor', params: { id: this.item.id } };
   }
 

@@ -3,9 +3,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { items } from '@/models/database';
 import Item from '@/components/Item.vue';
+import { Route } from 'vue-router';
 
 @Component({ components: { Item } })
 export default class Viewer extends Vue {
@@ -15,8 +16,9 @@ export default class Viewer extends Vue {
     return this.$route.params.id;
   }
 
-  mounted() {
-    this.$bind('item', items.doc(this.id));
+  @Watch('$route', { immediate: true })
+  onRouteChanged(route: Route) {
+    this.$bind('item', items.doc(route.params.id));
   }
 }
 </script>
