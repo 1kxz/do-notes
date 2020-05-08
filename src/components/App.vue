@@ -5,15 +5,14 @@
       <draggable
         group="items"
         class="shortcuts"
-        v-bind:list="items"
+        v-bind:list="dragModel"
         v-on:change="dragChange"
       >
-        <router-link
+        <item-link
           v-for="item in items"
           v-bind:key="item.id"
-          v-bind:to="{ name: 'Viewer', params: { id: item.id } }"
-          >{{ item.text.split('\n', 1)[0] }}</router-link
-        >
+          v-bind:item="item"
+        />
       </draggable>
       <router-link to="/help">Help</router-link>
     </nav>
@@ -39,6 +38,17 @@
   }
   div.shortcuts {
     @apply flex;
+    ::v-deep .item {
+      @apply border-0;
+      .title {
+        @apply block p-2 bg-contrast text-soft leading-none;
+      }
+      .body,
+      .subitems,
+      button {
+        @apply hidden;
+      }
+    }
   }
 }
 </style>
@@ -46,13 +56,19 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { items } from '@/models/database';
-import { itemMove } from '@/models/functions';
+import { itemAdd, itemMove, itemRemove } from '@/models/functions';
+import ItemData from '@/models/ItemData';
 import Change from '@/models/Change';
+import ItemLink from '@/components/ItemLink.vue';
 import Draggable from 'vuedraggable';
 
-@Component({ components: { Draggable } })
+@Component({ components: { Draggable, ItemLink } })
 export default class App extends Vue {
-  items = [];
+  items: ItemData[] = [];
+
+  get dragModel() {
+    return this.items.map(item => item.id);
+  }
 
   mounted() {
     const freeItems = items.where('parent', '==', null).orderBy('order');
@@ -60,13 +76,21 @@ export default class App extends Vue {
   }
 
   dragChange(change: Change) {
-    const moved = change.moved;
-    if (moved) {
+    if (change.added) {
+      itemAdd({
+        item: change.added.element,
+        index: change.added.newIndex
+      });
+    } else if (change.moved) {
       itemMove({
-        parent: moved.element.parent?.id,
-        old: moved.oldIndex,
-        new: moved.newIndex
-      }).then(console.log);
+        old: change.moved.oldIndex,
+        new: change.moved.newIndex
+      });
+    } else if (change.removed) {
+      itemRemove({
+        item: change.removed.element,
+        index: change.removed.oldIndex
+      });
     }
   }
 }

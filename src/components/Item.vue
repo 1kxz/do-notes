@@ -4,8 +4,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Note from '@/components/Note.vue';
 import ItemData from '@/models/ItemData';
+import Note from '@/components/Note.vue';
 
 @Component
 export default class Item extends Vue {
@@ -21,7 +21,7 @@ export default class Item extends Vue {
       case 'board':
         return Note;
       default:
-        throw `invalid item type ${this.item.type}`;
+        throw `invalid item type ${this.item.view}`;
     }
   }
 }

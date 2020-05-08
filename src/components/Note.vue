@@ -1,28 +1,31 @@
 <template>
-  <div v-bind:class="['note', item.view]">
+  <div
+    v-bind:class="[
+      'note',
+      item.view,
+      item.parent ? '' : 'root',
+      content.body ? '' : 'ghost'
+    ]"
+  >
     <header>
       <vue-markdown
-        v-if="content.title"
+        v-if="item.parent && content.title"
         v-bind:source="content.title"
         class="title"
       />
-      {{ item.id }} [{{ item.order }}]
       <button class="showNav" v-on:click="showNav = !showNav">
-        <icon icon="ellipsis-h" />
+        <fa-icon icon="ellipsis-h" />
       </button>
       <button v-if="showNav" v-on:click="showNav = false" class="hideNav" />
       <nav v-if="showNav">
-        <router-link v-bind:to="viewUrl()">
-          <icon icon="link" /> Permalink
-        </router-link>
         <router-link v-bind:to="editUrl()">
-          <icon icon="edit" /> Edit
+          <fa-icon icon="edit" /> Edit
         </router-link>
         <a v-on:click="addClick" v-if="subitems.length < 100">
-          <icon icon="plus" /> Add note
+          <fa-icon icon="plus" /> Add note
         </a>
         <a v-on:click="deleteClick" v-if="subitems.length === 0">
-          <icon icon="trash" /> Delete
+          <fa-icon icon="trash" /> Delete
         </a>
       </nav>
     </header>
@@ -35,7 +38,7 @@
       tag="ul"
       group="items"
       class="subitems"
-      handle=".title"
+      handle="header"
       v-if="subitems.length > 0"
       v-bind:list="dragmodel"
       v-on:change="dragChange"
@@ -60,6 +63,7 @@ div.note {
     }
     > button.hideNav {
       @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
+      background-color: #0004;
     }
     > nav {
       @apply absolute right-0 top-0 z-20 flex flex-col bg-contrast text-soft rounded overflow-hidden shadow;
@@ -80,6 +84,9 @@ div.note {
       @apply flex-1 m-1;
     }
   }
+}
+div.note.root.ghost {
+  @apply pr-6;
 }
 div.note:not(.root) {
   @apply bg-soft text-contrast border-2 border-hard rounded;
@@ -105,18 +112,18 @@ div.board {
 </style>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { FontAwesomeIcon as Icon } from '@fortawesome/vue-fontawesome';
-import { items, splitText, users } from '@/models/database';
+import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 import { itemAdd, itemMove, itemRemove } from '@/models/functions';
+import { items, splitText, users } from '@/models/database';
 import Change from '@/models/Change';
+import Draggable from 'vuedraggable';
 import ItemData from '@/models/ItemData';
 import router from '@/router/index';
 import VueMarkdown from 'vue-markdown';
-import Draggable from 'vuedraggable';
 
 const Item = () => import('@/components/Item.vue');
 
-@Component({ components: { Draggable, Icon, Item, VueMarkdown } })
+@Component({ components: { Draggable, FaIcon, Item, VueMarkdown } })
 export default class Note extends Vue {
   subitems: ItemData[] = [];
   showNav = false;
@@ -163,19 +170,19 @@ export default class Note extends Vue {
         parent: this.item.id,
         item: change.added.element,
         index: change.added.newIndex
-      }).then(console.log);
+      });
     } else if (change.moved) {
       itemMove({
         parent: this.item.id,
         old: change.moved.oldIndex,
         new: change.moved.newIndex
-      }).then(console.log);
+      });
     } else if (change.removed) {
       itemRemove({
         parent: this.item.id,
         item: change.removed.element,
         index: change.removed.oldIndex
-      }).then(console.log);
+      });
     }
   }
 
