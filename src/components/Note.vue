@@ -37,7 +37,7 @@
       class="subitems"
       handle=".title"
       v-if="subitems.length > 0"
-      v-model="subitems"
+      v-bind:list="dragmodel"
       v-on:change="dragChange"
     >
       <li v-for="item in subitems" v-bind:key="item.id">
@@ -118,13 +118,17 @@ const Item = () => import('@/components/Item.vue');
 
 @Component({ components: { Draggable, Icon, Item, VueMarkdown } })
 export default class Note extends Vue {
-  subitems = [];
+  subitems: ItemData[] = [];
   showNav = false;
 
   @Prop() private item!: ItemData;
 
   get content() {
     return splitText(this.item.text);
+  }
+
+  get dragmodel() {
+    return this.subitems.map(item => item.id);
   }
 
   viewUrl() {
@@ -155,25 +159,21 @@ export default class Note extends Vue {
 
   dragChange(change: Change) {
     if (change.added) {
-      console.log(`A this=${this.item.id}, other=${change.added.element.id}`);
       itemAdd({
-        item: change.added.element.id,
         parent: this.item.id,
+        item: change.added.element,
         index: change.added.newIndex
       }).then(console.log);
     } else if (change.moved) {
-      console.log(`M this=${this.item.id}, other=${change.moved.element.id}`);
-      console.log(itemMove);
-      // itemMove({
-      //   parent: change.moved.element.parent?.id,
-      //   old: change.moved.oldIndex,
-      //   new: change.moved.newIndex
-      // }).then(console.log);
-    } else if (change.removed) {
-      console.log(`R this=${this.item.id}, other=${change.removed.element.id}`);
-      itemRemove({
-        item: change.removed.element.id,
+      itemMove({
         parent: this.item.id,
+        old: change.moved.oldIndex,
+        new: change.moved.newIndex
+      }).then(console.log);
+    } else if (change.removed) {
+      itemRemove({
+        parent: this.item.id,
+        item: change.removed.element,
         index: change.removed.oldIndex
       }).then(console.log);
     }

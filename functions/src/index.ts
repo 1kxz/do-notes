@@ -47,8 +47,10 @@ export const itemAdd = functions.https.onCall(data => {
       let index = 0;
       qs.forEach(qds => {
         if (index >= data.index) {
-          console.log(`setting order of ${qds.id} to ${index}`);
+          console.log(`setting order of ${qds.id} to ${index + 1}`);
           batch.update(qds.ref, { order: index + 1 });
+        } else {
+          console.log(`order of ${qds.id} unchanged`);
         }
         index++;
       });
@@ -69,11 +71,12 @@ export const itemMove = functions.https.onCall(data => {
     end = data.old;
     shift = 1;
   }
-  console.log(`${data.parent}: ${data.old} => ${data.new}`);
+  console.log(`moving item ${data.item}[${data.old}] to [${data.new}]`);
   const database = admin.firestore();
   const items = database.collection('items');
+  const parent = data.parent ? items.doc(data.parent) : null;
   return items
-    .where('parent', '==', data.parent ? items.doc(data.parent) : null)
+    .where('parent', '==', parent)
     .orderBy('order')
     .get()
     .then(qs => {
@@ -81,11 +84,13 @@ export const itemMove = functions.https.onCall(data => {
       const batch = database.batch();
       qs.forEach(qds => {
         if (index === data.old) {
-          console.log(`${index} => ${data.new}`);
+          console.log(`setting order of ${qds.id} to ${data.new}`);
           batch.update(qds.ref, { order: data.new });
         } else if (start <= index && index <= end) {
-          console.log(`${index} => ${index + shift}`);
+          console.log(`setting order of ${qds.id} to ${index + shift}`);
           batch.update(qds.ref, { order: index + shift });
+        } else {
+          console.log(`order of ${qds.id} unchanged`);
         }
         index++;
       });
@@ -106,9 +111,13 @@ export const itemRemove = functions.https.onCall(data => {
       const batch = database.batch();
       let index = 0;
       qs.forEach(qds => {
-        if (index >= data.index && qds.id !== data.item) {
+        if (index >= data.index) {
           console.log(`setting order of ${qds.id} to ${index}`);
           batch.update(qds.ref, { order: index });
+        } else {
+          console.log(`order of ${qds.id} unchanged`);
+        }
+        if (qds.id !== data.item) {
           index++;
         }
       });
