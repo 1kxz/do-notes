@@ -18,9 +18,15 @@
       </button>
       <button v-if="showNav" v-on:click="showNav = false" class="hideNav" />
       <nav v-if="showNav">
+        <a v-on:click="addClick" v-if="subitems.length < 100">
+          <fa-icon icon="plus" /> Add sub-note
+        </a>
         <router-link v-bind:to="editUrl">
           <fa-icon icon="edit" /> Edit
         </router-link>
+        <a v-on:click="deleteClick" v-if="subitems.length === 0">
+          <fa-icon icon="trash" /> Delete
+        </a>
         <a
           v-on:click="horizontalClick"
           v-if="item.view === 'note' && item.noteOrientation === 'vertical'"
@@ -33,15 +39,6 @@
         >
           <fa-icon icon="stream" /> View as list
         </a>
-        <a v-on:click="addClick" v-if="subitems.length < 100">
-          <fa-icon icon="plus" /> Add note
-        </a>
-        <a v-on:click="deleteClick" v-if="subitems.length === 0">
-          <fa-icon icon="trash" /> Delete
-        </a>
-        <router-link v-bind:to="viewUrl">
-          <fa-icon icon="link" /> Permalink
-        </router-link>
       </nav>
     </header>
     <vue-markdown
@@ -150,10 +147,6 @@ export default class Note extends Vue {
     return this.subitems.map(item => item.id);
   }
 
-  get viewUrl() {
-    return { name: 'Viewer', params: { id: this.item.id } };
-  }
-
   get editUrl() {
     return { name: 'Editor', params: { id: this.item.id } };
   }
@@ -194,20 +187,20 @@ export default class Note extends Vue {
   dragChange(change: Change) {
     if (change.added) {
       itemAdd({
-        parent: this.item.id,
-        item: change.added.element,
+        parentId: this.item.id,
+        itemId: change.added.element,
         index: change.added.newIndex
       });
     } else if (change.moved) {
       itemMove({
-        parent: this.item.id,
-        old: change.moved.oldIndex,
-        new: change.moved.newIndex
+        parentId: this.item.id,
+        oldIndex: change.moved.oldIndex,
+        newIndex: change.moved.newIndex
       });
     } else if (change.removed) {
       itemRemove({
-        parent: this.item.id,
-        item: change.removed.element,
+        parentId: this.item.id,
+        itemId: change.removed.element,
         index: change.removed.oldIndex
       });
     }

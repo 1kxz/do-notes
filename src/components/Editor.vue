@@ -13,6 +13,7 @@ div.editor {
   }
   > textarea {
     @apply p-2 text-contrast;
+    min-height: 25rem;
   }
 }
 </style>

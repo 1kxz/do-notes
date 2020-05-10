@@ -1,21 +1,21 @@
 import ItemData from './ItemData';
 
-class Added {
-  newIndex!: number;
-  element!: ItemData;
+interface Added {
+  newIndex: number;
+  element: ItemData;
 }
-class Removed {
-  oldIndex!: number;
-  element!: ItemData;
-}
-
-class Moved {
-  newIndex!: number;
-  oldIndex!: number;
-  element!: ItemData;
+interface Removed {
+  oldIndex: number;
+  element: ItemData;
 }
 
-export default class Change {
+interface Moved {
+  newIndex: number;
+  oldIndex: number;
+  element: ItemData;
+}
+
+export default interface Change {
   added?: Added;
   removed?: Removed;
   moved?: Moved;
