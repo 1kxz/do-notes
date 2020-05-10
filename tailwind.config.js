@@ -7,7 +7,7 @@ module.exports = {
       color: '#960954',
       contrast: '#2b1d1f'
     },
-    colors2: {
+    colors: {
       soft: '#f8f0e8',
       hard: '#fcbf49',
       color: '#2e7984',
@@ -25,7 +25,7 @@ module.exports = {
       color: '#8234c1',
       contrast: '#19162b'
     },
-    colors: {
+    colors5: {
       soft: '#eff3f4',
       hard: '#b3d4e5',
       color: '#336699',

@@ -14,15 +14,13 @@ div.editor {
   > textarea {
     @apply p-2 text-contrast;
   }
-  > div.item {
-    @apply m-2;
-  }
 }
 </style>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { items } from '@/models/database';
+import { Route } from 'vue-router';
 import { ThrottleSetter } from 'lodash-decorators';
 import Item from '@/components/Item.vue';
 import ItemData from '@/models/ItemData';
@@ -31,21 +29,18 @@ import ItemData from '@/models/ItemData';
 export default class TaskView extends Vue {
   item: ItemData | null = null;
 
-  get id() {
-    return this.$route.params.id;
-  }
-
   get text() {
     return this.item?.text;
   }
 
   @ThrottleSetter(1000)
   set text(value) {
-    items.doc(this.id).update({ text: value });
+    items.doc(this.$route.params.id).update({ text: value });
   }
 
-  mounted() {
-    this.$bind('item', items.doc(this.id));
+  @Watch('$route', { immediate: true })
+  onRouteChanged(route: Route) {
+    this.$bind('item', items.doc(route.params.id));
   }
 }
 </script>

@@ -5,4 +5,5 @@ export default class ItemData {
   text!: string;
   type!: string;
   view!: string;
+  noteOrientation?: string;
 }

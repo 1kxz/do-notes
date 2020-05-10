@@ -12,10 +12,6 @@ import { Route } from 'vue-router';
 export default class Viewer extends Vue {
   item = null;
 
-  get id() {
-    return this.$route.params.id;
-  }
-
   @Watch('$route', { immediate: true })
   onRouteChanged(route: Route) {
     this.$bind('item', items.doc(route.params.id));

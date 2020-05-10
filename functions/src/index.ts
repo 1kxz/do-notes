@@ -10,7 +10,10 @@ export const itemFixIndices = functions.https.onRequest((request, response) => {
     .get()
     .then(qs => {
       qs.forEach(qds => {
-        console.log(`processsing children of ${qds.id}`);
+        console.log(`processsing ${qds.id}`);
+        qds.ref
+          .update({ view: 'note', noteOrientation: 'vertical' })
+          .catch(error => response.send(error));
         items
           .where('parent', '==', qds.ref)
           .orderBy('order')

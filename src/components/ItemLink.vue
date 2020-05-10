@@ -23,12 +23,17 @@ export default class Item extends Vue {
 
   get icon() {
     switch (this.item.view) {
-      case 'pad':
-        return 'stream';
-      case 'board':
-        return 'columns';
+      case 'note':
+        switch (this.item.noteOrientation) {
+          case 'horizontal':
+            return 'columns';
+          case 'vertical':
+            return 'stream';
+          default:
+            throw `invalid item orientation ${this.item.noteOrientation}`;
+        }
       default:
-        throw `invalid item type ${this.item.view}`;
+        throw `invalid item view ${this.item.view}`;
     }
   }
 }

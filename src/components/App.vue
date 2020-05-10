@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">notes (5)</router-link>
+      <router-link to="/">Notes</router-link>
       <draggable
         group="items"
         class="shortcuts"

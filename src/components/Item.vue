@@ -1,5 +1,5 @@
 <template>
-  <component v-if="item" v-bind:item="item" v-bind:is="type" class="item" />
+  <component v-if="item" v-bind:is="type" v-bind:item="item" class="item" />
 </template>
 
 <script lang="ts">
@@ -11,14 +11,9 @@ import Note from '@/components/Note.vue';
 export default class Item extends Vue {
   @Prop() private item!: ItemData;
 
-  get id() {
-    return this.$route.params.id;
-  }
-
   get type() {
     switch (this.item.view) {
-      case 'pad':
-      case 'board':
+      case 'note':
         return Note;
       default:
         throw `invalid item type ${this.item.view}`;

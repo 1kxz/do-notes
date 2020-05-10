@@ -2,7 +2,7 @@
   <div
     v-bind:class="[
       'note',
-      item.view,
+      item.noteOrientation,
       item.parent ? '' : 'root',
       content.body ? '' : 'ghost'
     ]"
@@ -21,6 +21,18 @@
         <router-link v-bind:to="editUrl">
           <fa-icon icon="edit" /> Edit
         </router-link>
+        <a
+          v-on:click="horizontalClick"
+          v-if="item.view === 'note' && item.noteOrientation === 'vertical'"
+        >
+          <fa-icon icon="columns" /> View as board
+        </a>
+        <a
+          v-on:click="verticalClick"
+          v-if="item.view === 'note' && item.noteOrientation === 'horizontal'"
+        >
+          <fa-icon icon="stream" /> View as list
+        </a>
         <a v-on:click="addClick" v-if="subitems.length < 100">
           <fa-icon icon="plus" /> Add note
         </a>
@@ -38,7 +50,6 @@
       v-bind:source="content.body"
     />
     <draggable
-      tag="ul"
       group="items"
       class="subitems"
       handle="header"
@@ -46,9 +57,7 @@
       v-bind:list="dragmodel"
       v-on:change="dragChange"
     >
-      <li v-for="item in subitems" v-bind:key="item.id">
-        <item v-bind:item="item" />
-      </li>
+      <item v-for="item in subitems" v-bind:key="item.id" v-bind:item="item" />
     </draggable>
   </div>
 </template>
@@ -81,18 +90,15 @@ div.note {
   > div.body {
     @apply m-2;
   }
-  > ul.subitems {
+  > div.subitems {
     @apply flex flex-col m-1;
-    > li {
-      @apply flex-1 m-1;
+    > div {
+      @apply flex-1 m-1 rounded;
     }
   }
 }
-div.note.root.ghost {
-  @apply pr-6;
-}
 div.note:not(.root) {
-  @apply bg-soft text-contrast border-2 border-hard rounded;
+  @apply bg-soft text-contrast border-2 border-hard;
   header {
     > div.title {
       @apply bg-hard;
@@ -102,13 +108,16 @@ div.note:not(.root) {
     }
   }
 }
-div.pad {
-  > ul.subitems {
+div.note.root.ghost {
+  @apply pr-6;
+}
+div.note.vertical {
+  > div.subitems {
     @apply flex-col;
   }
 }
-div.board {
-  > ul.subitems {
+div.note.horizontal {
+  > div.subitems {
     @apply flex-row;
   }
 }
@@ -153,7 +162,8 @@ export default class Note extends Vue {
     items
       .add({
         text: 'New',
-        view: 'pad',
+        view: 'note',
+        noteOrientation: 'vertical',
         parent: items.doc(this.item.id),
         owner: users.doc('Sys9gLK44wJRytsgYAbt'),
         order: this.subitems ? this.subitems.length : 0
@@ -165,6 +175,20 @@ export default class Note extends Vue {
     if (this.subitems.length == 0) {
       items.doc(this.item.id).delete();
     }
+  }
+
+  horizontalClick() {
+    items
+      .doc(this.item.id)
+      .update({ noteOrientation: 'horizontal' })
+      .catch(console.log);
+  }
+
+  verticalClick() {
+    items
+      .doc(this.item.id)
+      .update({ noteOrientation: 'vertical' })
+      .catch(console.log);
   }
 
   dragChange(change: Change) {
