@@ -1,17 +1,15 @@
+import Editor from '../components/Editor.vue';
+import Home from '../components/Home.vue';
+import Login from '../components/Login.vue';
+import Viewer from '../components/Viewer.vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../components/Home.vue';
-import Editor from '../components/Editor.vue';
-import Viewer from '../components/Viewer.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
+  { path: '/', name: 'Home', component: Home },
+  { path: '/login', name: 'Login', component: Login },
   {
     path: '/help',
     name: 'Help',
@@ -20,16 +18,8 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import('../components/Help.vue')
   },
-  {
-    path: '/:id',
-    name: 'Viewer',
-    component: Viewer
-  },
-  {
-    path: '/:id/edit',
-    name: 'Editor',
-    component: Editor
-  }
+  { path: '/:id', name: 'Viewer', component: Viewer },
+  { path: '/:id/edit', name: 'Editor', component: Editor }
 ];
 
 const router = new VueRouter({

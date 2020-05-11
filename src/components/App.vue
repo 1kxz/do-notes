@@ -15,6 +15,8 @@
         />
       </draggable>
       <router-link to="/help">Help</router-link>
+      <a v-if="user" v-on:click="logout">{{ user.name }} Logout</a>
+      <router-link v-else to="/login">Login</router-link>
     </nav>
     <section>
       <router-view />
@@ -55,15 +57,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { items } from '@/models/database';
+import { items, users } from '@/models/database';
 import { itemAdd, itemMove, itemRemove } from '@/models/functions';
 import ItemData from '@/models/ItemData';
 import Change from '@/models/Change';
 import ItemLink from '@/components/ItemLink.vue';
 import Draggable from 'vuedraggable';
+import { firebaseAuth } from '@/models/auth';
 
 @Component({ components: { Draggable, ItemLink } })
 export default class App extends Vue {
+  user: object | null = null;
   items: ItemData[] = [];
 
   get dragModel() {
@@ -71,8 +75,19 @@ export default class App extends Vue {
   }
 
   mounted() {
-    const freeItems = items.where('parent', '==', null).orderBy('order');
-    this.$bind('items', freeItems);
+    firebaseAuth.onAuthStateChanged(user => {
+      if (user) {
+        console.log('auth', user.uid);
+        this.$bind('user', users.doc(user.uid));
+        this.$bind('items', items.where('parent', '==', null).orderBy('order'));
+      } else {
+        console.log('no user');
+      }
+    });
+  }
+
+  logout() {
+    firebaseAuth.signOut();
   }
 
   dragChange(change: Change) {

@@ -4,5 +4,10 @@
     "source.fixAll.eslint": true
   },
   "editor.formatOnSave": false,
-  "vetur.validation.template": true
+  "vetur.validation.template": true,
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#411072",
+    "titleBar.activeBackground": "#5A16A0",
+    "titleBar.activeForeground": "#FCF9FE"
+  }
 }

@@ -1,14 +1,13 @@
 import 'firebase/firestore';
+import { firebaseApp } from '@/models/firebase';
 import { firestorePlugin } from 'vuefire';
-import firebase from 'firebase/app';
 import Vue from 'vue';
 
 Vue.use(firestorePlugin);
 
-export const db = firebase.initializeApp({ projectId: 'd0-n0t35' }).firestore();
-
-export const items = db.collection('items');
-export const users = db.collection('users');
+export const firestore = firebaseApp.firestore();
+export const items = firestore.collection('items');
+export const users = firestore.collection('users');
 
 export function splitText(text: string) {
   let title = '';
