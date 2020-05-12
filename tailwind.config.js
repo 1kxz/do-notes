@@ -1,13 +1,13 @@
 module.exports = {
   theme: {
     fontFamily: { body: ['Fira Sans', 'Helvetica', 'sans-serif'] },
-    colors1: {
+    colors: {
       soft: '#fcfbf7',
       hard: '#dff28a',
       color: '#960954',
       contrast: '#2b1d1f'
     },
-    colors: {
+    colors2: {
       soft: '#f8f0e8',
       hard: '#fcbf49',
       color: '#2e7984',

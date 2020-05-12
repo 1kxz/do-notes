@@ -4,7 +4,7 @@
 
 <style lang="scss" scoped>
 #auth {
-  @apply m-2;
+  @apply m-6;
 }
 </style>
 

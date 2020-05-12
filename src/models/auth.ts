@@ -8,5 +8,9 @@ import 'firebaseui/dist/firebaseui.css';
 export const firebaseAuth = firebaseApp.auth();
 export const authUi = new firebaseui.auth.AuthUI(firebaseAuth);
 export const authConfig = {
-  signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID]
+  signInSuccessUrl: '/',
+  signInOptions: [
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ]
 };

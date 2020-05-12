@@ -1,6 +1,6 @@
 <template>
   <router-link v-bind:to="target">
-    {{ content.title }} <fa-icon v-bind:icon="icon" />
+    <fa-icon v-bind:icon="icon" /> {{ content.title }}
   </router-link>
 </template>
 

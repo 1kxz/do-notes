@@ -13,9 +13,10 @@
           v-bind:key="item.id"
           v-bind:item="item"
         />
+        <button><fa-icon icon="plus" /> New</button>
       </draggable>
       <router-link to="/help">Help</router-link>
-      <a v-if="user" v-on:click="logout">{{ user.name }} Logout</a>
+      <button v-if="user" v-on:click="logout">{{ user.name }} Logout</button>
       <router-link v-else to="/login">Login</router-link>
     </nav>
     <section>
@@ -29,7 +30,8 @@
   nav {
     @apply bg-color flex leading-none;
   }
-  a {
+  a,
+  button {
     @apply block p-2;
     &:hover {
       @apply bg-contrast;
@@ -39,7 +41,7 @@
     }
   }
   div.shortcuts {
-    @apply flex;
+    @apply flex flex-1;
     ::v-deep .item {
       @apply border-0;
       .title {
@@ -64,8 +66,9 @@ import Change from '@/models/Change';
 import ItemLink from '@/components/ItemLink.vue';
 import Draggable from 'vuedraggable';
 import { firebaseAuth } from '@/models/auth';
+import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 
-@Component({ components: { Draggable, ItemLink } })
+@Component({ components: { Draggable, FaIcon, ItemLink } })
 export default class App extends Vue {
   user: object | null = null;
   items: ItemData[] = [];
@@ -77,11 +80,11 @@ export default class App extends Vue {
   mounted() {
     firebaseAuth.onAuthStateChanged(user => {
       if (user) {
-        console.log('auth', user.uid);
         this.$bind('user', users.doc(user.uid));
         this.$bind('items', items.where('parent', '==', null).orderBy('order'));
       } else {
-        console.log('no user');
+        this.user = null;
+        this.items = [];
       }
     });
   }
