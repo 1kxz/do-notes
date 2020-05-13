@@ -5,6 +5,7 @@
       <draggable
         group="items"
         class="shortcuts"
+        draggable="a"
         v-bind:list="dragModel"
         v-on:change="dragChange"
       >
@@ -13,10 +14,11 @@
           v-bind:key="item.id"
           v-bind:item="item"
         />
-        <button><fa-icon icon="plus" /> New</button>
+        <button v-if="user" slot="footer"><fa-icon icon="plus" /> New</button>
       </draggable>
       <router-link to="/help">Help</router-link>
-      <button v-if="user" v-on:click="logout">{{ user.name }} Logout</button>
+      <span v-if="user">{{ account }}</span>
+      <button v-if="user" v-on:click="logout">Logout</button>
       <router-link v-else to="/login">Login</router-link>
     </nav>
     <section>
@@ -31,8 +33,12 @@
     @apply bg-color flex leading-none;
   }
   a,
-  button {
+  button,
+  span {
     @apply block p-2;
+  }
+  a,
+  button {
     &:hover {
       @apply bg-contrast;
     }
@@ -59,28 +65,35 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { items, users } from '@/models/database';
-import { itemAdd, itemMove, itemRemove } from '@/models/functions';
-import ItemData from '@/models/ItemData';
-import Change from '@/models/Change';
-import ItemLink from '@/components/ItemLink.vue';
-import Draggable from 'vuedraggable';
 import { firebaseAuth } from '@/models/auth';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
+import { itemAdd, itemMove, itemRemove } from '@/models/functions';
+import { items, users } from '@/models/database';
+import Change from '@/models/Change';
+import Draggable from 'vuedraggable';
+import ItemData from '@/models/ItemData';
+import ItemLink from '@/components/ItemLink.vue';
+import UserData from '@/models/UserData';
 
 @Component({ components: { Draggable, FaIcon, ItemLink } })
 export default class App extends Vue {
-  user: object | null = null;
+  user: UserData | null = null;
   items: ItemData[] = [];
 
   get dragModel() {
     return this.items.map(item => item.id);
   }
 
+  get account() {
+    return this.user?.name || this.user?.email || 'Unknown';
+  }
+
   mounted() {
-    firebaseAuth.onAuthStateChanged(user => {
-      if (user) {
-        this.$bind('user', users.doc(user.uid));
+    firebaseAuth.onAuthStateChanged(auth => {
+      if (auth) {
+        const puser = users.doc(auth.uid);
+        puser.update({ name: auth.displayName, email: auth.email });
+        this.$bind('user', puser);
         this.$bind('items', items.where('parent', '==', null).orderBy('order'));
       } else {
         this.user = null;

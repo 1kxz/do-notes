@@ -42,7 +42,7 @@
       </nav>
     </header>
     <vue-markdown
-      class="body"
+      class="body text"
       v-if="content.body"
       v-bind:source="content.body"
     />
@@ -171,17 +171,11 @@ export default class Note extends Vue {
   }
 
   horizontalClick() {
-    items
-      .doc(this.item.id)
-      .update({ noteOrientation: 'horizontal' })
-      .catch(console.log);
+    items.doc(this.item.id).update({ noteOrientation: 'horizontal' });
   }
 
   verticalClick() {
-    items
-      .doc(this.item.id)
-      .update({ noteOrientation: 'vertical' })
-      .catch(console.log);
+    items.doc(this.item.id).update({ noteOrientation: 'vertical' });
   }
 
   dragChange(change: Change) {
