@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Notes</router-link>
+      <router-link to="/"># Notes</router-link>
       <draggable
         group="items"
         class="shortcuts"
@@ -19,8 +19,11 @@
         </button>
       </draggable>
       <router-link to="/help">Help</router-link>
-      <span v-if="user"> <fa-icon icon="user" /> {{ account }} </span>
-      <button v-if="user" v-on:click="logout">
+      <span v-if="user"><fa-icon icon="user" /> {{ account }} </span>
+      <button v-if="user" v-on:click="exportClick">
+        <fa-icon icon="download" /> Export
+      </button>
+      <button v-if="user" v-on:click="logoutClick">
         <fa-icon icon="sign-out-alt" /> Sign out
       </button>
       <router-link v-else to="/login">
@@ -124,9 +127,31 @@ export default class App extends Vue {
     });
   }
 
-  logout() {
+  logoutClick() {
     firebaseAuth.signOut();
     router.push('Login');
+  }
+
+  exportClick() {
+    if (this.user) {
+      items
+        .where('uid', '==', this.user.id)
+        .get()
+        .then(qs => {
+          const data = qs.docs.map(item => {
+            const { parent, ...copy } = item.data();
+            delete copy.uid;
+            return { id: item.id, parent: parent?.id, ...copy };
+          });
+          const dataStr = encodeURIComponent(JSON.stringify(data));
+          const a = document.createElement('a');
+          a.setAttribute('href', `data:text/json;charset=utf-8,${dataStr}`);
+          a.setAttribute('download', 'Notes.json');
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        });
+    }
   }
 
   addClick() {

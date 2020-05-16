@@ -1,6 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faColumns,
+  faDownload,
   faEdit,
   faEllipsisH,
   faLink,
@@ -14,6 +15,7 @@ import {
 
 library.add(
   faColumns,
+  faDownload,
   faEdit,
   faEllipsisH,
   faLink,
