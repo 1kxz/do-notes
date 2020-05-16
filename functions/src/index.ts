@@ -124,7 +124,7 @@ export const itemFixIndices = functions.https.onRequest((request, response) => {
       qs.forEach(qds => {
         console.log(`processsing ${qds.id}`);
         qds.ref
-          .update({ view: 'note', noteOrientation: 'vertical' })
+          .update({ view: 'note', orientation: 'vertical' })
           .catch(error => response.send(error));
         items
           .where('parent', '==', qds.ref)

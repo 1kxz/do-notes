@@ -4,12 +4,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ItemData from '@/models/ItemData';
+import Item from '@/models/Item';
 import Note from '@/components/Note.vue';
 
 @Component
-export default class Item extends Vue {
-  @Prop() private item!: ItemData;
+export default class ItemViewer extends Vue {
+  @Prop() private item!: Item;
 
   get type() {
     switch (this.item.view) {

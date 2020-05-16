@@ -20,6 +20,11 @@ const routes = [
     component: () => import('../components/Help.vue')
   },
   {
+    path: '/import',
+    name: 'Importer',
+    component: () => import('../components/Importer.vue')
+  },
+  {
     path: '/:id',
     name: 'Viewer',
     component: () => import('../components/Viewer.vue')

@@ -1,18 +1,18 @@
-import ItemData from './ItemData';
+import Item from './Item';
 
 interface Added {
   newIndex: number;
-  element: ItemData;
+  element: Item;
 }
 interface Removed {
   oldIndex: number;
-  element: ItemData;
+  element: Item;
 }
 
 interface Moved {
   newIndex: number;
   oldIndex: number;
-  element: ItemData;
+  element: Item;
 }
 
 export default interface Change {

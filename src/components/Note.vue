@@ -2,7 +2,7 @@
   <div
     v-bind:class="[
       'note',
-      item.noteOrientation,
+      item.orientation,
       item.parent ? '' : 'root',
       content.body ? '' : 'ghost'
     ]"
@@ -29,13 +29,13 @@
         </a>
         <a
           v-on:click="horizontalClick"
-          v-if="item.view === 'note' && item.noteOrientation === 'vertical'"
+          v-if="item.view === 'note' && item.orientation === 'vertical'"
         >
           <fa-icon icon="columns" /> View as board
         </a>
         <a
           v-on:click="verticalClick"
-          v-if="item.view === 'note' && item.noteOrientation === 'horizontal'"
+          v-if="item.view === 'note' && item.orientation === 'horizontal'"
         >
           <fa-icon icon="stream" /> View as list
         </a>
@@ -54,7 +54,11 @@
       v-bind:list="dragmodel"
       v-on:change="dragChange"
     >
-      <item v-for="item in subitems" v-bind:key="item.id" v-bind:item="item" />
+      <item-viewer
+        v-for="item in subitems"
+        v-bind:key="item.id"
+        v-bind:item="item"
+      />
     </draggable>
   </div>
 </template>
@@ -126,18 +130,18 @@ import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 import { itemAdd, itemMove, itemRemove } from '@/models/functions';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
-import ItemData from '@/models/ItemData';
+import Item from '@/models/Item';
 import router from '@/router/index';
 import VueMarkdown from 'vue-markdown';
 
-const Item = () => import('@/components/Item.vue');
+const ItemViewer = () => import('@/components/ItemViewer.vue');
 
-@Component({ components: { Draggable, FaIcon, Item, VueMarkdown } })
+@Component({ components: { Draggable, FaIcon, ItemViewer, VueMarkdown } })
 export default class Note extends Vue {
-  subitems: ItemData[] = [];
+  subitems: Item[] = [];
   showNav = false;
 
-  @Prop() private item!: ItemData;
+  @Prop() private item!: Item;
 
   get content() {
     return splitText(this.item.text);
@@ -158,8 +162,9 @@ export default class Note extends Vue {
         parent: items.doc(this.item.id),
         order: this.subitems ? this.subitems.length : 0,
         text: 'New',
+        format: 'markdown',
         view: 'note',
-        noteOrientation: 'vertical'
+        orientation: 'vertical'
       })
       .then(x => router.push({ name: 'Editor', params: { id: x.id } }));
   }
@@ -171,11 +176,11 @@ export default class Note extends Vue {
   }
 
   horizontalClick() {
-    items.doc(this.item.id).update({ noteOrientation: 'horizontal' });
+    items.doc(this.item.id).update({ orientation: 'horizontal' });
   }
 
   verticalClick() {
-    items.doc(this.item.id).update({ noteOrientation: 'vertical' });
+    items.doc(this.item.id).update({ orientation: 'vertical' });
   }
 
   dragChange(change: Change) {

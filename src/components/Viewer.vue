@@ -1,14 +1,14 @@
 <template>
-  <item v-if="item" v-bind:item="item" />
+  <item-viewer v-if="item" v-bind:item="item" />
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { items } from '@/models/database';
-import Item from '@/components/Item.vue';
+import ItemViewer from '@/components/ItemViewer.vue';
 import { Route } from 'vue-router';
 
-@Component({ components: { Item } })
+@Component({ components: { ItemViewer } })
 export default class Viewer extends Vue {
   item = null;
 

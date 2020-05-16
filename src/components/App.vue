@@ -102,15 +102,15 @@ import { itemAdd, itemMove, itemRemove } from '@/models/functions';
 import { items, users } from '@/models/database';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
-import ItemData from '@/models/ItemData';
+import Item from '@/models/Item';
 import ItemLink from '@/components/ItemLink.vue';
 import router from '@/router/index';
-import UserData from '@/models/UserData';
+import User from '@/models/User';
 
 @Component({ components: { Draggable, FaIcon, ItemLink } })
 export default class App extends Vue {
-  user: UserData | null = null;
-  subitems: ItemData[] = [];
+  user: User | null = null;
+  subitems: Item[] = [];
   showUserMenu = false;
 
   get dragModel() {
@@ -188,7 +188,7 @@ export default class App extends Vue {
           order: this.subitems ? this.subitems.length : 0,
           text: 'New',
           view: 'note',
-          noteOrientation: 'horizontal'
+          orientation: 'horizontal'
         })
         .then(x => router.push({ name: 'Editor', params: { id: x.id } }));
     }
