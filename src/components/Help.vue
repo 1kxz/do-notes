@@ -8,7 +8,6 @@
 <style lang="scss" scoped>
 .text {
   @apply p-4 mx-auto;
-  max-width: 50rem;
 }
 .logo {
   @apply mx-auto;

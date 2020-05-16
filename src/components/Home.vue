@@ -8,7 +8,6 @@
 <style lang="scss" scoped>
 .text {
   @apply p-4 mx-auto;
-  max-width: 50rem;
   h1 {
     @apply text-3xl;
   }

@@ -13,10 +13,10 @@
         v-bind:source="content.title"
         class="title"
       />
-      <button class="showNav" v-on:click="showNav = !showNav">
+      <button v-on:click="showNav = !showNav" class="show-nav">
         <fa-icon icon="ellipsis-h" />
       </button>
-      <button v-if="showNav" v-on:click="showNav = false" class="hideNav" />
+      <button v-if="showNav" v-on:click="showNav = false" class="hide-nav" />
       <nav v-if="showNav">
         <a v-on:click="addClick" v-if="subitems.length < 100">
           <fa-icon icon="plus" /> Add sub-note
@@ -67,10 +67,10 @@ div.note {
     > div.title {
       @apply p-2 pr-8;
     }
-    > button.showNav {
+    > button.show-nav {
       @apply absolute top-0 right-0 p-2;
     }
-    > button.hideNav {
+    > button.hide-nav {
       @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
       background-color: #0004;
     }

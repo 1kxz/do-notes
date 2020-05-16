@@ -15,38 +15,6 @@ interface MoveData {
   newIndex: number;
 }
 
-export const itemFixIndices = functions.https.onRequest((request, response) => {
-  const database = admin.firestore();
-  const items = database.collection('items');
-  items
-    .get()
-    .then(qs => {
-      qs.forEach(qds => {
-        console.log(`processsing ${qds.id}`);
-        qds.ref
-          .update({ view: 'note', noteOrientation: 'vertical' })
-          .catch(error => response.send(error));
-        items
-          .where('parent', '==', qds.ref)
-          .orderBy('order')
-          .get()
-          .then(sqs => {
-            let index = 0;
-            sqs.forEach(sqds => {
-              console.log(`setting order of ${sqds.id} to ${index}`);
-              sqds.ref
-                .update({ order: index })
-                .catch(error => response.send(error));
-              index++;
-            });
-          })
-          .catch(error => response.send(error));
-      });
-    })
-    .catch(error => response.send(error));
-  response.send(`done`);
-});
-
 export const itemAdd = functions.https.onCall(
   ({ parentId, itemId, index }: ChangeData) => {
     const database = admin.firestore();
@@ -146,3 +114,35 @@ export const itemRemove = functions.https.onCall(
       .catch(console.log);
   }
 );
+
+export const itemFixIndices = functions.https.onRequest((request, response) => {
+  const database = admin.firestore();
+  const items = database.collection('items');
+  items
+    .get()
+    .then(qs => {
+      qs.forEach(qds => {
+        console.log(`processsing ${qds.id}`);
+        qds.ref
+          .update({ view: 'note', noteOrientation: 'vertical' })
+          .catch(error => response.send(error));
+        items
+          .where('parent', '==', qds.ref)
+          .orderBy('order')
+          .get()
+          .then(sqs => {
+            let index = 0;
+            sqs.forEach(sqds => {
+              console.log(`setting order of ${sqds.id} to ${index}`);
+              sqds.ref
+                .update({ order: index })
+                .catch(error => response.send(error));
+              index++;
+            });
+          })
+          .catch(error => response.send(error));
+      });
+    })
+    .catch(error => response.send(error));
+  response.send(`done`);
+});

@@ -18,15 +18,24 @@
           <fa-icon icon="plus" /> New
         </button>
       </draggable>
-      <router-link to="/help">Help</router-link>
-      <span v-if="user"><fa-icon icon="user" /> {{ account }} </span>
-      <button v-if="user" v-on:click="exportClick">
-        <fa-icon icon="download" /> Export
+      <button v-if="user" v-on:click="showUserMenu = !showUserMenu">
+        <fa-icon icon="user" /> {{ account }}
       </button>
-      <button v-if="user" v-on:click="logoutClick">
-        <fa-icon icon="sign-out-alt" /> Sign out
-      </button>
-      <router-link v-else to="/login">
+      <button
+        v-if="showUserMenu"
+        v-on:click="showUserMenu = false"
+        class="hide-user-menu"
+      />
+      <span v-if="user && showUserMenu" class="user-menu">
+        <button v-on:click="logoutClick">
+          <fa-icon icon="sign-out-alt" /> Sign out
+        </button>
+        <button v-on:click="exportClick">
+          <fa-icon icon="download" /> Export
+        </button>
+        <router-link to="/help"> <fa-icon icon="question" /> Help </router-link>
+      </span>
+      <router-link v-if="!user" to="/login">
         <fa-icon icon="sign-in-alt" /> Sign in
       </router-link>
     </nav>
@@ -39,33 +48,46 @@
 <style lang="scss" scoped>
 #app {
   nav {
-    @apply bg-color flex leading-none shadow;
-  }
-  a,
-  button,
-  span {
-    @apply block p-2;
-  }
-  a,
-  button {
-    &:hover {
-      @apply bg-contrast;
+    @apply bg-color flex leading-none shadow relative;
+    a,
+    button {
+      @apply block p-2;
     }
-    &.router-link-exact-active {
-      @apply bg-contrast;
-    }
-  }
-  div.shortcuts {
-    @apply flex flex-1;
-    ::v-deep .item {
-      @apply border-0;
-      .title {
-        @apply block p-2 bg-contrast text-soft leading-none;
+    a,
+    button {
+      @apply text-left;
+      &:hover {
+        @apply bg-contrast;
       }
-      .body,
-      .subitems,
+      &.router-link-exact-active {
+        @apply bg-contrast;
+      }
+    }
+    button.hide-user-menu {
+      @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
+      background-color: #0004;
+    }
+    span.user-menu {
+      @apply absolute right-0 top-0 z-20 m-2 flex flex-col bg-contrast text-soft rounded overflow-hidden shadow;
+      a,
       button {
-        @apply hidden;
+        &:hover {
+          @apply bg-color;
+        }
+      }
+    }
+    div.shortcuts {
+      @apply flex flex-1;
+      ::v-deep .item {
+        @apply border-0;
+        .title {
+          @apply block p-2 bg-contrast text-soft leading-none;
+        }
+        .body,
+        .subitems,
+        button {
+          @apply hidden;
+        }
       }
     }
   }
@@ -89,6 +111,7 @@ import UserData from '@/models/UserData';
 export default class App extends Vue {
   user: UserData | null = null;
   subitems: ItemData[] = [];
+  showUserMenu = false;
 
   get dragModel() {
     return this.subitems.map(item => item.id);
@@ -130,6 +153,7 @@ export default class App extends Vue {
   logoutClick() {
     firebaseAuth.signOut();
     router.push('Login');
+    this.showUserMenu = false;
   }
 
   exportClick() {
@@ -152,6 +176,7 @@ export default class App extends Vue {
           a.remove();
         });
     }
+    this.showUserMenu = false;
   }
 
   addClick() {
@@ -172,17 +197,17 @@ export default class App extends Vue {
   dragChange(change: Change) {
     if (change.added) {
       itemAdd({
-        item: change.added.element,
+        itemId: change.added.element,
         index: change.added.newIndex
       });
     } else if (change.moved) {
       itemMove({
-        old: change.moved.oldIndex,
-        new: change.moved.newIndex
+        oldIndex: change.moved.oldIndex,
+        newIndex: change.moved.newIndex
       });
     } else if (change.removed) {
       itemRemove({
-        item: change.removed.element,
+        itemId: change.removed.element,
         index: change.removed.oldIndex
       });
     }

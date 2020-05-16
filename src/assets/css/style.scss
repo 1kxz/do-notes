@@ -4,12 +4,19 @@ body {
   @apply text-soft;
   @apply bg-contrast;
 }
+svg {
+  margin-right: 2px;
+}
 .text {
   h1 {
     font-weight: 500;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
   h2 {
+    font-weight: 500;
+    font-size: 1.25rem;
+  }
+  h3 {
     font-weight: 500;
     font-size: 1.1rem;
   }
@@ -19,5 +26,32 @@ body {
   ul li {
     margin-left: 1rem;
     list-style: disc;
+  }
+  a {
+    @apply text-color;
+    &:hover {
+      @apply underline;
+    }
+  }
+  blockquote {
+    @apply rounded;
+    @apply px-2;
+    @apply py-1;
+    background-color: #0001;
+  }
+  pre, :not(pre) > code {
+    @apply rounded;
+    @apply px-2;
+    @apply py-1;
+    background-color: #0001;
+  }
+  table {
+    width: 100%;
+    td {
+      @apply p-2;
+    }
+    tbody tr:nth-child(2n+1) {
+      background-color: #0001;
+    }
   }
 }
