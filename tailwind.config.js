@@ -1,7 +1,7 @@
 module.exports = {
   theme: {
     fontFamily: { body: ['Fira Sans', 'Helvetica', 'sans-serif'] },
-    colors: {
+    colors1: {
       soft: '#fcfbf7',
       hard: '#dff28a',
       color: '#960954',
@@ -10,19 +10,19 @@ module.exports = {
     colors2: {
       soft: '#f8f0e8',
       hard: '#fcbf49',
-      color: '#2e7984',
-      contrast: '#002133'
+      color: '#1a6684',
+      contrast: '#00223d'
     },
-    colors3: {
-      soft: '#fff9e2',
-      hard: '#ffaa51;',
-      color: '#dd2525',
+    colors: {
+      soft: '#f7efde',
+      hard: '#fcc37e;',
+      color: '#9b1403',
       contrast: '#2d1d26'
     },
     colors4: {
       soft: '#f1faff',
-      hard: '#8accf2',
-      color: '#8234c1',
+      hard: '#b0daf2',
+      color: '#682d99',
       contrast: '#19162b'
     },
     colors5: {

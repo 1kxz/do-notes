@@ -12,6 +12,8 @@
 import { authUi, authConfig } from '@/models/auth';
 import { Component, Vue } from 'vue-property-decorator';
 
+import 'firebaseui/dist/firebaseui.css';
+
 @Component
 export default class Login extends Vue {
   mounted() {

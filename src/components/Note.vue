@@ -120,10 +120,10 @@ div.note.horizontal {
 }
 </style>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { items, splitText } from '@/models/database';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 import { itemAdd, itemMove, itemRemove } from '@/models/functions';
-import { items, splitText, users } from '@/models/database';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import ItemData from '@/models/ItemData';
@@ -154,12 +154,12 @@ export default class Note extends Vue {
   addClick() {
     items
       .add({
+        uid: this.item.uid,
+        parent: items.doc(this.item.id),
+        order: this.subitems ? this.subitems.length : 0,
         text: 'New',
         view: 'note',
-        noteOrientation: 'vertical',
-        parent: items.doc(this.item.id),
-        owner: users.doc('Sys9gLK44wJRytsgYAbt'),
-        order: this.subitems ? this.subitems.length : 0
+        noteOrientation: 'vertical'
       })
       .then(x => router.push({ name: 'Editor', params: { id: x.id } }));
   }
@@ -200,8 +200,10 @@ export default class Note extends Vue {
     }
   }
 
-  mounted() {
+  @Watch('item', { immediate: true })
+  onItemChanged() {
     const subitems = items
+      .where('uid', '==', this.item.uid)
       .where('parent', '==', items.doc(this.item.id))
       .orderBy('order');
     this.$bind('subitems', subitems);

@@ -1,15 +1,12 @@
 import firebase from 'firebase/app';
 
-// fetch('/__/firebase/init.json')
-//   .then(response => response.json())
-//   .then(config => firebase.initializeApp(config));
-
 export const firebaseApp = firebase.initializeApp({
+  projectId: 'd0-n0t35',
+  appId: '1:82564438436:web:80d31d24c6ede8e219c931',
+  databaseURL: 'https://d0-n0t35.firebaseio.com',
+  storageBucket: 'd0-n0t35.appspot.com',
+  locationId: 'europe-west',
   apiKey: 'AIzaSyAyCPlm6aLJh8yoOLxLH1Og1THEyuJ7yIo',
   authDomain: 'd0-n0t35.firebaseapp.com',
-  //   databaseURL: 'https://d0-n0t35.firebaseio.com',
-  projectId: 'd0-n0t35'
-  //   storageBucket: 'd0-n0t35.appspot.com',
-  //   messagingSenderId: '82564438436',
-  //   appId: '1:82564438436:web:80d31d24c6ede8e219c931'
+  messagingSenderId: '82564438436'
 });

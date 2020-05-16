@@ -11,7 +11,8 @@
     "serve:all": "npm run build:dev && npm run watch:all",
     "serve:firebase": "firebase serve",
     "test:unit": "vue-cli-service test:unit",
-    "watch:all": "npm run build:watch & npm run serve:firebase"
+    "watch:all": "npm run build:watch & npm run serve:firebase",
+    "emulators:firebase": "firebase emulators:start"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",

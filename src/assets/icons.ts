@@ -5,6 +5,8 @@ import {
   faEllipsisH,
   faLink,
   faPlus,
+  faSignInAlt,
+  faSignOutAlt,
   faStream,
   faTrash,
   faUser
@@ -16,6 +18,8 @@ library.add(
   faEllipsisH,
   faLink,
   faPlus,
+  faSignInAlt,
+  faSignOutAlt,
   faStream,
   faTrash,
   faUser

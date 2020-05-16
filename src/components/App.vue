@@ -10,16 +10,22 @@
         v-on:change="dragChange"
       >
         <item-link
-          v-for="item in items"
+          v-for="item in subitems"
           v-bind:key="item.id"
           v-bind:item="item"
         />
-        <button v-if="user" slot="footer"><fa-icon icon="plus" /> New</button>
+        <button v-if="user" slot="footer" v-on:click="addClick">
+          <fa-icon icon="plus" /> New
+        </button>
       </draggable>
       <router-link to="/help">Help</router-link>
-      <span v-if="user">{{ account }}</span>
-      <button v-if="user" v-on:click="logout">Logout</button>
-      <router-link v-else to="/login">Login</router-link>
+      <span v-if="user"> <fa-icon icon="user" /> {{ account }} </span>
+      <button v-if="user" v-on:click="logout">
+        <fa-icon icon="sign-out-alt" /> Sign out
+      </button>
+      <router-link v-else to="/login">
+        <fa-icon icon="sign-in-alt" /> Sign in
+      </router-link>
     </nav>
     <section>
       <router-view />
@@ -30,7 +36,7 @@
 <style lang="scss" scoped>
 #app {
   nav {
-    @apply bg-color flex leading-none;
+    @apply bg-color flex leading-none shadow;
   }
   a,
   button,
@@ -73,15 +79,16 @@ import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import ItemData from '@/models/ItemData';
 import ItemLink from '@/components/ItemLink.vue';
+import router from '@/router/index';
 import UserData from '@/models/UserData';
 
 @Component({ components: { Draggable, FaIcon, ItemLink } })
 export default class App extends Vue {
   user: UserData | null = null;
-  items: ItemData[] = [];
+  subitems: ItemData[] = [];
 
   get dragModel() {
-    return this.items.map(item => item.id);
+    return this.subitems.map(item => item.id);
   }
 
   get account() {
@@ -91,19 +98,50 @@ export default class App extends Vue {
   mounted() {
     firebaseAuth.onAuthStateChanged(auth => {
       if (auth) {
-        const puser = users.doc(auth.uid);
-        puser.update({ name: auth.displayName, email: auth.email });
-        this.$bind('user', puser);
-        this.$bind('items', items.where('parent', '==', null).orderBy('order'));
+        const user = { name: auth.displayName, email: auth.email };
+        users
+          .doc(auth.uid)
+          .get()
+          .then(doc => {
+            if (doc.exists) {
+              doc.ref.update(user);
+            } else {
+              doc.ref.set(user);
+            }
+            this.$bind('user', doc.ref);
+            this.$bind(
+              'subitems',
+              items
+                .where('uid', '==', auth.uid)
+                .where('parent', '==', null)
+                .orderBy('order')
+            );
+          });
       } else {
         this.user = null;
-        this.items = [];
+        this.subitems = [];
       }
     });
   }
 
   logout() {
     firebaseAuth.signOut();
+    router.push('Login');
+  }
+
+  addClick() {
+    if (this.user) {
+      items
+        .add({
+          uid: this.user.id,
+          parent: null,
+          order: this.subitems ? this.subitems.length : 0,
+          text: 'New',
+          view: 'note',
+          noteOrientation: 'horizontal'
+        })
+        .then(x => router.push({ name: 'Editor', params: { id: x.id } }));
+    }
   }
 
   dragChange(change: Change) {

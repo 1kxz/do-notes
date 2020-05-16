@@ -1,8 +1,8 @@
-export default interface ItemData {
+export default interface ItemData extends String {
   id: string;
   noteOrientation?: string;
-  owner: string;
-  parent?: ItemData;
+  uid: string;
+  parent: ItemData;
   text: string;
   type: string;
   view: string;
