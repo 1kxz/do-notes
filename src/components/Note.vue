@@ -3,13 +3,13 @@
     v-bind:class="[
       'note',
       item.orientation,
-      item.parent ? '' : 'root',
+      root ? 'root' : 'child',
       content.body ? '' : 'ghost'
     ]"
   >
     <header>
       <vue-markdown
-        v-if="item.parent && content.title"
+        v-if="!root && content.title"
         v-bind:source="content.title"
         class="title"
       />
@@ -142,6 +142,7 @@ export default class Note extends Vue {
   showNav = false;
 
   @Prop() private item!: Item;
+  @Prop(Boolean) private root!: boolean;
 
   get content() {
     return splitText(this.item.text);
@@ -159,7 +160,7 @@ export default class Note extends Vue {
     items
       .add({
         uid: this.item.uid,
-        parent: items.doc(this.item.id),
+        parent: this.item.id,
         order: this.subitems ? this.subitems.length : 0,
         text: 'New',
         format: 'markdown',
@@ -207,11 +208,13 @@ export default class Note extends Vue {
 
   @Watch('item', { immediate: true })
   onItemChanged() {
-    const subitems = items
-      .where('uid', '==', this.item.uid)
-      .where('parent', '==', items.doc(this.item.id))
-      .orderBy('order');
-    this.$bind('subitems', subitems);
+    if (this.item.uid && this.item.id) {
+      const subitems = items
+        .where('uid', '==', this.item.uid)
+        .where('parent', '==', this.item.id)
+        .orderBy('order');
+      this.$bind('subitems', subitems);
+    }
   }
 }
 </script>

@@ -33,7 +33,10 @@
         <button v-on:click="exportClick">
           <fa-icon icon="download" /> Export
         </button>
-        <router-link to="/help"> <fa-icon icon="question" /> Help </router-link>
+        <button v-on:click="importClick">
+          <fa-icon icon="download" /> Import
+        </button>
+        <button v-on:click="helpClick"><fa-icon icon="question" /> Help</button>
       </span>
       <router-link v-if="!user" to="/login">
         <fa-icon icon="sign-in-alt" /> Sign in
@@ -104,7 +107,6 @@ import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';
 import ItemLink from '@/components/ItemLink.vue';
-import router from '@/router/index';
 import User from '@/models/User';
 
 @Component({ components: { Draggable, FaIcon, ItemLink } })
@@ -152,20 +154,22 @@ export default class App extends Vue {
 
   logoutClick() {
     firebaseAuth.signOut();
-    router.push('Login');
     this.showUserMenu = false;
+    this.$router.push('Login');
   }
 
   exportClick() {
     if (this.user) {
       items
         .where('uid', '==', this.user.id)
+        .orderBy('parent')
+        .orderBy('order')
         .get()
         .then(qs => {
           const data = qs.docs.map(item => {
-            const { parent, ...copy } = item.data();
+            const { ...copy } = item.data();
             delete copy.uid;
-            return { id: item.id, parent: parent?.id, ...copy };
+            return { id: item.id, ...copy };
           });
           const dataStr = encodeURIComponent(JSON.stringify(data));
           const a = document.createElement('a');
@@ -179,6 +183,16 @@ export default class App extends Vue {
     this.showUserMenu = false;
   }
 
+  importClick() {
+    this.showUserMenu = false;
+    this.$router.push('/import');
+  }
+
+  helpClick() {
+    this.showUserMenu = false;
+    this.$router.push('/help');
+  }
+
   addClick() {
     if (this.user) {
       items
@@ -190,7 +204,7 @@ export default class App extends Vue {
           view: 'note',
           orientation: 'horizontal'
         })
-        .then(x => router.push({ name: 'Editor', params: { id: x.id } }));
+        .then(x => this.$router.push({ name: 'Editor', params: { id: x.id } }));
     }
   }
 

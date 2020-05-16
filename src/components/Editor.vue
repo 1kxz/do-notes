@@ -1,7 +1,7 @@
 <template>
   <div v-if="item" class="editor">
     <textarea v-model="text"></textarea>
-    <item-viewer v-bind:item="item" />
+    <item-viewer v-bind:item="item" v-bind:root="item.parent == null" />
   </div>
 </template>
 

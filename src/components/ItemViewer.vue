@@ -1,5 +1,11 @@
 <template>
-  <component v-if="item" v-bind:is="type" v-bind:item="item" class="item" />
+  <component
+    v-if="item"
+    v-bind:is="type"
+    v-bind:item="item"
+    v-bind:root="root"
+    class="item"
+  />
 </template>
 
 <script lang="ts">
@@ -10,6 +16,7 @@ import Note from '@/components/Note.vue';
 @Component
 export default class ItemViewer extends Vue {
   @Prop() private item!: Item;
+  @Prop(Boolean) private root!: boolean;
 
   get type() {
     switch (this.item.view) {

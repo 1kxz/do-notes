@@ -1,7 +1,7 @@
 export default interface Item extends String {
   id: string;
   uid: string;
-  parent: Item;
+  parent: string;
   text: string;
   format: string;
   view: string;

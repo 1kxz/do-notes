@@ -25,12 +25,12 @@ const routes = [
     component: () => import('../components/Importer.vue')
   },
   {
-    path: '/:id',
+    path: '/item/:id',
     name: 'Viewer',
     component: () => import('../components/Viewer.vue')
   },
   {
-    path: '/:id/edit',
+    path: '/item/:id/edit',
     name: 'Editor',
     component: () => import('../components/Editor.vue')
   }

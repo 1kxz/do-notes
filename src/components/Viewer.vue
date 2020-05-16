@@ -1,5 +1,5 @@
 <template>
-  <item-viewer v-if="item" v-bind:item="item" />
+  <item-viewer v-if="item" v-bind:item="item" root />
 </template>
 
 <script lang="ts">
