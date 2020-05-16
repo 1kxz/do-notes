@@ -6,13 +6,14 @@
     "build": "vue-cli-service build",
     "build:dev": "vue-cli-service build --mode development",
     "build:watch": "vue-cli-service build --mode development --watch --no-clean",
+    "deploy:firebase": "firebase deploy",
+    "emulators:firebase": "firebase emulators:start",
     "lint": "vue-cli-service lint",
     "serve": "vue-cli-service serve",
     "serve:all": "npm run build:dev && npm run watch:all",
     "serve:firebase": "firebase serve",
     "test:unit": "vue-cli-service test:unit",
-    "watch:all": "npm run build:watch & npm run serve:firebase",
-    "emulators:firebase": "firebase emulators:start"
+    "watch:all": "npm run build:watch & npm run serve:firebase"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
