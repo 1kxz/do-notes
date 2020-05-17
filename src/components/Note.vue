@@ -3,7 +3,7 @@
     v-bind:class="[
       'note',
       item.orientation,
-      root && !item.parent ? 'solid' : 'transparent',
+      root && !item.parent ? 'transparent' : 'solid',
       content.body ? 'full' : 'empty',
       content.header ? 'headed' : 'headless'
     ]"
@@ -118,7 +118,7 @@ div.note {
     // );
   }
 }
-div.note:not(.solid) {
+div.note.solid {
   @apply bg-soft text-contrast border-2 border-hard;
   > header {
     > div.title {
@@ -129,13 +129,13 @@ div.note:not(.solid) {
     }
   }
 }
-div.note.solid {
+div.note.transparent {
   > div.subitems > div {
     min-width: 20rem;
     max-width: 60rem;
   }
 }
-div.note.solid.empty {
+div.note.transparent.empty {
   @apply pr-6;
 }
 div.note.vertical {

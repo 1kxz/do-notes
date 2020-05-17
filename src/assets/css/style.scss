@@ -7,15 +7,6 @@ body {
 svg {
   margin-right: 2px;
 }
-.title,
-.text {
-  a {
-    @apply text-color;
-    &:hover {
-      @apply underline;
-    }
-  }
-}
 .text {
   h1 {
     @apply m-2;
@@ -50,7 +41,8 @@ svg {
     @apply py-1;
     background-color: #0001;
   }
-  pre, :not(pre) > code {
+  pre,
+  :not(pre) > code {
     @apply rounded;
     @apply px-2;
     @apply py-1;
@@ -61,8 +53,25 @@ svg {
     td {
       @apply p-2;
     }
-    tbody tr:nth-child(2n+1) {
+    tbody tr:nth-child(2n + 1) {
       background-color: #0001;
+    }
+  }
+}
+.title,
+.text {
+  a {
+    @apply text-hard;
+    &:hover {
+      @apply underline;
+    }
+  }
+}
+div.note.solid {
+  > div.text,
+  > div.title {
+    a {
+      @apply text-color;
     }
   }
 }
