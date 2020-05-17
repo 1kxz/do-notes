@@ -34,12 +34,12 @@ export const itemAdd = functions.https.onCall(
       .then(queryset => {
         const batch = database.batch();
         for (let index = 0; index < queryset.docs.length; index++) {
-          const item = queryset.docs[index];
+          const doc = queryset.docs[index];
           if (index >= newIndex) {
-            console.log(`setting order of ${item.id} to ${index + 1}`);
-            batch.update(item.ref, { order: index + 1 });
+            console.log(`setting order of ${doc.id} to ${index + 1}`);
+            batch.update(doc.ref, { order: index + 1 });
           } else {
-            console.log(`order of ${item.id} unchanged`);
+            console.log(`order of ${doc.id} unchanged`);
           }
         }
         batch.update(item, { parent: parentId, order: newIndex });
@@ -71,15 +71,15 @@ export const itemMove = functions.https.onCall(
       .then(queryset => {
         const batch = database.batch();
         for (let index = 0; index < queryset.docs.length; index++) {
-          const item = queryset.docs[index];
+          const doc = queryset.docs[index];
           if (index === oldIndex) {
-            console.log(`setting order of ${item.id} to ${newIndex}`);
-            batch.update(item.ref, { order: newIndex });
+            console.log(`setting order of ${doc.id} to ${newIndex}`);
+            batch.update(doc.ref, { order: newIndex });
           } else if (start <= index && index <= end) {
-            console.log(`setting order of ${item.id} to ${index + shift}`);
-            batch.update(item.ref, { order: index + shift });
+            console.log(`setting order of ${doc.id} to ${index + shift}`);
+            batch.update(doc.ref, { order: index + shift });
           } else {
-            console.log(`order of ${item.id} unchanged`);
+            console.log(`order of ${doc.id} unchanged`);
           }
         }
         return batch.commit();
@@ -100,14 +100,14 @@ export const itemRemove = functions.https.onCall(
         const batch = database.batch();
         let order = 0;
         for (let index = 0; index < queryset.docs.length; index++) {
-          const item = queryset.docs[index];
+          const doc = queryset.docs[index];
           if (index >= oldIndex) {
-            console.log(`setting order of ${item.id} to ${order}`);
-            batch.update(item.ref, { order: order });
+            console.log(`setting order of ${doc.id} to ${order}`);
+            batch.update(doc.ref, { order: order });
           } else {
-            console.log(`order of ${item.id} unchanged`);
+            console.log(`order of ${doc.id} unchanged`);
           }
-          if (item.id !== itemId) {
+          if (doc.id !== itemId) {
             order++;
           }
         }
