@@ -143,17 +143,18 @@ div.note.vertical {
   // border: 2px solid #00f;
   > div.subitems {
     @apply flex-1 flex flex-col;
-  }
-  > div.subitems > div.note.empty {
-  }
-  > div.subitems > div.note.full {
-    @apply flex-1;
+    > div.note.full {
+      @apply flex-1;
+    }
   }
 }
 div.note.horizontal {
   // border: 2px solid #0f0;
   > div.subitems {
-    @apply flex flex-row;
+    @apply flex flex-row flex-wrap;
+    > div.note {
+      @apply flex-auto;
+    }
   }
 }
 </style>
