@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/"># Notes</router-link>
       <draggable
         group="items"
         class="shortcuts"
-        draggable="a"
+        draggable=".item-link"
         v-bind:list="dragModel"
         v-on:change="dragChange"
       >
+        <router-link to="/" slot="header"># Notes</router-link>
         <item-link
           v-for="item in subitems"
           v-bind:key="item.id"
@@ -54,7 +54,7 @@
     @apply bg-color flex leading-none shadow relative;
     a,
     button {
-      @apply block p-2;
+      @apply block p-2 cursor-pointer;
     }
     a,
     button {
@@ -63,7 +63,7 @@
         @apply bg-contrast;
       }
       &.router-link-exact-active {
-        @apply bg-contrast;
+        @apply bg-contrast cursor-default;
       }
     }
     button.hide-user-menu {
@@ -209,21 +209,29 @@ export default class App extends Vue {
   }
 
   dragChange(change: Change) {
-    if (change.added) {
-      itemAdd({
-        itemId: change.added.element,
-        newIndex: change.added.newIndex
-      });
-    } else if (change.moved) {
-      itemMove({
-        oldIndex: change.moved.oldIndex,
-        newIndex: change.moved.newIndex
-      });
-    } else if (change.removed) {
-      itemRemove({
-        itemId: change.removed.element,
-        oldIndex: change.removed.oldIndex
-      });
+    if (this.user) {
+      if (change.added) {
+        itemAdd({
+          uid: this.user.id,
+          parentId: null,
+          itemId: change.added.element,
+          newIndex: change.added.newIndex
+        });
+      } else if (change.moved) {
+        itemMove({
+          uid: this.user.id,
+          parentId: null,
+          oldIndex: change.moved.oldIndex,
+          newIndex: change.moved.newIndex
+        });
+      } else if (change.removed) {
+        itemRemove({
+          uid: this.user.id,
+          parentId: null,
+          itemId: change.removed.element,
+          oldIndex: change.removed.oldIndex
+        });
+      }
     }
   }
 }

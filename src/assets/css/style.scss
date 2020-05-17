@@ -18,19 +18,23 @@ svg {
 }
 .text {
   h1 {
+    @apply m-2;
     font-weight: 500;
     font-size: 1.5rem;
   }
   h2 {
+    @apply m-2;
     font-weight: 500;
     font-size: 1.25rem;
   }
   h3 {
+    @apply m-2;
     font-weight: 500;
     font-size: 1.1rem;
   }
-  p {
-    @apply mx-2;
+  p,
+  ul {
+    @apply m-2;
   }
   ul li {
     @apply ml-4;

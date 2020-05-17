@@ -34,7 +34,7 @@ export default class Editor extends Vue {
     return this.item?.text;
   }
 
-  @ThrottleSetter(1000)
+  @ThrottleSetter(1500)
   set text(value) {
     items.doc(this.$route.params.id).update({ text: value });
   }

@@ -4,30 +4,34 @@ import * as admin from 'firebase-admin';
 admin.initializeApp();
 
 interface AddData {
+  uid: string;
   parentId: string;
   itemId: string;
   newIndex: number;
 }
 
 interface MoveData {
+  uid: string;
   parentId: string;
   oldIndex: number;
   newIndex: number;
 }
 
 interface RemoveData {
+  uid: string;
   parentId: string;
   itemId: string;
   oldIndex: number;
 }
 
 export const itemAdd = functions.https.onCall(
-  ({ parentId, itemId, newIndex }: AddData) => {
+  ({ uid, parentId, itemId, newIndex }: AddData) => {
     const database = admin.firestore();
     const items = database.collection('items');
     const item = items.doc(itemId);
     console.log(`adding item ${itemId} at ${parentId}[${newIndex}]`);
     return items
+      .where('uid', '==', uid)
       .where('parent', '==', parentId)
       .orderBy('order')
       .get()
@@ -50,7 +54,7 @@ export const itemAdd = functions.https.onCall(
 );
 
 export const itemMove = functions.https.onCall(
-  ({ parentId, oldIndex, newIndex }: MoveData) => {
+  ({ uid, parentId, oldIndex, newIndex }: MoveData) => {
     let start: number, end: number, shift: number;
     if (oldIndex < newIndex) {
       start = oldIndex;
@@ -65,6 +69,7 @@ export const itemMove = functions.https.onCall(
     const database = admin.firestore();
     const items = database.collection('items');
     return items
+      .where('uid', '==', uid)
       .where('parent', '==', parentId)
       .orderBy('order')
       .get()
@@ -88,11 +93,12 @@ export const itemMove = functions.https.onCall(
 );
 
 export const itemRemove = functions.https.onCall(
-  ({ parentId, itemId, oldIndex }: RemoveData) => {
+  ({ uid, parentId, itemId, oldIndex }: RemoveData) => {
     const database = admin.firestore();
     const items = database.collection('items');
     console.log(`removing item ${itemId} at ${parentId}[${oldIndex}]`);
     return items
+      .where('uid', '==', uid)
       .where('parent', '==', parentId)
       .orderBy('order')
       .get()

@@ -3,8 +3,9 @@
     v-bind:class="[
       'note',
       item.orientation,
-      root ? 'root' : 'child',
-      content.body ? '' : 'ghost'
+      root && !item.parent ? 'solid' : 'transparent',
+      content.body ? 'full' : 'empty',
+      content.header ? 'headed' : 'headless'
     ]"
   >
     <header>
@@ -48,9 +49,8 @@
     />
     <draggable
       group="items"
-      class="subitems"
       handle="header"
-      v-if="subitems.length > 0"
+      v-bind:class="['subitems', subitems.length > 0 ? 'full' : 'empty']"
       v-bind:list="dragmodel"
       v-on:change="dragChange"
     >
@@ -66,8 +66,8 @@
 <style lang="scss" scoped>
 div.note {
   @apply relative;
-  header {
-    @apply leading-tight;
+  > header {
+    @apply leading-tight cursor-default;
     > div.title {
       @apply p-2 pr-8;
     }
@@ -88,19 +88,39 @@ div.note {
       }
     }
   }
-  > div.body {
-    @apply m-2;
+  > div.body + div.subitems.full {
+    @apply -mt-2;
   }
-  > div.subitems {
-    @apply flex flex-col m-1;
+  > div.subitems.full {
+    @apply p-1;
     > div {
-      @apply flex-1 m-1 rounded;
+      @apply m-1 rounded;
     }
+    // background: repeating-linear-gradient(
+    //   -45deg,
+    //   #0000,
+    //   #0000 10px,
+    //   #f004 10px,
+    //   #f004 20px
+    // );
+  }
+  > div.subitems.empty {
+    @apply -mt-2 pt-2;
+    > div {
+      @apply m-2 rounded;
+    }
+    // background: repeating-linear-gradient(
+    //   -45deg,
+    //   #0000,
+    //   #0000 10px,
+    //   #0004 10px,
+    //   #0004 20px
+    // );
   }
 }
-div.note:not(.root) {
+div.note:not(.solid) {
   @apply bg-soft text-contrast border-2 border-hard;
-  header {
+  > header {
     > div.title {
       @apply bg-hard;
     }
@@ -109,17 +129,31 @@ div.note:not(.root) {
     }
   }
 }
-div.note.root.ghost {
+div.note.solid {
+  > div.subitems > div {
+    min-width: 20rem;
+    max-width: 60rem;
+  }
+}
+div.note.solid.empty {
   @apply pr-6;
 }
 div.note.vertical {
+  @apply flex flex-col;
+  // border: 2px solid #00f;
   > div.subitems {
-    @apply flex-col;
+    @apply flex-1 flex flex-col;
+  }
+  > div.subitems > div.note.empty {
+  }
+  > div.subitems > div.note.full {
+    @apply flex-1;
   }
 }
 div.note.horizontal {
+  // border: 2px solid #0f0;
   > div.subitems {
-    @apply flex-row;
+    @apply flex flex-row;
   }
 }
 </style>
@@ -187,18 +221,21 @@ export default class Note extends Vue {
   dragChange(change: Change) {
     if (change.added) {
       itemAdd({
+        uid: this.item.uid,
         parentId: this.item.id,
         itemId: change.added.element,
         newIndex: change.added.newIndex
       });
     } else if (change.moved) {
       itemMove({
+        uid: this.item.uid,
         parentId: this.item.id,
         oldIndex: change.moved.oldIndex,
         newIndex: change.moved.newIndex
       });
     } else if (change.removed) {
       itemRemove({
+        uid: this.item.uid,
         parentId: this.item.id,
         itemId: change.removed.element,
         oldIndex: change.removed.oldIndex
