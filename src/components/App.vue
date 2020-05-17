@@ -212,7 +212,7 @@ export default class App extends Vue {
     if (change.added) {
       itemAdd({
         itemId: change.added.element,
-        index: change.added.newIndex
+        newIndex: change.added.newIndex
       });
     } else if (change.moved) {
       itemMove({
@@ -222,7 +222,7 @@ export default class App extends Vue {
     } else if (change.removed) {
       itemRemove({
         itemId: change.removed.element,
-        index: change.removed.oldIndex
+        oldIndex: change.removed.oldIndex
       });
     }
   }

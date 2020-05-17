@@ -189,7 +189,7 @@ export default class Note extends Vue {
       itemAdd({
         parentId: this.item.id,
         itemId: change.added.element,
-        index: change.added.newIndex
+        newIndex: change.added.newIndex
       });
     } else if (change.moved) {
       itemMove({
@@ -201,7 +201,7 @@ export default class Note extends Vue {
       itemRemove({
         parentId: this.item.id,
         itemId: change.removed.element,
-        index: change.removed.oldIndex
+        oldIndex: change.removed.oldIndex
       });
     }
   }

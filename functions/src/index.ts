@@ -3,10 +3,10 @@ import * as admin from 'firebase-admin';
 
 admin.initializeApp();
 
-interface ChangeData {
+interface AddData {
   parentId: string;
   itemId: string;
-  index: number;
+  newIndex: number;
 }
 
 interface MoveData {
@@ -15,30 +15,34 @@ interface MoveData {
   newIndex: number;
 }
 
+interface RemoveData {
+  parentId: string;
+  itemId: string;
+  oldIndex: number;
+}
+
 export const itemAdd = functions.https.onCall(
-  ({ parentId, itemId, index }: ChangeData) => {
+  ({ parentId, itemId, newIndex }: AddData) => {
     const database = admin.firestore();
     const items = database.collection('items');
     const item = items.doc(itemId);
-    const parent = parentId ? items.doc(parentId) : null;
-    console.log(`adding item ${itemId} at ${parentId}[${index}]`);
+    console.log(`adding item ${itemId} at ${parentId}[${newIndex}]`);
     return items
-      .where('parent', '==', parent)
+      .where('parent', '==', parentId)
       .orderBy('order')
       .get()
-      .then(qs => {
+      .then(queryset => {
         const batch = database.batch();
-        let i = 0;
-        qs.forEach(qds => {
-          if (i >= index) {
-            console.log(`setting order of ${qds.id} to ${i + 1}`);
-            batch.update(qds.ref, { order: i + 1 });
+        for (let index = 0; index < queryset.docs.length; index++) {
+          const item = queryset.docs[index];
+          if (index >= newIndex) {
+            console.log(`setting order of ${item.id} to ${index + 1}`);
+            batch.update(item.ref, { order: index + 1 });
           } else {
-            console.log(`order of ${qds.id} unchanged`);
+            console.log(`order of ${item.id} unchanged`);
           }
-          i++;
-        });
-        batch.update(item, { parent: parent, order: index });
+        }
+        batch.update(item, { parent: parentId, order: newIndex });
         return batch.commit();
       })
       .catch(console.log);
@@ -60,55 +64,53 @@ export const itemMove = functions.https.onCall(
     console.log(`moving item ${parentId}[${oldIndex}] to [${newIndex}]`);
     const database = admin.firestore();
     const items = database.collection('items');
-    const parent = parentId ? items.doc(parentId) : null;
     return items
-      .where('parent', '==', parent)
+      .where('parent', '==', parentId)
       .orderBy('order')
       .get()
-      .then(qs => {
-        let index = 0;
+      .then(queryset => {
         const batch = database.batch();
-        qs.forEach(qds => {
+        for (let index = 0; index < queryset.docs.length; index++) {
+          const item = queryset.docs[index];
           if (index === oldIndex) {
-            console.log(`setting order of ${qds.id} to ${newIndex}`);
-            batch.update(qds.ref, { order: newIndex });
+            console.log(`setting order of ${item.id} to ${newIndex}`);
+            batch.update(item.ref, { order: newIndex });
           } else if (start <= index && index <= end) {
-            console.log(`setting order of ${qds.id} to ${index + shift}`);
-            batch.update(qds.ref, { order: index + shift });
+            console.log(`setting order of ${item.id} to ${index + shift}`);
+            batch.update(item.ref, { order: index + shift });
           } else {
-            console.log(`order of ${qds.id} unchanged`);
+            console.log(`order of ${item.id} unchanged`);
           }
-          index++;
-        });
+        }
         return batch.commit();
       });
   }
 );
 
 export const itemRemove = functions.https.onCall(
-  ({ parentId, itemId, index }: ChangeData) => {
+  ({ parentId, itemId, oldIndex }: RemoveData) => {
     const database = admin.firestore();
     const items = database.collection('items');
-    const parent = parentId ? items.doc(parentId) : null;
-    console.log(`removing item ${itemId} at ${parentId}[${index}]`);
+    console.log(`removing item ${itemId} at ${parentId}[${oldIndex}]`);
     return items
-      .where('parent', '==', parent)
+      .where('parent', '==', parentId)
       .orderBy('order')
       .get()
-      .then(qs => {
+      .then(queryset => {
         const batch = database.batch();
-        let i = 0;
-        qs.forEach(qds => {
-          if (i >= index) {
-            console.log(`setting order of ${qds.id} to ${i}`);
-            batch.update(qds.ref, { order: i });
+        let order = 0;
+        for (let index = 0; index < queryset.docs.length; index++) {
+          const item = queryset.docs[index];
+          if (index >= oldIndex) {
+            console.log(`setting order of ${item.id} to ${order}`);
+            batch.update(item.ref, { order: order });
           } else {
-            console.log(`order of ${qds.id} unchanged`);
+            console.log(`order of ${item.id} unchanged`);
           }
-          if (qds.id !== itemId) {
-            i++;
+          if (item.id !== itemId) {
+            order++;
           }
-        });
+        }
         return batch.commit();
       })
       .catch(console.log);

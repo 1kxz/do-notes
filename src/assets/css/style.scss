@@ -7,6 +7,15 @@ body {
 svg {
   margin-right: 2px;
 }
+.title,
+.text {
+  a {
+    @apply text-color;
+    &:hover {
+      @apply underline;
+    }
+  }
+}
 .text {
   h1 {
     font-weight: 500;
@@ -21,17 +30,15 @@ svg {
     font-size: 1.1rem;
   }
   p {
-    margin: .5rem 0;
+    @apply mx-2;
   }
   ul li {
-    margin-left: 1rem;
-    list-style: disc;
+    @apply ml-4;
+    @apply list-disc;
   }
-  a {
-    @apply text-color;
-    &:hover {
-      @apply underline;
-    }
+  ol li {
+    @apply ml-8;
+    @apply list-decimal;
   }
   blockquote {
     @apply rounded;
