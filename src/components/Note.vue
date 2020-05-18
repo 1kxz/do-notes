@@ -5,7 +5,7 @@
       item.orientation,
       root && !item.parent ? 'transparent' : 'solid',
       content.body ? 'full' : 'empty',
-      content.header ? 'headed' : 'headless'
+      content.title ? 'headed' : 'headless'
     ]"
   >
     <header>
@@ -124,8 +124,12 @@ div.note.solid {
     > div.title {
       @apply bg-hard;
     }
-    > button.showNav {
-      @apply bg-hard rounded-bl;
+  }
+}
+div.note.solid.headless {
+  > header {
+    > button.show-nav {
+      @apply bg-hard rounded-bl leading-none;
     }
   }
 }

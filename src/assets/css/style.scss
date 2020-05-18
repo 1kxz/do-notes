@@ -3,6 +3,9 @@ body {
   @apply font-body;
   @apply text-soft;
   @apply bg-contrast;
+  background-image: url('../seigaiha.png');
+  background-blend-mode: color-burn;
+  background-attachment: fixed;
 }
 svg {
   margin-right: 2px;

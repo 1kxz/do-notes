@@ -30,11 +30,11 @@
         <button v-on:click="logoutClick">
           <fa-icon icon="sign-out-alt" /> Sign out
         </button>
+        <button v-on:click="importClick">
+          <fa-icon icon="upload" /> Import
+        </button>
         <button v-on:click="exportClick">
           <fa-icon icon="download" /> Export
-        </button>
-        <button v-on:click="importClick">
-          <fa-icon icon="download" /> Import
         </button>
         <button v-on:click="helpClick"><fa-icon icon="question" /> Help</button>
       </span>
@@ -51,19 +51,20 @@
 <style lang="scss" scoped>
 #app {
   nav {
-    @apply bg-color flex leading-none shadow relative;
+    @apply flex leading-none relative;
     a,
     button {
-      @apply block p-2 cursor-pointer;
+      @apply block px-3 py-2 cursor-pointer;
     }
     a,
     button {
-      @apply text-left;
+      @apply bg-color text-left;
       &:hover {
         @apply bg-contrast;
       }
       &.router-link-exact-active {
-        @apply bg-contrast cursor-default;
+        @apply cursor-default;
+        background-color: transparent;
       }
     }
     button.hide-user-menu {
@@ -74,6 +75,7 @@
       @apply absolute right-0 top-0 z-20 m-2 flex flex-col bg-contrast text-soft rounded overflow-hidden shadow;
       a,
       button {
+        @apply bg-contrast;
         &:hover {
           @apply bg-color;
         }
@@ -91,6 +93,10 @@
         button {
           @apply hidden;
         }
+      }
+      &::after {
+        @apply flex-1 bg-color;
+        content: '';
       }
     }
   }
