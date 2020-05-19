@@ -31,24 +31,28 @@ svg {
     @apply m-2;
   }
   ul li {
-    @apply ml-4;
+    @apply m-1;
     @apply list-disc;
+    @apply list-inside;
   }
   ol li {
-    @apply ml-8;
+    @apply m-1;
+    @apply ml-10;
     @apply list-decimal;
   }
   blockquote {
-    @apply rounded;
     @apply px-2;
     @apply py-1;
     background-color: #0001;
   }
-  pre,
-  :not(pre) > code {
-    @apply rounded;
+  pre {
     @apply px-2;
     @apply py-1;
+    background-color: #0001;
+  }
+  :not(pre) > code {
+    @apply rounded;
+    @apply px-1;
     background-color: #0001;
   }
   table {
