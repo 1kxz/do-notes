@@ -10,7 +10,7 @@ body {
 svg {
   margin-right: 2px;
 }
-.text {
+div.body.text {
   h1 {
     @apply m-2;
     font-weight: 500;
@@ -43,17 +43,21 @@ svg {
   blockquote {
     @apply px-2;
     @apply py-1;
-    background-color: #0001;
+    background-color: #fff8;
   }
   pre {
     @apply px-2;
     @apply py-1;
-    background-color: #0001;
+    background-color: #fff8;
+    code, * {
+      @apply font-mono;
+    }
   }
   :not(pre) > code {
-    @apply rounded;
     @apply px-1;
-    background-color: #0001;
+    @apply rounded;
+    background-color: #fff;
+    @apply font-mono;
   }
   table {
     width: 100%;

@@ -9,11 +9,7 @@
     ]"
   >
     <header>
-      <vue-markdown
-        v-if="!root && content.title"
-        v-bind:source="content.title"
-        class="title"
-      />
+      <div v-if="!root && content.title" class="title">{{ content.title }}</div>
       <button v-on:click="showNav = !showNav" class="show-nav">
         <fa-icon icon="ellipsis-h" />
       </button>
@@ -164,14 +160,19 @@ div.note.horizontal {
 </style>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { items, splitText } from '@/models/database';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 import { itemAdd, itemMove, itemRemove } from '@/models/functions';
+import { items, splitText } from '@/models/database';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';
+import Prism from 'prismjs';
 import router from '@/router/index';
 import VueMarkdown from 'vue-markdown';
+
+import 'prismjs/themes/prism.css';
+import 'prismjs/components/prism-bash.min';
+import 'prismjs/components/prism-python.min';
 
 const ItemViewer = () => import('@/components/ItemViewer.vue');
 
@@ -256,6 +257,7 @@ export default class Note extends Vue {
         .where('parent', '==', this.item.id)
         .orderBy('order');
       this.$bind('subitems', subitems);
+      Prism.highlightAll();
     }
   }
 }
