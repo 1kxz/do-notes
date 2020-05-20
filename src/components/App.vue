@@ -37,6 +37,13 @@
           <fa-icon icon="download" /> Export
         </button>
         <button v-on:click="helpClick"><fa-icon icon="question" /> Help</button>
+        <button
+          v-for="themeId in themeOptions"
+          v-bind:key="themeId"
+          v-on:click="changeTheme(themeId)"
+        >
+          Use {{ themeId }} theme
+        </button>
       </span>
       <router-link v-if="!user" to="/login">
         <fa-icon icon="sign-in-alt" /> Sign in
@@ -120,6 +127,44 @@ export default class App extends Vue {
   user: User | null = null;
   subitems: Item[] = [];
   showUserMenu = false;
+  currentThemeId = 'default';
+  themes: { [key: string]: { [key: string]: string } } = {
+    default: {
+      soft: '#eff3f4',
+      hard: '#b3d4e5',
+      color: '#336699',
+      contrast: '#0f1f3f',
+      background: 'none'
+    },
+    spring: {
+      soft: '#fcfbf7',
+      hard: '#dff28a',
+      color: '#960954',
+      contrast: '#2b1d1f',
+      background: 'url("../symphony.png")'
+    },
+    summer: {
+      soft: '#f8f0e8',
+      hard: '#ffcd6c',
+      color: '#00709e',
+      contrast: '#00223d',
+      background: 'url("../seigaiha.png")'
+    },
+    autumn: {
+      soft: '#f7efde',
+      hard: '#fcc37e',
+      color: '#9b1403',
+      contrast: '#2d1d26',
+      background: 'url("../vichy.png")'
+    },
+    winter: {
+      soft: '#f4fbff',
+      hard: '#b0daf2',
+      color: '#6d0dbe',
+      contrast: '#19162b',
+      background: 'url("../escheresque.png")'
+    }
+  };
 
   get dragModel() {
     return this.subitems.map(item => item.id);
@@ -130,6 +175,7 @@ export default class App extends Vue {
   }
 
   mounted() {
+    this.changeTheme(this.themeOptions[Math.floor(Math.random() * 4)]);
     firebaseAuth.onAuthStateChanged(auth => {
       if (auth) {
         const user = { name: auth.displayName, email: auth.email };
@@ -156,6 +202,24 @@ export default class App extends Vue {
         this.subitems = [];
       }
     });
+  }
+
+  get themeOptions() {
+    const themes: string[] = [];
+    for (const theme in this.themes) {
+      if (theme != this.currentThemeId) {
+        themes.push(theme);
+      }
+    }
+    return themes;
+  }
+
+  changeTheme(themeId: string) {
+    const values = this.themes[themeId];
+    for (const key in values) {
+      document.documentElement.style.setProperty(`--${key}`, values[key]);
+    }
+    this.currentThemeId = themeId;
   }
 
   logoutClick() {

@@ -1,9 +1,15 @@
-
+:root {
+  --soft: #f0f0f0;
+  --hard: #d0d0d0;
+  --color: #555555;
+  --contrast: #222222;
+  --background: none;
+}
 body {
   @apply font-body;
   @apply text-soft;
   @apply bg-contrast;
-  background-image: url('../seigaiha.png');
+  background-image: var(--background);
   background-blend-mode: color-burn;
   background-attachment: fixed;
 }
