@@ -17,21 +17,17 @@ export default class ItemLink extends Vue {
   get target() {
     return { name: 'Viewer', params: { id: this.item.id } };
   }
+
   get content() {
     return splitText(this.item.text);
   }
 
   get icon() {
     switch (this.item.view) {
-      case 'note':
-        switch (this.item.orientation) {
-          case 'horizontal':
-            return 'columns';
-          case 'vertical':
-            return 'stream';
-          default:
-            throw `invalid item orientation ${this.item.orientation}`;
-        }
+      case 'board':
+        return 'columns';
+      case 'pad':
+        return 'stream';
       default:
         throw `invalid item view ${this.item.view}`;
     }

@@ -2,7 +2,7 @@
   <div
     v-bind:class="[
       'note',
-      item.orientation,
+      item.view,
       root && !item.parent ? 'transparent' : 'solid',
       content.body ? 'full' : 'empty',
       content.title ? 'headed' : 'headless'
@@ -24,16 +24,10 @@
         <a v-on:click="deleteClick" v-if="subitems.length === 0">
           <fa-icon icon="trash" /> Delete
         </a>
-        <a
-          v-on:click="horizontalClick"
-          v-if="item.view === 'note' && item.orientation === 'vertical'"
-        >
+        <a v-on:click="boardClick" v-if="item.view === 'pad'">
           <fa-icon icon="columns" /> View as board
         </a>
-        <a
-          v-on:click="verticalClick"
-          v-if="item.view === 'note' && item.orientation === 'horizontal'"
-        >
+        <a v-on:click="padClick" v-if="item.view === 'board'">
           <fa-icon icon="stream" /> View as list
         </a>
       </nav>
@@ -138,7 +132,7 @@ div.note.transparent {
 div.note.transparent.empty {
   @apply pr-6;
 }
-div.note.vertical {
+div.note.pad {
   @apply flex flex-col;
   // border: 2px solid #00f;
   > div.subitems {
@@ -148,7 +142,7 @@ div.note.vertical {
     }
   }
 }
-div.note.horizontal {
+div.note.board {
   // border: 2px solid #0f0;
   > div.subitems {
     @apply flex flex-row flex-wrap;
@@ -158,6 +152,7 @@ div.note.horizontal {
   }
 }
 </style>
+
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
@@ -204,8 +199,7 @@ export default class Note extends Vue {
         order: this.subitems ? this.subitems.length : 0,
         text: 'New',
         format: 'markdown',
-        view: 'note',
-        orientation: 'vertical'
+        view: 'pad'
       })
       .then(x => router.push({ name: 'Editor', params: { id: x.id } }));
   }
@@ -216,12 +210,14 @@ export default class Note extends Vue {
     }
   }
 
-  horizontalClick() {
-    items.doc(this.item.id).update({ orientation: 'horizontal' });
+  boardClick() {
+    this.showNav = false;
+    items.doc(this.item.id).update({ view: 'board' });
   }
 
-  verticalClick() {
-    items.doc(this.item.id).update({ orientation: 'vertical' });
+  padClick() {
+    this.showNav = false;
+    items.doc(this.item.id).update({ view: 'pad' });
   }
 
   dragChange(change: Change) {

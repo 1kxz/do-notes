@@ -126,31 +126,45 @@ export const itemRemove = functions.https.onCall(
 export const itemFixIndices = functions.https.onRequest((request, response) => {
   const database = admin.firestore();
   const items = database.collection('items');
-  items
+  return items
     .get()
     .then(qs => {
       qs.forEach(qds => {
         console.log(`processsing ${qds.id}`);
-        qds.ref
-          .update({ view: 'note', orientation: 'vertical' })
-          .catch(error => response.send(error));
-        items
-          .where('parent', '==', qds.ref)
-          .orderBy('order')
-          .get()
-          .then(sqs => {
-            let index = 0;
-            sqs.forEach(sqds => {
-              console.log(`setting order of ${sqds.id} to ${index}`);
-              sqds.ref
-                .update({ order: index })
-                .catch(error => response.send(error));
-              index++;
-            });
+        const { orientation, view, ...newDoc } = qds.data();
+        let newView = view;
+        if (view === 'note' && orientation === 'vertical') {
+          newView = 'pad';
+        }
+        if (view === 'note' && orientation === 'horizontal') {
+          newView = 'board';
+        }
+        if (view === 'image') {
+          newView = 'image';
+        }
+        return qds.ref
+          .set({
+            view: newView,
+            ...newDoc
           })
-          .catch(error => response.send(error));
+          .catch(console.log);
+        // return items
+        //   .where('parent', '==', qds.ref)
+        //   .orderBy('order')
+        //   .get()
+        //   .then(sqs => {
+        //     let index = 0;
+        //     sqs.forEach(sqds => {
+        //       console.log(`setting order of ${sqds.id} to ${index}`);
+        //       sqds.ref
+        //         .update({ order: index })
+        //         .catch(error => response.send(error));
+        //       index++;
+        //     });
+        //   })
+        //   .catch(error => response.send(error));
       });
     })
-    .catch(error => response.send(error));
-  response.send(`done`);
+    .then(() => response.send(`done`))
+    .catch(console.log);
 });

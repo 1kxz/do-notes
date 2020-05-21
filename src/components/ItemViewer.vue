@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import Picture from '@/components/Picture.vue';
 import Item from '@/models/Item';
 import Note from '@/components/Note.vue';
 
@@ -20,8 +21,11 @@ export default class ItemViewer extends Vue {
 
   get type() {
     switch (this.item.view) {
-      case 'note':
+      case 'board':
+      case 'pad':
         return Note;
+      case 'image':
+        return Picture;
       default:
         throw `invalid item type ${this.item.view}`;
     }

@@ -271,8 +271,7 @@ export default class App extends Vue {
           parent: null,
           order: this.subitems ? this.subitems.length : 0,
           text: 'New',
-          view: 'note',
-          orientation: 'horizontal'
+          view: 'board'
         })
         .then(x => this.$router.push({ name: 'Editor', params: { id: x.id } }));
     }
