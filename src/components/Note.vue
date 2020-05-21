@@ -3,13 +3,13 @@
     v-bind:class="[
       'note',
       item.view,
-      root && !item.parent ? 'transparent' : 'solid',
-      content.body ? 'full' : 'empty',
-      content.title ? 'headed' : 'headless'
+      item.title ? 'headed' : 'headless',
+      item.content ? 'full' : 'empty',
+      root && !item.parent ? 'transparent' : 'solid'
     ]"
   >
     <header>
-      <div v-if="!root && content.title" class="title">{{ content.title }}</div>
+      <div v-if="!root && item.title" class="title">{{ item.title }}</div>
       <button v-on:click="showNav = !showNav" class="show-nav">
         <fa-icon icon="ellipsis-h" />
       </button>
@@ -34,8 +34,8 @@
     </header>
     <vue-markdown
       class="body text"
-      v-if="content.body"
-      v-bind:source="content.body"
+      v-if="item.content"
+      v-bind:source="item.content"
     />
     <draggable
       group="items"
@@ -55,7 +55,7 @@
 
 <style lang="scss" scoped>
 div.note {
-  @apply relative;
+  @apply relative flex flex-col;
   > header {
     @apply leading-tight cursor-default;
     > div.title {
@@ -157,7 +157,7 @@ div.note.board {
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 import { itemAdd, itemMove, itemRemove } from '@/models/functions';
-import { items, splitText } from '@/models/database';
+import { items } from '@/models/database';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';
@@ -179,10 +179,6 @@ export default class Note extends Vue {
   @Prop() private item!: Item;
   @Prop(Boolean) private root!: boolean;
 
-  get content() {
-    return splitText(this.item.text);
-  }
-
   get dragmodel() {
     return this.subitems.map(item => item.id);
   }
@@ -197,7 +193,8 @@ export default class Note extends Vue {
         uid: this.item.uid,
         parent: this.item.id,
         order: this.subitems ? this.subitems.length : 0,
-        text: 'New',
+        title: 'New document',
+        content: 'Hello world!',
         format: 'markdown',
         view: 'pad'
       })

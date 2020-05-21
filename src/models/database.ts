@@ -16,7 +16,5 @@ export function splitText(text: string) {
     [title] = body.split('\n', 1);
     body = body.slice(title.length + 1);
   }
-  title = title.trim();
-  body = body.trim();
   return { title, body };
 }

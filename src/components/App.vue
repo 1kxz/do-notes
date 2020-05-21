@@ -49,14 +49,13 @@
         <fa-icon icon="sign-in-alt" /> Sign in
       </router-link>
     </nav>
-    <section>
-      <router-view />
-    </section>
+    <router-view />
   </div>
 </template>
 
 <style lang="scss" scoped>
 #app {
+  @apply flex flex-col flex-1;
   nav {
     @apply flex leading-none relative;
     a,
@@ -270,7 +269,8 @@ export default class App extends Vue {
           uid: this.user.id,
           parent: null,
           order: this.subitems ? this.subitems.length : 0,
-          text: 'New',
+          title: 'New board',
+          content: '',
           view: 'board'
         })
         .then(x => this.$router.push({ name: 'Editor', params: { id: x.id } }));

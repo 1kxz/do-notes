@@ -12,17 +12,12 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { items } from '@/models/database';
 import { Route } from 'vue-router';
-import { ThrottleSetter } from 'lodash-decorators';
 import ItemViewer from '@/components/ItemViewer.vue';
 import Item from '@/models/Item';
 
 @Component({ components: { ItemViewer } })
 export default class Uploader extends Vue {
   item: Item | null = null;
-
-  get text() {
-    return this.item?.text;
-  }
 
   @Watch('$route', { immediate: true })
   onRouteChanged(route: Route) {
@@ -38,9 +33,7 @@ export default class Uploader extends Vue {
         const reader = new FileReader();
         reader.readAsDataURL(files[0]);
         reader.onload = () => {
-          items
-            .doc(item.id)
-            .update({ text: item.text + '\n' + reader.result, view: 'image' });
+          items.doc(item.id).update({ view: 'image', content: reader.result });
         };
       }
     }
