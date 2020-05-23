@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-bind:class="currentThemeId.toLowerCase()">
+  <div id="app" v-bind:class="themeId.toLowerCase()">
     <nav>
       <draggable
         group="items"
@@ -42,7 +42,8 @@
           v-bind:key="themeId"
           v-on:click="changeTheme(themeId)"
         >
-          <fa-icon icon="palette" /> {{ themeId }}
+          <logo v-bind:theme="themeValues(themeId)" class="theme-icon" />
+          {{ themeId }}
         </button>
       </span>
       <router-link v-if="!user" to="/login">
@@ -86,6 +87,12 @@
           @apply bg-color;
         }
       }
+      svg.theme-icon {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin: -0.1rem;
+        display: inline;
+      }
     }
     div.shortcuts {
       @apply flex flex-1;
@@ -123,14 +130,15 @@ import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';
 import ItemLink from '@/components/ItemLink.vue';
+import Logo from '@/components/Logo.vue';
 import User from '@/models/User';
 
-@Component({ components: { Draggable, FaIcon, ItemLink } })
+@Component({ components: { Draggable, FaIcon, ItemLink, Logo } })
 export default class App extends Vue {
   user: User | null = null;
   subitems: Item[] = [];
   showUserMenu = false;
-  currentThemeId = 'Random';
+  themeId = 'Random';
 
   get dragModel() {
     return this.subitems.map(item => item.id);
@@ -141,7 +149,7 @@ export default class App extends Vue {
   }
 
   mounted() {
-    this.changeTheme(this.currentThemeId);
+    this.changeTheme(this.themeId);
     firebaseAuth.onAuthStateChanged(auth => {
       if (auth) {
         const user = { name: auth.displayName, email: auth.email };
@@ -173,11 +181,15 @@ export default class App extends Vue {
   get themeOptions() {
     const options: string[] = [];
     for (const theme in themes) {
-      if (theme != this.currentThemeId) {
+      if (theme != this.themeId) {
         options.push(theme);
       }
     }
     return options;
+  }
+
+  themeValues(themeId: string) {
+    return themes[themeId];
   }
 
   changeTheme(themeId: string) {
@@ -185,11 +197,11 @@ export default class App extends Vue {
     while (themeId === 'Random') {
       themeId = options[Math.floor(Math.random() * options.length)];
     }
-    const values = themes[themeId];
+    const values = this.themeValues(themeId);
     for (const key in values) {
       document.documentElement.style.setProperty(`--${key}`, values[key]);
     }
-    this.currentThemeId = themeId;
+    this.themeId = themeId;
     this.showUserMenu = false;
   }
 

@@ -1,4 +1,8 @@
 // Cyber
 div.cyber div.note.transparent > div.subitems > div.note {
-    box-shadow: 0 0 0.5rem #0ff6;
+    box-shadow: 0 0 0.5rem rgba(0, 247, 255, 0.4);
   }
+// Synth
+div.synth div.note.transparent > div.subitems > div.note {
+  box-shadow: 0 0 0.5rem rgba(0, 89, 255, 0.7);
+}
