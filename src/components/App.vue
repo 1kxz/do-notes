@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="currentThemeId.toLowerCase()">
     <nav>
       <draggable
         group="items"
@@ -42,14 +42,14 @@
           v-bind:key="themeId"
           v-on:click="changeTheme(themeId)"
         >
-          Use {{ themeId }} theme
+          <fa-icon icon="palette" /> {{ themeId }}
         </button>
       </span>
       <router-link v-if="!user" to="/login">
         <fa-icon icon="sign-in-alt" /> Sign in
       </router-link>
     </nav>
-    <router-view />
+    <router-view class="content" />
   </div>
 </template>
 
@@ -106,6 +106,9 @@
       }
     }
   }
+  div.content {
+    @apply flex-1;
+  }
 }
 </style>
 
@@ -115,6 +118,7 @@ import { firebaseAuth } from '@/models/auth';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 import { itemAdd, itemMove, itemRemove } from '@/models/functions';
 import { items, users } from '@/models/database';
+import { themes } from '@/models/themes';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';
@@ -126,44 +130,7 @@ export default class App extends Vue {
   user: User | null = null;
   subitems: Item[] = [];
   showUserMenu = false;
-  currentThemeId = 'default';
-  themes: { [key: string]: { [key: string]: string } } = {
-    default: {
-      soft: '#eff3f4',
-      hard: '#b3d4e5',
-      color: '#336699',
-      contrast: '#0f1f3f',
-      background: 'none'
-    },
-    spring: {
-      soft: '#fcfbf7',
-      hard: '#dff28a',
-      color: '#960954',
-      contrast: '#2b1d1f',
-      background: 'url("../symphony.png")'
-    },
-    summer: {
-      soft: '#f8f0e8',
-      hard: '#ffcd6c',
-      color: '#00709e',
-      contrast: '#00223d',
-      background: 'url("../seigaiha.png")'
-    },
-    autumn: {
-      soft: '#f7efde',
-      hard: '#fcc37e',
-      color: '#9b1403',
-      contrast: '#2d1d26',
-      background: 'url("../vichy.png")'
-    },
-    winter: {
-      soft: '#f4fbff',
-      hard: '#b0daf2',
-      color: '#6d0dbe',
-      contrast: '#19162b',
-      background: 'url("../escheresque.png")'
-    }
-  };
+  currentThemeId = 'Random';
 
   get dragModel() {
     return this.subitems.map(item => item.id);
@@ -174,7 +141,7 @@ export default class App extends Vue {
   }
 
   mounted() {
-    this.changeTheme(this.themeOptions[Math.floor(Math.random() * 4)]);
+    this.changeTheme(this.currentThemeId);
     firebaseAuth.onAuthStateChanged(auth => {
       if (auth) {
         const user = { name: auth.displayName, email: auth.email };
@@ -204,21 +171,26 @@ export default class App extends Vue {
   }
 
   get themeOptions() {
-    const themes: string[] = [];
-    for (const theme in this.themes) {
+    const options: string[] = [];
+    for (const theme in themes) {
       if (theme != this.currentThemeId) {
-        themes.push(theme);
+        options.push(theme);
       }
     }
-    return themes;
+    return options;
   }
 
   changeTheme(themeId: string) {
-    const values = this.themes[themeId];
+    const options = this.themeOptions;
+    while (themeId === 'Random') {
+      themeId = options[Math.floor(Math.random() * options.length)];
+    }
+    const values = themes[themeId];
     for (const key in values) {
       document.documentElement.style.setProperty(`--${key}`, values[key]);
     }
     this.currentThemeId = themeId;
+    this.showUserMenu = false;
   }
 
   logoutClick() {

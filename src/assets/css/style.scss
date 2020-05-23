@@ -14,6 +14,7 @@ body {
   @apply text-soft;
   @apply bg-contrast;
   @apply flex;
+  @apply flex-col;
   background-image: var(--background);
   background-blend-mode: color-burn;
   background-attachment: fixed;

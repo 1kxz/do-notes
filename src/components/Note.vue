@@ -54,10 +54,37 @@
 </template>
 
 <style lang="scss" scoped>
+// Nesting layout
 div.note {
-  @apply relative flex flex-col;
+  @apply flex flex-col;
+}
+div.note.pad {
+  // border: 2px solid #00f;
+  > div.subitems {
+    @apply flex flex-col;
+    > div.note {
+    }
+  }
+}
+div.note.board {
+  // border: 2px solid #0f0;
+  > div.subitems {
+    @apply flex flex-row items-start justify-center;
+    > div.note {
+    }
+  }
+}
+div.note.transparent {
+  > div.subitems > div {
+    min-width: 22rem;
+    max-width: 55rem;
+  }
+}
+// Note layout
+div.note {
+  @apply relative;
   > header {
-    @apply leading-tight cursor-default;
+    @apply leading-tight;
     > div.title {
       @apply p-2 pr-8;
     }
@@ -69,12 +96,9 @@ div.note {
       background-color: #0004;
     }
     > nav {
-      @apply absolute right-0 top-0 z-20 flex flex-col bg-contrast text-soft rounded overflow-hidden shadow;
+      @apply absolute right-0 top-0 z-20 flex flex-col;
       > a {
         @apply p-2;
-        &:hover {
-          @apply bg-color cursor-pointer;
-        }
       }
     }
   }
@@ -84,7 +108,7 @@ div.note {
   > div.subitems.full {
     @apply p-1;
     > div {
-      @apply m-1 rounded;
+      @apply m-1;
     }
     // background: repeating-linear-gradient(
     //   -45deg,
@@ -97,7 +121,7 @@ div.note {
   > div.subitems.empty {
     @apply -mt-2 pt-2;
     > div {
-      @apply m-2 rounded;
+      @apply m-2;
     }
     // background: repeating-linear-gradient(
     //   -45deg,
@@ -106,6 +130,24 @@ div.note {
     //   #0004 10px,
     //   #0004 20px
     // );
+  }
+}
+div.note.transparent.empty {
+  @apply pr-6;
+}
+// Color & style
+div.note {
+  > header {
+    @apply cursor-default;
+    > nav {
+      @apply bg-contrast text-soft rounded overflow-hidden shadow;
+      a:hover {
+        @apply bg-color cursor-pointer;
+      }
+    }
+  }
+  > div.subitems > div.note {
+    @apply rounded;
   }
 }
 div.note.solid {
@@ -120,34 +162,6 @@ div.note.solid.headless {
   > header {
     > button.show-nav {
       @apply bg-hard rounded-bl leading-none;
-    }
-  }
-}
-div.note.transparent {
-  > div.subitems > div {
-    min-width: 20rem;
-    max-width: 60rem;
-  }
-}
-div.note.transparent.empty {
-  @apply pr-6;
-}
-div.note.pad {
-  @apply flex flex-col;
-  // border: 2px solid #00f;
-  > div.subitems {
-    @apply flex-1 flex flex-col;
-    > div.note.full {
-      @apply flex-1;
-    }
-  }
-}
-div.note.board {
-  // border: 2px solid #0f0;
-  > div.subitems {
-    @apply flex flex-row flex-wrap;
-    > div.note {
-      @apply flex-auto;
     }
   }
 }
