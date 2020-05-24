@@ -25,17 +25,22 @@ svg {
 div.body.text {
   h1 {
     @apply m-2;
-    font-weight: 500;
-    font-size: 1.5rem;
+    font-weight: 400;
+    font-size: 1.8rem;
   }
   h2 {
     @apply m-2;
     font-weight: 500;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
   h3 {
     @apply m-2;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+  h4 {
+    @apply m-2;
+    font-weight: 700;
     font-size: 1.1rem;
   }
   p,
