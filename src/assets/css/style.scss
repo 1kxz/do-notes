@@ -3,6 +3,7 @@
   --hard: #d0d0d0;
   --color: #555555;
   --contrast: #222222;
+  --highlight: #fffa;
   --background: none;
 }
 html,
@@ -60,12 +61,13 @@ div.body.text {
   blockquote {
     @apply px-2;
     @apply py-1;
-    background-color: #fff8;
+    background-color: var(--highlight);
   }
   pre {
     @apply px-2;
     @apply py-1;
-    background-color: #fff8;
+    background-color: var(--highlight);
+    overflow-x: auto;
     code, * {
       @apply font-mono;
     }
@@ -73,7 +75,7 @@ div.body.text {
   :not(pre) > code {
     @apply px-1;
     @apply rounded;
-    background-color: #fff;
+    background-color: var(--highlight);
     @apply font-mono;
   }
   table {

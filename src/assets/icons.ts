@@ -12,6 +12,7 @@ import {
   faSignOutAlt,
   faStream,
   faTrash,
+  faUndo,
   faUpload,
   faUser
 } from '@fortawesome/free-solid-svg-icons';
@@ -29,6 +30,7 @@ library.add(
   faSignOutAlt,
   faStream,
   faTrash,
+  faUndo,
   faUpload,
   faUser
 );

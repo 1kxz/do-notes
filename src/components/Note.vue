@@ -76,8 +76,8 @@ div.note.board {
 }
 div.note.transparent {
   > div.subitems > div {
-    min-width: 22rem;
-    max-width: 55rem;
+    min-width: 20rem;
+    max-width: 60rem;
   }
 }
 // Note layout
