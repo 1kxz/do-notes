@@ -1,12 +1,15 @@
 <template>
   <div v-if="item" class="wrapper">
     <div class="editor">
-      <nav>
+      <header>
         <button v-on:click="undo"><fa-icon icon="undo" /> Undo</button>
-      </nav>
+      </header>
       <textarea v-model="text"></textarea>
     </div>
     <div class="viewer">
+      <header>
+        <span>Preview</span>
+      </header>
       <item-viewer
         v-bind:item="item"
         v-bind:root="item.parent == null"
@@ -20,24 +23,27 @@
 div.wrapper {
   @apply flex flex-1;
   > * {
-    @apply flex-1;
+    @apply flex-1 flex flex-col;
+  }
+  header {
+    @apply bg-highlightbg text-highlightfg;
+    > * {
+      @apply p-2 inline-block;
+    }
   }
 }
 div.editor {
-  @apply flex flex-col bg-soft;
+  @apply bg-highlightbg text-highlightfg;
   button {
-    @apply px-4 py-2 text-contrast border-r-2 border-soft;
     &:hover {
-      @apply bg-hard;
+      @apply bg-keybg text-keyfg;
     }
   }
   textarea {
-    @apply flex-1 p-2 text-contrast;
-    background-color: var(--highlight);
+    @apply flex-1 p-2 font-mono bg-overlaybg text-overlayfg;
   }
 }
 div.viewer {
-  @apply flex flex-col;
   div.item {
     @apply flex-1;
   }

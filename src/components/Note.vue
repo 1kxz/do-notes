@@ -140,28 +140,36 @@ div.note {
   > header {
     @apply cursor-default;
     > nav {
-      @apply bg-contrast text-soft rounded overflow-hidden shadow;
+      @apply bg-backlightbg text-backlightfg rounded overflow-hidden shadow;
       a:hover {
-        @apply bg-color cursor-pointer;
+        @apply bg-rimbg text-rimfg cursor-pointer;
       }
     }
   }
   > div.subitems > div.note {
     @apply rounded;
   }
+  > div.text {
+    ::v-deep a {
+      @apply text-keybg;
+    }
+  }
 }
 div.note.solid {
-  @apply bg-soft text-contrast border-2 border-hard;
+  @apply bg-highlightbg text-highlightfg border-2 border-keybg;
   > header {
-    > div.title {
-      @apply bg-hard;
+    @apply bg-keybg text-keyfg;
+  }
+  > div.text {
+    ::v-deep a {
+      @apply text-rimbg;
     }
   }
 }
 div.note.solid.headless {
   > header {
     > button.show-nav {
-      @apply bg-hard rounded-bl leading-none;
+      @apply rounded-bl leading-none;
     }
   }
 }

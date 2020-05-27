@@ -5,10 +5,16 @@ module.exports = {
       mono: ['Fira Mono', 'monospace']
     },
     colors: {
-      soft: 'var(--soft)',
-      hard: 'var(--hard)',
-      color: 'var(--color)',
-      contrast: 'var(--contrast)'
+      keybg: 'var(--keybg)',
+      keyfg: 'var(--keyfg)',
+      rimbg: 'var(--rimbg)',
+      rimfg: 'var(--rimfg)',
+      highlightbg: 'var(--highlightbg)',
+      highlightfg: 'var(--highlightfg)',
+      backlightbg: 'var(--backlightbg)',
+      backlightfg: 'var(--backlightfg)',
+      overlaybg: 'var(--overlaybg)',
+      overlayfg: 'var(--overlayfg)'
     },
     extend: {}
   },

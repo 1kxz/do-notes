@@ -1,9 +1,14 @@
 :root {
-  --soft: #f0f0f0;
-  --hard: #d0d0d0;
-  --color: #555555;
-  --contrast: #222222;
-  --highlight: #fffa;
+  --keybg: #dddddd;
+  --keyfg: #000000;
+  --rimbg: #555555;
+  --rimfg: #ffffff;
+  --highlightbg: #f0f0f0;
+  --highlightfg: #000000;
+  --backlightbg: #222222;
+  --backlightfg: #ffffff;
+  --overlaybg: #ffffffaa;
+  --overlayfg: #000000;
   --background: none;
 }
 html,
@@ -11,9 +16,9 @@ body {
     height: 100%;
 }
 body {
+  @apply bg-backlightbg;
+  @apply text-backlightfg;
   @apply font-body;
-  @apply text-soft;
-  @apply bg-contrast;
   @apply flex;
   @apply flex-col;
   background-image: var(--background);
@@ -61,12 +66,12 @@ div.body.text {
   blockquote {
     @apply px-2;
     @apply py-1;
-    background-color: var(--highlight);
+    background-color: var(--overlaybg);
   }
   pre {
     @apply px-2;
     @apply py-1;
-    background-color: var(--highlight);
+    background-color: var(--overlaybg);
     overflow-x: auto;
     code, * {
       @apply font-mono;
@@ -75,7 +80,7 @@ div.body.text {
   :not(pre) > code {
     @apply px-1;
     @apply rounded;
-    background-color: var(--highlight);
+    background-color: var(--overlaybg);
     @apply font-mono;
   }
   table {
@@ -91,17 +96,8 @@ div.body.text {
 .title,
 .text {
   a {
-    @apply text-hard;
     &:hover {
       @apply underline;
-    }
-  }
-}
-div.note.solid {
-  > div.text,
-  > div.title {
-    a {
-      @apply text-color;
     }
   }
 }

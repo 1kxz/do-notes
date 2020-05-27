@@ -7,15 +7,21 @@
     </defs>
     <g clip-path="url(#cut-off)">
       <g transform="rotate(12 45 45)">
-        <rect x="-30" y="-30" width="61" height="76" v-bind:fill="theme.soft" />
-        <rect x="30" y="-30" width="90" height="76" v-bind:fill="theme.hard" />
-        <rect x="-30" y="45" width="91" height="75" v-bind:fill="theme.color" />
+        <rect
+          x="-30"
+          y="-30"
+          width="61"
+          height="76"
+          v-bind:fill="theme.highlightbg"
+        />
+        <rect x="30" y="-30" width="90" height="76" v-bind:fill="theme.keybg" />
+        <rect x="-30" y="45" width="91" height="75" v-bind:fill="theme.rimbg" />
         <rect
           x="60"
           y="45"
           width="60"
           height="75"
-          v-bind:fill="theme.contrast"
+          v-bind:fill="theme.backlightbg"
         />
       </g>
     </g>

@@ -65,12 +65,12 @@
     }
     a,
     button {
-      @apply bg-color text-left;
+      @apply bg-rimbg text-rimfg text-left;
       &:hover {
-        @apply bg-contrast;
+        @apply bg-backlightbg text-backlightfg;
       }
       &.router-link-exact-active {
-        @apply cursor-default;
+        @apply cursor-default text-backlightfg;
         background-color: transparent;
       }
     }
@@ -79,12 +79,12 @@
       background-color: #0004;
     }
     span.user-menu {
-      @apply absolute right-0 top-0 z-20 m-2 flex flex-col bg-contrast text-soft rounded overflow-hidden shadow;
+      @apply absolute right-0 top-0 z-20 m-2 flex flex-col rounded overflow-hidden shadow;
       a,
       button {
-        @apply bg-contrast;
+        @apply bg-backlightbg text-backlightfg;
         &:hover {
-          @apply bg-color;
+          @apply bg-rimbg text-rimfg;
         }
       }
       svg.theme-icon {
@@ -99,7 +99,7 @@
       ::v-deep .item {
         @apply border-0;
         .title {
-          @apply block p-2 bg-contrast text-soft leading-none;
+          @apply block p-2 bg-backlightbg text-backlightfg leading-none;
         }
         .body,
         .subitems,
@@ -108,7 +108,7 @@
         }
       }
       &::after {
-        @apply flex-1 bg-color;
+        @apply flex-1 bg-rimbg text-rimfg;
         content: '';
       }
     }

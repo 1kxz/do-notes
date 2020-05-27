@@ -23,11 +23,11 @@ div.importer {
   > div.editor {
     @apply flex flex-col;
     > textarea {
-      @apply p-2 text-contrast;
+      @apply p-2 text-keyfg;
       min-height: 25rem;
     }
     > button {
-      @apply bg-color rounded m-2 p-2;
+      @apply bg-rimbg rounded m-2 p-2;
     }
   }
   > div.preview {
