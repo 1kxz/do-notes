@@ -47,9 +47,9 @@
       v-on:change="dragChange"
     >
       <item-viewer
-        v-for="item in subitems"
-        v-bind:key="item.id"
-        v-bind:item="item"
+        v-for="subitem in subitems"
+        v-bind:key="subitem.id"
+        v-bind:item="subitem"
       />
     </draggable>
   </div>
