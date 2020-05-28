@@ -194,7 +194,7 @@ import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-bash.min';
 import 'prismjs/components/prism-python.min';
 
-@Component({ components: { Draggable, FaIcon } })
+@Component({ name: 'ItemViewer', components: { Draggable, FaIcon } })
 export default class ItemViewer extends Vue {
   subitems: Item[] = [];
   showNav = false;
