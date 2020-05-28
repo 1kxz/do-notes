@@ -32,10 +32,12 @@
         </a>
       </nav>
     </header>
-    <vue-markdown
+    <component
       class="body text"
       v-if="item.content"
       v-bind:source="item.content"
+      v-bind:title="item.title"
+      v-bind:is="type"
     />
     <draggable
       group="items"
@@ -183,6 +185,7 @@ import { items } from '@/models/database';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';
+import Picture from '@/components/Picture.vue';
 import Prism from 'prismjs';
 import router from '@/router/index';
 import VueMarkdown from 'vue-markdown';
@@ -207,6 +210,17 @@ export default class Note extends Vue {
 
   get editUrl() {
     return { name: 'Editor', params: { id: this.item.id } };
+  }
+
+  get type() {
+    switch (this.item.format) {
+      case 'markdown':
+        return VueMarkdown;
+      case 'data:image/png;base64':
+        return Picture;
+      default:
+        throw `invalid format ${this.item.format}`;
+    }
   }
 
   addClick() {
