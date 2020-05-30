@@ -63,6 +63,15 @@ div.body.text {
     @apply ml-10;
     @apply list-decimal;
   }
+  dt {
+    @apply px-2;
+    @apply py-1;
+    font-weight: bold;
+  }
+  dd {
+    @apply px-2;
+    @apply py-1;
+  }
   blockquote {
     @apply px-2;
     @apply py-1;
