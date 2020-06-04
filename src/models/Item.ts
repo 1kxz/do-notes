@@ -6,4 +6,6 @@ export default interface Item extends String {
   title: string;
   format: string;
   view: string;
+  created: Date;
+  updated: Date;
 }

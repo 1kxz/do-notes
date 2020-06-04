@@ -229,6 +229,7 @@ export default class ItemViewer extends Vue {
         order: this.subitems ? this.subitems.length : 0,
         title: 'New document',
         content: 'Hello world!',
+        created: new Date(),
         format: 'markdown',
         view: 'pad'
       })

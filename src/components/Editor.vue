@@ -8,7 +8,7 @@
     </div>
     <div class="viewer">
       <header>
-        <span>Preview</span>
+        <span v-if="lastUpdated">Last updated on {{ lastUpdated }}</span>
       </header>
       <item-viewer
         v-bind:item="item"
@@ -86,6 +86,22 @@ export default class Editor extends Vue {
     }
   }
 
+  get lastUpdated() {
+    // eslint-disable-next-line
+    let date: any = this.item?.updated || this.item?.created;
+    try {
+      date = date?.toDate();
+    } catch (error) {
+      // It doesn't come from Firebase
+    }
+    try {
+      date = date?.toISOString();
+    } catch (error) {
+      // It's not a date
+    }
+    return date;
+  }
+
   undo() {
     this.item = { ...this.backup } as Item;
   }
@@ -93,8 +109,13 @@ export default class Editor extends Vue {
   @Throttle(2500)
   upload() {
     if (this.id && this.item) {
-      items.doc(this.id).update(this.item);
-      this.synced = true;
+      this.item.updated = new Date();
+      items
+        .doc(this.id)
+        .update(this.item)
+        .then(() => {
+          this.synced = true;
+        });
     }
   }
 
