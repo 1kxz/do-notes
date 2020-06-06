@@ -1,8 +1,12 @@
 <template>
-  <div v-if="item" class="wrapper">
+  <div v-if="item" class="wrapper" v-title="`Edit – ${item.title}`">
     <div class="editor">
       <header>
         <button v-on:click="undo"><fa-icon icon="undo" /> Undo</button>
+        <button v-on:click="uploadImage">
+          <fa-icon icon="upload" />Upload
+        </button>
+        <input id="file" type="file" />
       </header>
       <textarea v-model="text"></textarea>
     </div>
@@ -82,6 +86,7 @@ export default class Editor extends Vue {
       const { title, body } = splitText(value);
       this.item.title = title;
       this.item.content = body;
+      this.item.format = 'markdown';
       this.upload();
     }
   }
@@ -102,8 +107,32 @@ export default class Editor extends Vue {
     return date;
   }
 
+  get uploadUrl() {
+    return { name: 'Uploader', params: { id: this.$route.params.id } };
+  }
+
   undo() {
     this.item = { ...this.backup } as Item;
+  }
+
+  uploadImage() {
+    const file = document.getElementById('file');
+    const item = this.item;
+    if (item !== null && file !== null) {
+      const files = (file as HTMLInputElement).files;
+      if (files?.length) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = () => {
+          if (reader.result) {
+            item.content = reader.result.toString();
+            item.format = 'image';
+            this.upload();
+          }
+          // items.doc(item.id).update({ view: 'image', content: reader.result });
+        };
+      }
+    }
   }
 
   @Throttle(2500)

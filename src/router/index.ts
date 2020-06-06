@@ -33,11 +33,6 @@ const routes = [
     path: '/item/:id/edit',
     name: 'Editor',
     component: () => import('../components/Editor.vue')
-  },
-  {
-    path: '/item/:id/upload',
-    name: 'Uploader',
-    component: () => import('../components/Uploader.vue')
   }
 ];
 

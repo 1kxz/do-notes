@@ -3,6 +3,7 @@
     v-bind:class="[
       'item',
       item.view,
+      item.format,
       item.title ? 'headed' : 'headless',
       item.content ? 'full' : 'empty',
       root && !item.parent ? 'transparent' : 'solid'
@@ -57,9 +58,6 @@
 
 <style lang="scss" scoped>
 // Nesting layout
-div.item {
-  @apply flex flex-col;
-}
 div.item.pad {
   // border: 2px solid #00f;
   > div.subitems {
@@ -156,6 +154,13 @@ div.item {
       @apply text-keybg;
     }
   }
+  img {
+    @apply mx-auto;
+    max-height: 15rem;
+    &:hover {
+      transform: scale(2.5);
+    }
+  }
 }
 div.item.solid {
   @apply bg-highlightbg text-highlightfg border-2 border-keybg;
@@ -206,7 +211,7 @@ export default class ItemViewer extends Vue {
     switch (this.item.format) {
       case 'markdown':
         return VueMarkdown;
-      case 'data:image/png;base64':
+      case 'image':
         return Picture;
       default:
         throw `invalid format ${this.item.format}`;
