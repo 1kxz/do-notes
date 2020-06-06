@@ -1,5 +1,5 @@
 <template>
-  <div class="help text">
+  <div class="help text" v-title="'Help'">
     <h1>Test logo</h1>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div id="auth" />
+  <div id="auth" v-title="'Login'" />
 </template>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div class="importer">
+  <div class="importer" v-title="'Import'">
     <div class="editor">
       <textarea v-model="text"></textarea>
       <button v-on:click="importClick">Import</button>
