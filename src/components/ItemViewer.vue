@@ -25,11 +25,14 @@
         <a v-on:click="deleteClick" v-if="subitems.length === 0">
           <fa-icon icon="trash" /> Delete
         </a>
-        <a v-on:click="boardClick" v-if="item.view === 'pad'">
-          <fa-icon icon="columns" /> View as board
+        <a v-on:click="viewClick('pad')" v-if="item.view !== 'pad'">
+          <fa-icon icon="file-alt" /> Pad view
         </a>
-        <a v-on:click="padClick" v-if="item.view === 'board'">
-          <fa-icon icon="stream" /> View as list
+        <a v-on:click="viewClick('board')" v-if="item.view !== 'board'">
+          <fa-icon icon="columns" /> Board view
+        </a>
+        <a v-on:click="viewClick('wide')" v-if="item.view !== 'wide'">
+          <fa-icon icon="book-open" /> Wide view
         </a>
       </nav>
     </header>
@@ -63,21 +66,28 @@ div.item.pad {
   > div.subitems {
     @apply flex flex-col;
     > div.item {
+      max-width: 65rem;
     }
   }
 }
 div.item.board {
   // border: 2px solid #0f0;
   > div.subitems {
-    @apply flex flex-row items-start justify-center;
+    @apply flex flex-row items-start justify-start flex-wrap;
     > div.item {
+      min-width: 20rem;
+      max-width: 30rem;
     }
   }
 }
-div.item.transparent {
-  > div.subitems > div {
-    min-width: 20rem;
-    max-width: 60rem;
+div.item.wide {
+  // border: 2px solid #f00;
+  > div.subitems {
+    @apply flex flex-row items-start justify-start flex-wrap;
+    > div.item {
+      min-width: 30rem;
+      max-width: 65rem;
+    }
   }
 }
 // Note layout
@@ -248,14 +258,9 @@ export default class ItemViewer extends Vue {
     }
   }
 
-  boardClick() {
+  viewClick(value: string) {
     this.showNav = false;
-    items.doc(this.item.id).update({ view: 'board' });
-  }
-
-  padClick() {
-    this.showNav = false;
-    items.doc(this.item.id).update({ view: 'pad' });
+    items.doc(this.item.id).update({ view: value });
   }
 
   dragChange(change: Change) {

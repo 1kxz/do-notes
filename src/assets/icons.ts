@@ -1,16 +1,17 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+  faBookOpen,
   faColumns,
   faDownload,
   faEdit,
   faEllipsisH,
+  faFileAlt,
   faLink,
   faPalette,
   faPlus,
   faQuestion,
   faSignInAlt,
   faSignOutAlt,
-  faStream,
   faTrash,
   faUndo,
   faUpload,
@@ -18,17 +19,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
+  faBookOpen,
   faColumns,
   faDownload,
   faEdit,
   faEllipsisH,
+  faFileAlt,
   faLink,
   faPalette,
   faPlus,
   faQuestion,
   faSignInAlt,
   faSignOutAlt,
-  faStream,
   faTrash,
   faUndo,
   faUpload,

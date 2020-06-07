@@ -19,10 +19,12 @@ export default class ItemLink extends Vue {
 
   get icon() {
     switch (this.item.view) {
+      case 'pad':
+        return 'file-alt';
       case 'board':
         return 'columns';
-      case 'pad':
-        return 'stream';
+      case 'wide':
+        return 'book-open';
       default:
         throw `invalid item view ${this.item.view}`;
     }

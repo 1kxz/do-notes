@@ -114,7 +114,7 @@
     }
   }
   div.content {
-    @apply flex-1 overflow-x-auto;
+    @apply flex-1;
   }
 }
 </style>
