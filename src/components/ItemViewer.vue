@@ -158,6 +158,7 @@ div.item {
     @apply mx-auto;
     max-height: 15rem;
     &:hover {
+      @apply z-10;
       transform: scale(2.5);
     }
   }
