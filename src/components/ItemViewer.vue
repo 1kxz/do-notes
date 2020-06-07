@@ -36,26 +36,28 @@
         </a>
       </nav>
     </header>
-    <component
-      class="body text"
-      v-if="item.content"
-      v-bind:source="item.content"
-      v-bind:title="item.title"
-      v-bind:is="type"
-    />
-    <draggable
-      group="items"
-      handle="header"
-      v-bind:class="['subitems', subitems.length > 0 ? 'full' : 'empty']"
-      v-bind:list="dragmodel"
-      v-on:change="dragChange"
-    >
-      <item-viewer
-        v-for="subitem in subitems"
-        v-bind:key="subitem.id"
-        v-bind:item="subitem"
+    <section>
+      <component
+        class="text"
+        v-if="item.content"
+        v-bind:source="item.content"
+        v-bind:title="item.title"
+        v-bind:is="type"
       />
-    </draggable>
+      <draggable
+        group="items"
+        handle="header"
+        v-bind:class="['subitems', subitems.length > 0 ? 'full' : 'empty']"
+        v-bind:list="dragmodel"
+        v-on:change="dragChange"
+      >
+        <item-viewer
+          v-for="subitem in subitems"
+          v-bind:key="subitem.id"
+          v-bind:item="subitem"
+        />
+      </draggable>
+    </section>
   </div>
 </template>
 
@@ -63,7 +65,7 @@
 // Nesting layout
 div.item.pad {
   // border: 2px solid #00f;
-  > div.subitems {
+  > section > div.subitems {
     @apply flex flex-col;
     > div.item {
       max-width: 65rem;
@@ -72,21 +74,33 @@ div.item.pad {
 }
 div.item.board {
   // border: 2px solid #0f0;
-  > div.subitems {
-    @apply flex flex-row items-start justify-start flex-wrap;
-    > div.item {
-      min-width: 20rem;
-      max-width: 30rem;
+  display: flex;
+  flex-direction: column;
+  > section {
+    flex: 1;
+    > div.subitems {
+      height: 100%;
+      display: flex;
+      align-items: flex-start;
+      overflow-x: auto;
+      > div.item {
+        min-width: 20rem;
+        max-width: 30rem;
+      }
     }
   }
 }
 div.item.wide {
   // border: 2px solid #f00;
-  > div.subitems {
+  > section > div.subitems {
     @apply flex flex-row items-start justify-start flex-wrap;
     > div.item {
       min-width: 30rem;
       max-width: 65rem;
+      > section {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
     }
   }
 }
@@ -112,10 +126,10 @@ div.item {
       }
     }
   }
-  > div.body + div.subitems.full {
+  > section > div.text + div.subitems.full {
     @apply -mt-2;
   }
-  > div.subitems.full {
+  > section > div.subitems.full {
     @apply p-1;
     > div {
       @apply m-1;
@@ -128,7 +142,7 @@ div.item {
     //   #f004 20px
     // );
   }
-  > div.subitems.empty {
+  > section > div.subitems.empty {
     @apply -mt-2 pt-2;
     > div {
       @apply m-2;
@@ -143,7 +157,7 @@ div.item {
   }
 }
 div.item.transparent.empty {
-  @apply pr-6;
+  @apply pr-8;
 }
 // Color & style
 div.item {
@@ -156,10 +170,10 @@ div.item {
       }
     }
   }
-  > div.subitems > div.item {
+  > section > div.subitems > div.item {
     @apply rounded;
   }
-  > div.text {
+  > section > div.text {
     ::v-deep a {
       @apply text-keybg;
     }
@@ -178,7 +192,7 @@ div.item.solid {
   > header {
     @apply bg-keybg text-keyfg;
   }
-  > div.text {
+  > section > div.text {
     ::v-deep a {
       @apply text-rimbg;
     }
