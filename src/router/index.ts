@@ -33,6 +33,11 @@ const routes = [
     path: '/item/:id/edit',
     name: 'ItemEdit',
     component: () => import('../components/ItemEdit.vue')
+  },
+  {
+    path: '/recent',
+    name: 'Recent',
+    component: () => import('../components/Recent.vue')
   }
 ];
 

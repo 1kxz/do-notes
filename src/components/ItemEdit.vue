@@ -1,7 +1,8 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { dateToString, splitText } from '@/utils';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
-import { items, splitText } from '@/database';
+import { items } from '@/database';
 import { Route } from 'vue-router';
 import { Throttle } from 'lodash-decorators';
 import Item from '@/models/Item';
@@ -78,19 +79,7 @@ export default class ItemEdit extends Vue {
   }
 
   get lastUpdated() {
-    // eslint-disable-next-line
-    let date: any = this.item?.updated || this.item?.created;
-    try {
-      date = date?.toDate();
-    } catch (error) {
-      // It doesn't come from Firebase
-    }
-    try {
-      date = date?.toISOString();
-    } catch (error) {
-      // It's not a date
-    }
-    return date;
+    return dateToString(this.item?.updated || this.item?.created);
   }
 
   undo() {
