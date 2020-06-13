@@ -82,20 +82,20 @@ div.importer {
   > * {
     @apply flex-1;
   }
-  > div.editor {
-    @apply flex flex-col;
-    > textarea {
-      @apply p-2 text-keyfg;
-      min-height: 25rem;
-    }
-    > button {
-      @apply bg-rimbg rounded m-2 p-2;
-    }
+}
+div.editor {
+  @apply flex flex-col;
+  textarea {
+    @apply p-2 text-keyfg;
+    min-height: 25rem;
   }
-  > div.preview {
-    div.item {
-      @apply rounded m-2;
-    }
+  button {
+    @apply bg-rimbg rounded m-2 p-2;
+  }
+}
+div.preview {
+  div.item {
+    @apply rounded m-2;
   }
 }
 </style>

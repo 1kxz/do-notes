@@ -13,10 +13,10 @@ export default class Home extends Vue {}
 </template>
 
 <style lang="scss" scoped>
-.text {
+div.text {
   @apply p-4 mx-auto;
-  h1 {
-    @apply text-3xl;
-  }
+}
+h1 {
+  @apply text-3xl;
 }
 </style>

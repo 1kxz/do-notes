@@ -174,10 +174,12 @@ export default class ItemCard extends Vue {
 // Nesting layout
 div.item.pad {
   // border: 2px solid #00f;
-  > section > div.subitems {
-    @apply flex flex-col;
-    > div.item {
-      max-width: 65rem;
+  > section {
+    > div.subitems {
+      @apply flex flex-col;
+      > div.item {
+        max-width: 65rem;
+      }
     }
   }
 }
@@ -206,10 +208,6 @@ div.item.wide {
     > div.item {
       min-width: 30rem;
       max-width: 65rem;
-      > section {
-        max-height: 80vh;
-        overflow-y: auto;
-      }
     }
   }
 }
@@ -235,34 +233,36 @@ div.item {
       }
     }
   }
-  > section > div.text + div.subitems.full {
-    @apply -mt-2;
-  }
-  > section > div.subitems.full {
-    @apply p-1;
-    > div {
-      @apply m-1;
+  > section {
+    > div.text + div.subitems.full {
+      @apply -mt-2;
     }
-    // background: repeating-linear-gradient(
-    //   -45deg,
-    //   #0000,
-    //   #0000 10px,
-    //   #f004 10px,
-    //   #f004 20px
-    // );
-  }
-  > section > div.subitems.empty {
-    @apply -mt-2 pt-2;
-    > div {
-      @apply m-2;
+    > div.subitems.full {
+      @apply p-1;
+      > div {
+        @apply m-1;
+      }
+      // background: repeating-linear-gradient(
+      //   -45deg,
+      //   #0000,
+      //   #0000 10px,
+      //   #f004 10px,
+      //   #f004 20px
+      // );
     }
-    // background: repeating-linear-gradient(
-    //   -45deg,
-    //   #0000,
-    //   #0000 10px,
-    //   #0004 10px,
-    //   #0004 20px
-    // );
+    > div.subitems.empty {
+      @apply -mt-2 pt-2;
+      > div {
+        @apply m-2;
+      }
+      // background: repeating-linear-gradient(
+      //   -45deg,
+      //   #0000,
+      //   #0000 10px,
+      //   #0004 10px,
+      //   #0004 20px
+      // );
+    }
   }
 }
 div.item.transparent.empty {
@@ -279,11 +279,11 @@ div.item {
       }
     }
   }
-  > section > div.subitems > div.item {
-    @apply rounded;
-  }
-  > section > div.text {
-    ::v-deep a {
+  > section {
+    > div.subitems > div.item {
+      @apply rounded;
+    }
+    > div.text::v-deep a {
       @apply text-keybg;
     }
   }
@@ -301,8 +301,8 @@ div.item.solid {
   > header {
     @apply bg-keybg text-keyfg;
   }
-  > section > div.text {
-    ::v-deep a {
+  > section {
+    > div.text::v-deep a {
       @apply text-rimbg;
     }
   }

@@ -1,14 +1,11 @@
 <template>
   <div class="help text" v-title="'Help'">
-    <h1>Test logo</h1>
+    <h1>To do</h1>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.text {
+div.text {
   @apply p-4 mx-auto;
-}
-.logo {
-  @apply mx-auto;
 }
 </style>
