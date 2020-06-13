@@ -50,14 +50,6 @@ export default class Importer extends Vue {
   items: Item[] = [];
   uid?: string;
 
-  get text() {
-    return JSON.stringify(this.items);
-  }
-
-  set text(value) {
-    this.items = JSON.parse(value);
-  }
-
   mounted() {
     firebaseAuth.onAuthStateChanged(auth => {
       if (auth) {
@@ -66,18 +58,24 @@ export default class Importer extends Vue {
     });
   }
 
+  get text() {
+    return JSON.stringify(this.items);
+  }
+
+  set text(value) {
+    this.items = JSON.parse(value);
+  }
+
   async importClick() {
     if (this.uid) {
       let remaining = [...this.items];
       const processed: { [key: string]: string } = {};
       while (remaining.length > 0) {
-        // console.log(`importing ${remaining.length} items`);
         const skipped: Item[] = [];
         for (const item of remaining) {
           const newParent =
             item.parent === null ? null : processed[item.parent];
           if (newParent !== undefined) {
-            // console.log(`uploading ${item.id}`);
             const { id, ...data } = { ...item };
             delete data.parent;
             const newItem = await items.add({
@@ -85,10 +83,8 @@ export default class Importer extends Vue {
               parent: newParent,
               ...data
             });
-            // console.log(`item ${id} maps to ${newItem.id}`);
             processed[id] = newItem.id;
           } else {
-            // console.log(`undefined reference ${item.id}/${item.parent}`);
             skipped.push(item);
           }
         }

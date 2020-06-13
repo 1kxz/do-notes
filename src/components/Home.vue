@@ -1,7 +1,7 @@
 <template>
   <div class="home text" v-title="'# Notes'">
     <h1># Notes</h1>
-    <p>Simple and fast app to write notes in Mardown.</p>
+    <p>Simple app to write notes in Mardown.</p>
   </div>
 </template>
 

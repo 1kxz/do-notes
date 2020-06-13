@@ -16,12 +16,12 @@
       </button>
       <button v-if="showNav" v-on:click="showNav = false" class="hide-nav" />
       <nav v-if="showNav">
-        <a v-on:click="addClick" v-if="subitems.length < 100">
-          <fa-icon icon="plus" /> Add sub-note
-        </a>
         <router-link v-bind:to="editUrl">
           <fa-icon icon="edit" /> Edit
         </router-link>
+        <a v-on:click="addClick" v-if="subitems.length < 100">
+          <fa-icon icon="plus" /> Add sub-note
+        </a>
         <a v-on:click="deleteClick" v-if="subitems.length === 0">
           <fa-icon icon="trash" /> Delete
         </a>
@@ -232,6 +232,18 @@ export default class ItemViewer extends Vue {
   @Prop() private item!: Item;
   @Prop(Boolean) private root!: boolean;
 
+  @Watch('item', { immediate: true })
+  onItemChanged() {
+    if (this.item.uid && this.item.id) {
+      const subitems = items
+        .where('uid', '==', this.item.uid)
+        .where('parent', '==', this.item.id)
+        .orderBy('order');
+      this.$bind('subitems', subitems);
+      Prism.highlightAll();
+    }
+  }
+
   get type() {
     switch (this.item.format) {
       case 'markdown':
@@ -241,10 +253,6 @@ export default class ItemViewer extends Vue {
       default:
         throw `invalid format ${this.item.format}`;
     }
-  }
-
-  get dragmodel() {
-    return this.subitems.map(item => item.id);
   }
 
   get editUrl() {
@@ -277,6 +285,10 @@ export default class ItemViewer extends Vue {
     items.doc(this.item.id).update({ view: value });
   }
 
+  get dragmodel() {
+    return this.subitems.map(item => item.id);
+  }
+
   dragChange(change: Change) {
     if (change.added) {
       itemAdd({
@@ -299,18 +311,6 @@ export default class ItemViewer extends Vue {
         itemId: change.removed.element,
         oldIndex: change.removed.oldIndex
       });
-    }
-  }
-
-  @Watch('item', { immediate: true })
-  onItemChanged() {
-    if (this.item.uid && this.item.id) {
-      const subitems = items
-        .where('uid', '==', this.item.uid)
-        .where('parent', '==', this.item.id)
-        .orderBy('order');
-      this.$bind('subitems', subitems);
-      Prism.highlightAll();
     }
   }
 }

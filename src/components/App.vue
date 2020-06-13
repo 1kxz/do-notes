@@ -140,14 +140,6 @@ export default class App extends Vue {
   showUserMenu = false;
   themeId = 'Random';
 
-  get dragModel() {
-    return this.subitems.map(item => item.id);
-  }
-
-  get account() {
-    return this.user?.name || this.user?.email || 'Unknown';
-  }
-
   mounted() {
     this.changeTheme(this.themeId);
     firebaseAuth.onAuthStateChanged(auth => {
@@ -176,6 +168,10 @@ export default class App extends Vue {
         this.subitems = [];
       }
     });
+  }
+
+  get account() {
+    return this.user?.name || this.user?.email || 'Unknown';
   }
 
   get themeOptions() {
@@ -259,6 +255,10 @@ export default class App extends Vue {
         })
         .then(x => this.$router.push({ name: 'Editor', params: { id: x.id } }));
     }
+  }
+
+  get dragModel() {
+    return this.subitems.map(item => item.id);
   }
 
   dragChange(change: Change) {

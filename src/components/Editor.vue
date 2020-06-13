@@ -73,6 +73,19 @@ export default class Editor extends Vue {
   backup: Item | null = null;
   synced = false;
 
+  @Watch('$route', { immediate: true })
+  onRouteChanged(route: Route) {
+    items
+      .doc(route.params.id)
+      .get()
+      .then(snapshot => {
+        this.id = snapshot.id;
+        this.item = snapshot.data() as Item;
+        this.backup = { ...this.item } as Item;
+        this.synced = true;
+      });
+  }
+
   get text() {
     if (this.item) {
       return this.item.title + '\n' + this.item.content;
@@ -88,6 +101,38 @@ export default class Editor extends Vue {
       this.item.content = body;
       this.item.format = 'markdown';
       this.upload();
+    }
+  }
+
+  @Throttle(2500)
+  upload() {
+    if (this.id && this.item) {
+      this.item.updated = new Date();
+      items
+        .doc(this.id)
+        .update(this.item)
+        .then(() => {
+          this.synced = true;
+        });
+    }
+  }
+
+  uploadImage() {
+    const file = document.getElementById('file');
+    const item = this.item;
+    if (item !== null && file !== null) {
+      const files = (file as HTMLInputElement).files;
+      if (files?.length) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = () => {
+          if (reader.result) {
+            item.content = reader.result.toString();
+            item.format = 'image';
+            this.upload();
+          }
+        };
+      }
     }
   }
 
@@ -107,58 +152,8 @@ export default class Editor extends Vue {
     return date;
   }
 
-  get uploadUrl() {
-    return { name: 'Uploader', params: { id: this.$route.params.id } };
-  }
-
   undo() {
     this.item = { ...this.backup } as Item;
-  }
-
-  uploadImage() {
-    const file = document.getElementById('file');
-    const item = this.item;
-    if (item !== null && file !== null) {
-      const files = (file as HTMLInputElement).files;
-      if (files?.length) {
-        const reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        reader.onload = () => {
-          if (reader.result) {
-            item.content = reader.result.toString();
-            item.format = 'image';
-            this.upload();
-          }
-          // items.doc(item.id).update({ view: 'image', content: reader.result });
-        };
-      }
-    }
-  }
-
-  @Throttle(2500)
-  upload() {
-    if (this.id && this.item) {
-      this.item.updated = new Date();
-      items
-        .doc(this.id)
-        .update(this.item)
-        .then(() => {
-          this.synced = true;
-        });
-    }
-  }
-
-  @Watch('$route', { immediate: true })
-  onRouteChanged(route: Route) {
-    items
-      .doc(route.params.id)
-      .get()
-      .then(snapshot => {
-        this.id = snapshot.id;
-        this.item = snapshot.data() as Item;
-        this.backup = { ...this.item } as Item;
-        this.synced = true;
-      });
   }
 }
 </script>
