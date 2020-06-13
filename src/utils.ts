@@ -19,6 +19,8 @@ export function dateToString(date: typeof Timestamp | Date | undefined) {
     str = date.toDate().toISOString();
   } else if (date instanceof Date) {
     str = date.toISOString();
+  } else if (date === undefined) {
+    return undefined;
   } else {
     throw 'object is not a valid date';
   }
