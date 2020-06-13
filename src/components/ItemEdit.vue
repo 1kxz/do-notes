@@ -1,5 +1,5 @@
 <template>
-  <div v-if="item" class="wrapper" v-title="`Edit – ${item.title}`">
+  <div v-if="item" class="wrapper" v-title="`ItemEdit – ${item.title}`">
     <div class="editor">
       <header>
         <button v-on:click="undo"><fa-icon icon="undo" /> Undo</button>
@@ -14,7 +14,7 @@
       <header>
         <span v-if="lastUpdated">Last updated on {{ lastUpdated }}</span>
       </header>
-      <item-viewer
+      <item-card
         v-bind:item="item"
         v-bind:root="item.parent == null"
         v-bind:class="[synced ? 'synced' : 'outdated']"
@@ -64,10 +64,10 @@ import { items, splitText } from '@/models/database';
 import { Route } from 'vue-router';
 import { Throttle } from 'lodash-decorators';
 import Item from '@/models/Item';
-import ItemViewer from '@/components/ItemViewer.vue';
+import ItemCard from '@/components/ItemCard.vue';
 
-@Component({ components: { ItemViewer, FaIcon } })
-export default class Editor extends Vue {
+@Component({ components: { ItemCard, FaIcon } })
+export default class ItemEdit extends Vue {
   id: string | null = null;
   item: Item | null = null;
   backup: Item | null = null;

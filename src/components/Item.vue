@@ -1,15 +1,15 @@
 <template>
-  <item-viewer v-if="item" v-bind:item="item" v-title="item.title" root />
+  <item-card v-if="item" v-bind:item="item" v-title="item.title" root />
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { items } from '@/models/database';
-import ItemViewer from '@/components/ItemViewer.vue';
 import { Route } from 'vue-router';
+import ItemCard from '@/components/ItemCard.vue';
 
-@Component({ components: { ItemViewer } })
-export default class Viewer extends Vue {
+@Component({ components: { ItemCard } })
+export default class Item extends Vue {
   item = null;
 
   @Watch('$route', { immediate: true })

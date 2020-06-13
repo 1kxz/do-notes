@@ -253,7 +253,9 @@ export default class App extends Vue {
           content: '',
           view: 'board'
         })
-        .then(x => this.$router.push({ name: 'Editor', params: { id: x.id } }));
+        .then(x =>
+          this.$router.push({ name: 'ItemEdit', params: { id: x.id } })
+        );
     }
   }
 

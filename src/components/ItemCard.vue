@@ -17,7 +17,7 @@
       <button v-if="showNav" v-on:click="showNav = false" class="hide-nav" />
       <nav v-if="showNav">
         <router-link v-bind:to="editUrl">
-          <fa-icon icon="edit" /> Edit
+          <fa-icon icon="edit" /> ItemEdit
         </router-link>
         <a v-on:click="addClick" v-if="subitems.length < 100">
           <fa-icon icon="plus" /> Add sub-note
@@ -51,7 +51,7 @@
         v-bind:list="dragmodel"
         v-on:change="dragChange"
       >
-        <item-viewer
+        <item-card
           v-for="subitem in subitems"
           v-bind:key="subitem.id"
           v-bind:item="subitem"
@@ -224,8 +224,8 @@ import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-bash.min';
 import 'prismjs/components/prism-python.min';
 
-@Component({ name: 'ItemViewer', components: { Draggable, FaIcon } })
-export default class ItemViewer extends Vue {
+@Component({ name: 'ItemCard', components: { Draggable, FaIcon } })
+export default class ItemCard extends Vue {
   subitems: Item[] = [];
   showNav = false;
 
@@ -256,7 +256,7 @@ export default class ItemViewer extends Vue {
   }
 
   get editUrl() {
-    return { name: 'Editor', params: { id: this.item.id } };
+    return { name: 'ItemEdit', params: { id: this.item.id } };
   }
 
   addClick() {
@@ -271,7 +271,7 @@ export default class ItemViewer extends Vue {
         format: 'markdown',
         view: 'pad'
       })
-      .then(x => router.push({ name: 'Editor', params: { id: x.id } }));
+      .then(x => router.push({ name: 'ItemEdit', params: { id: x.id } }));
   }
 
   deleteClick() {

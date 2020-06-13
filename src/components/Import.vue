@@ -5,11 +5,11 @@
       <button v-on:click="importClick">Import</button>
     </div>
     <div class="preview">
-      <item-viewer
+      <item-card
         v-for="item in items"
         v-bind:key="item.id"
         v-bind:item="item"
-      ></item-viewer>
+      ></item-card>
     </div>
   </div>
 </template>
@@ -42,11 +42,11 @@ div.importer {
 import { Component, Vue } from 'vue-property-decorator';
 import { firebaseAuth } from '@/models/auth';
 import { items } from '@/models/database';
-import ItemViewer from '@/components/ItemViewer.vue';
+import ItemCard from '@/components/ItemCard.vue';
 import Item from '@/models/Item';
 
-@Component({ components: { ItemViewer } })
-export default class Importer extends Vue {
+@Component({ components: { ItemCard } })
+export default class Import extends Vue {
   items: Item[] = [];
   uid?: string;
 

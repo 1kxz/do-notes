@@ -14,7 +14,7 @@ export default class ItemLink extends Vue {
   @Prop() private item!: Item;
 
   get target() {
-    return { name: 'Viewer', params: { id: this.item.id } };
+    return { name: 'Item', params: { id: this.item.id } };
   }
 
   get icon() {

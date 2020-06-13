@@ -21,18 +21,18 @@ const routes = [
   },
   {
     path: '/import',
-    name: 'Importer',
-    component: () => import('../components/Importer.vue')
+    name: 'Import',
+    component: () => import('../components/Import.vue')
   },
   {
     path: '/item/:id',
-    name: 'Viewer',
-    component: () => import('../components/Viewer.vue')
+    name: 'Item',
+    component: () => import('../components/Item.vue')
   },
   {
     path: '/item/:id/edit',
-    name: 'Editor',
-    component: () => import('../components/Editor.vue')
+    name: 'ItemEdit',
+    component: () => import('../components/ItemEdit.vue')
   }
 ];
 
