@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { items } from '@/models/database';
+import { items } from '@/database';
 import { Route } from 'vue-router';
 import ItemCard from '@/components/ItemCard.vue';
 

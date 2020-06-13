@@ -1,10 +1,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { firebaseAuth } from '@/models/auth';
+import { firebaseAuth } from '@/auth';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
-import { itemAdd, itemMove, itemRemove } from '@/models/functions';
-import { items, users } from '@/models/database';
-import { themes } from '@/models/themes';
+import { itemAdd, itemMove, itemRemove } from '@/functions';
+import { items, users } from '@/database';
+import { themes } from '@/themes';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';

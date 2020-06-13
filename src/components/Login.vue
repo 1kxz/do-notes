@@ -1,5 +1,5 @@
 <script>
-import { authUi, authConfig } from '@/models/auth';
+import { authUi, authConfig } from '@/auth';
 import { Component, Vue } from 'vue-property-decorator';
 
 import 'firebaseui/dist/firebaseui.css';

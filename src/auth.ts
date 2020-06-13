@@ -1,5 +1,5 @@
 import 'firebase/auth';
-import { firebaseApp } from '@/models/firebase';
+import { firebaseApp } from '@/firebase';
 import * as firebaseui from 'firebaseui';
 import firebase from 'firebase/app';
 

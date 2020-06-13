@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { firebaseAuth } from '@/models/auth';
-import { items } from '@/models/database';
+import { firebaseAuth } from '@/auth';
+import { items } from '@/database';
 import ItemCard from '@/components/ItemCard.vue';
 import Item from '@/models/Item';
 

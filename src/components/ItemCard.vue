@@ -1,8 +1,8 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
-import { itemAdd, itemMove, itemRemove } from '@/models/functions';
-import { items } from '@/models/database';
+import { itemAdd, itemMove, itemRemove } from '@/functions';
+import { items } from '@/database';
 import Change from '@/models/Change';
 import Draggable from 'vuedraggable';
 import Item from '@/models/Item';

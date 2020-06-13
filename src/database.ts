@@ -1,5 +1,5 @@
 import 'firebase/firestore';
-import { firebaseApp } from '@/models/firebase';
+import { firebaseApp } from '@/firebase';
 import { firestorePlugin } from 'vuefire';
 import Vue from 'vue';
 

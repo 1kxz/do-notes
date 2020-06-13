@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
-import { items, splitText } from '@/models/database';
+import { items, splitText } from '@/database';
 import { Route } from 'vue-router';
 import { Throttle } from 'lodash-decorators';
 import Item from '@/models/Item';
