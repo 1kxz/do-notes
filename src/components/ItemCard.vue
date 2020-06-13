@@ -30,8 +30,9 @@ export default class ItemCard extends Vue {
         .where('uid', '==', this.item.uid)
         .where('parent', '==', this.item.id)
         .orderBy('order');
-      this.$bind('subitems', subitems);
-      Prism.highlightAll();
+      this.$bind('subitems', subitems).then(() => {
+        Prism.highlightAll();
+      });
     }
   }
 
