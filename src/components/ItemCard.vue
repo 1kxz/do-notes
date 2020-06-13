@@ -126,7 +126,7 @@ export default class ItemCard extends Vue {
       <button v-if="showNav" v-on:click="showNav = false" class="hide-nav" />
       <nav v-if="showNav">
         <router-link v-bind:to="editUrl">
-          <fa-icon icon="edit" /> ItemEdit
+          <fa-icon icon="edit" /> Edit
         </router-link>
         <a v-on:click="addClick" v-if="subitems.length < 100">
           <fa-icon icon="plus" /> Add sub-note
