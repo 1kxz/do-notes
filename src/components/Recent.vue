@@ -35,7 +35,9 @@ export default class ItemRecent extends Vue {
 <template>
   <table>
     <tr v-for="item in subitems" v-bind:key="item.id">
-      <td><span v-if="item.parent === null">#</span></td>
+      <td>
+        <span v-if="item.parent === null"><fa-icon icon="bookmark"/></span>
+      </td>
       <td><item-link v-bind:item="item" /></td>
       <td>
         <router-link v-bind:to="editUrl(item.id)">

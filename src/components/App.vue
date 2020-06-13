@@ -191,7 +191,9 @@ export default class App extends Vue {
           <fa-icon icon="plus" /> New
         </button>
       </draggable>
-      <router-link v-if="user" to="/recent">Recent</router-link>
+      <router-link v-if="user" to="/recent">
+        <fa-icon icon="history" /> Recent
+      </router-link>
       <button v-if="user" v-on:click="showUserMenu = !showUserMenu">
         <fa-icon icon="user" /> {{ account }}
       </button>

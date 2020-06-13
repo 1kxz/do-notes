@@ -1,11 +1,13 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+  faBookmark,
   faBookOpen,
   faColumns,
   faDownload,
   faEdit,
   faEllipsisH,
   faFileAlt,
+  faHistory,
   faLink,
   faPalette,
   faPlus,
@@ -19,12 +21,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
+  faBookmark,
   faBookOpen,
   faColumns,
   faDownload,
   faEdit,
   faEllipsisH,
   faFileAlt,
+  faHistory,
   faLink,
   faPalette,
   faPlus,
