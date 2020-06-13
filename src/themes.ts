@@ -3,7 +3,12 @@ export const themes: {
     [key: string]: string;
   };
 } = {
-  Random: {},
+  Random: {
+    keybg: '#aaaaaa',
+    rimbg: '#555555',
+    highlightbg: '#eeeeee',
+    backlightbg: '#222222'
+  },
   Surf: {
     keybg: '#ffcd6c',
     keyfg: 'var(--backlightbg)',
@@ -44,22 +49,22 @@ export const themes: {
     background: 'url("../symphony.png")'
   },
   Shed: {
-    keybg: '#ffcfad',
+    keybg: '#ebd6c6',
     keyfg: 'var(--backlightbg)',
-    rimbg: '#b34d00',
+    rimbg: '#b77733',
     rimfg: 'var(--highlightbg)',
-    highlightbg: '#faf1f0',
+    highlightbg: '#f7f7ee',
     highlightfg: 'var(--backlightbg)',
-    backlightbg: '#2e1f0f',
+    backlightbg: '#3b2e2a',
     backlightfg: 'var(--highlightbg)',
     overlaybg: '#ffffff88',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../leaves.jpg")'
   },
   Tartan: {
-    keybg: '#fcc97e',
+    keybg: '#ffc673',
     keyfg: 'var(--backlightbg)',
-    rimbg: '#9b1403',
+    rimbg: '#af2a01',
     rimfg: 'var(--highlightbg)',
     highlightbg: '#f9f3e7',
     highlightfg: 'var(--backlightbg)',
@@ -69,31 +74,44 @@ export const themes: {
     overlayfg: 'var(--backlightbg)',
     background: 'url("../vichy.png")'
   },
-  Frost: {
-    keybg: '#b8e0ff',
+  Abyss: {
+    keybg: '#c1e9fc',
     keyfg: 'var(--backlightbg)',
-    rimbg: '#750dbf',
+    rimbg: '#3e2acd',
     rimfg: 'var(--highlightbg)',
     highlightbg: '#f0f4fa',
     highlightfg: 'var(--backlightbg)',
-    backlightbg: '#1c172c',
+    backlightbg: '#221c4a',
     backlightfg: 'var(--highlightbg)',
     overlaybg: '#ffffff88',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../escheresque.png")'
   },
   Synth: {
-    keybg: '#fc9eff',
+    keybg: '#b9d5ff',
     keyfg: 'var(--backlightbg)',
-    rimbg: '#2e30e0',
+    rimbg: '#da007b',
     rimfg: 'var(--highlightbg)',
-    highlightbg: '#ffecff',
+    highlightbg: '#f6f3fe',
     highlightfg: 'var(--backlightbg)',
-    backlightbg: '#030a2f',
+    backlightbg: '#31014c',
     backlightfg: 'var(--highlightbg)',
     overlaybg: '#ffffff88',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../grid.jpg")'
+  },
+  Frost: {
+    keybg: '#e7edf6',
+    keyfg: '#000000',
+    rimbg: '#1762c2',
+    rimfg: 'var(--keybg)',
+    highlightbg: '#ffffff',
+    highlightfg: 'var(--keyfg)',
+    backlightbg: '#adc4da',
+    backlightfg: 'var(--keyfg)',
+    overlaybg: '#ffffff88',
+    overlayfg: 'var(--backlightbg)',
+    background: 'url("../escheresque.png")'
   }
   // Night: {
   //   keybg: '#1e2f4a',
