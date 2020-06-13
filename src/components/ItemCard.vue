@@ -1,3 +1,112 @@
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
+import { itemAdd, itemMove, itemRemove } from '@/models/functions';
+import { items } from '@/models/database';
+import Change from '@/models/Change';
+import Draggable from 'vuedraggable';
+import Item from '@/models/Item';
+import Picture from '@/components/Picture.vue';
+import Prism from 'prismjs';
+import router from '@/router/index';
+import VueMarkdown from 'vue-markdown';
+
+import 'prismjs/themes/prism.css';
+import 'prismjs/components/prism-bash.min';
+import 'prismjs/components/prism-python.min';
+
+@Component({ name: 'ItemCard', components: { Draggable, FaIcon } })
+export default class ItemCard extends Vue {
+  subitems: Item[] = [];
+  showNav = false;
+
+  @Prop() private item!: Item;
+  @Prop(Boolean) private root!: boolean;
+
+  @Watch('item', { immediate: true })
+  onItemChanged() {
+    if (this.item.uid && this.item.id) {
+      const subitems = items
+        .where('uid', '==', this.item.uid)
+        .where('parent', '==', this.item.id)
+        .orderBy('order');
+      this.$bind('subitems', subitems);
+      Prism.highlightAll();
+    }
+  }
+
+  get type() {
+    switch (this.item.format) {
+      case 'markdown':
+        return VueMarkdown;
+      case 'image':
+        return Picture;
+      default:
+        throw `invalid format ${this.item.format}`;
+    }
+  }
+
+  get editUrl() {
+    return { name: 'ItemEdit', params: { id: this.item.id } };
+  }
+
+  addClick() {
+    items
+      .add({
+        uid: this.item.uid,
+        parent: this.item.id,
+        order: this.subitems ? this.subitems.length : 0,
+        title: 'New document',
+        content: 'Hello world!',
+        created: new Date(),
+        format: 'markdown',
+        view: 'pad'
+      })
+      .then(x => router.push({ name: 'ItemEdit', params: { id: x.id } }));
+  }
+
+  deleteClick() {
+    if (this.subitems.length == 0) {
+      items.doc(this.item.id).delete();
+    }
+  }
+
+  viewClick(value: string) {
+    this.showNav = false;
+    items.doc(this.item.id).update({ view: value });
+  }
+
+  get dragmodel() {
+    return this.subitems.map(item => item.id);
+  }
+
+  dragChange(change: Change) {
+    if (change.added) {
+      itemAdd({
+        uid: this.item.uid,
+        parentId: this.item.id,
+        itemId: change.added.element,
+        newIndex: change.added.newIndex
+      });
+    } else if (change.moved) {
+      itemMove({
+        uid: this.item.uid,
+        parentId: this.item.id,
+        oldIndex: change.moved.oldIndex,
+        newIndex: change.moved.newIndex
+      });
+    } else if (change.removed) {
+      itemRemove({
+        uid: this.item.uid,
+        parentId: this.item.id,
+        itemId: change.removed.element,
+        oldIndex: change.removed.oldIndex
+      });
+    }
+  }
+}
+</script>
+
 <template>
   <div
     v-bind:class="[
@@ -206,112 +315,3 @@ div.item.solid.headless {
   }
 }
 </style>
-
-<script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
-import { itemAdd, itemMove, itemRemove } from '@/models/functions';
-import { items } from '@/models/database';
-import Change from '@/models/Change';
-import Draggable from 'vuedraggable';
-import Item from '@/models/Item';
-import Picture from '@/components/Picture.vue';
-import Prism from 'prismjs';
-import router from '@/router/index';
-import VueMarkdown from 'vue-markdown';
-
-import 'prismjs/themes/prism.css';
-import 'prismjs/components/prism-bash.min';
-import 'prismjs/components/prism-python.min';
-
-@Component({ name: 'ItemCard', components: { Draggable, FaIcon } })
-export default class ItemCard extends Vue {
-  subitems: Item[] = [];
-  showNav = false;
-
-  @Prop() private item!: Item;
-  @Prop(Boolean) private root!: boolean;
-
-  @Watch('item', { immediate: true })
-  onItemChanged() {
-    if (this.item.uid && this.item.id) {
-      const subitems = items
-        .where('uid', '==', this.item.uid)
-        .where('parent', '==', this.item.id)
-        .orderBy('order');
-      this.$bind('subitems', subitems);
-      Prism.highlightAll();
-    }
-  }
-
-  get type() {
-    switch (this.item.format) {
-      case 'markdown':
-        return VueMarkdown;
-      case 'image':
-        return Picture;
-      default:
-        throw `invalid format ${this.item.format}`;
-    }
-  }
-
-  get editUrl() {
-    return { name: 'ItemEdit', params: { id: this.item.id } };
-  }
-
-  addClick() {
-    items
-      .add({
-        uid: this.item.uid,
-        parent: this.item.id,
-        order: this.subitems ? this.subitems.length : 0,
-        title: 'New document',
-        content: 'Hello world!',
-        created: new Date(),
-        format: 'markdown',
-        view: 'pad'
-      })
-      .then(x => router.push({ name: 'ItemEdit', params: { id: x.id } }));
-  }
-
-  deleteClick() {
-    if (this.subitems.length == 0) {
-      items.doc(this.item.id).delete();
-    }
-  }
-
-  viewClick(value: string) {
-    this.showNav = false;
-    items.doc(this.item.id).update({ view: value });
-  }
-
-  get dragmodel() {
-    return this.subitems.map(item => item.id);
-  }
-
-  dragChange(change: Change) {
-    if (change.added) {
-      itemAdd({
-        uid: this.item.uid,
-        parentId: this.item.id,
-        itemId: change.added.element,
-        newIndex: change.added.newIndex
-      });
-    } else if (change.moved) {
-      itemMove({
-        uid: this.item.uid,
-        parentId: this.item.id,
-        oldIndex: change.moved.oldIndex,
-        newIndex: change.moved.newIndex
-      });
-    } else if (change.removed) {
-      itemRemove({
-        uid: this.item.uid,
-        parentId: this.item.id,
-        itemId: change.removed.element,
-        oldIndex: change.removed.oldIndex
-      });
-    }
-  }
-}
-</script>

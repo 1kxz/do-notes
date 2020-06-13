@@ -1,3 +1,10 @@
+<script>
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class Home extends Vue {}
+</script>
+
 <template>
   <div class="home text" v-title="'# Notes'">
     <h1># Notes</h1>
@@ -13,10 +20,3 @@
   }
 }
 </style>
-
-<script>
-import { Component, Vue } from 'vue-property-decorator';
-
-@Component
-export default class Home extends Vue {}
-</script>

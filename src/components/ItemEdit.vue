@@ -1,62 +1,3 @@
-<template>
-  <div v-if="item" class="wrapper" v-title="`ItemEdit – ${item.title}`">
-    <div class="editor">
-      <header>
-        <button v-on:click="undo"><fa-icon icon="undo" /> Undo</button>
-        <button v-on:click="uploadImage">
-          <fa-icon icon="upload" />Upload
-        </button>
-        <input id="file" type="file" />
-      </header>
-      <textarea v-model="text"></textarea>
-    </div>
-    <div class="viewer">
-      <header>
-        <span v-if="lastUpdated">Last updated on {{ lastUpdated }}</span>
-      </header>
-      <item-card
-        v-bind:item="item"
-        v-bind:root="item.parent == null"
-        v-bind:class="[synced ? 'synced' : 'outdated']"
-      />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-div.wrapper {
-  @apply flex flex-1;
-  > * {
-    @apply flex-1 flex flex-col;
-  }
-  header {
-    @apply bg-highlightbg text-highlightfg;
-    > * {
-      @apply p-2 inline-block;
-    }
-  }
-}
-div.editor {
-  @apply bg-highlightbg text-highlightfg;
-  button {
-    &:hover {
-      @apply bg-keybg text-keyfg;
-    }
-  }
-  textarea {
-    @apply flex-1 p-2 font-mono bg-overlaybg text-overlayfg;
-  }
-}
-div.viewer {
-  div.item {
-    @apply flex-1;
-  }
-  div.item.outdated {
-    @apply opacity-75;
-  }
-}
-</style>
-
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
@@ -157,3 +98,62 @@ export default class ItemEdit extends Vue {
   }
 }
 </script>
+
+<template>
+  <div v-if="item" class="wrapper" v-title="`ItemEdit – ${item.title}`">
+    <div class="editor">
+      <header>
+        <button v-on:click="undo"><fa-icon icon="undo" /> Undo</button>
+        <button v-on:click="uploadImage">
+          <fa-icon icon="upload" />Upload
+        </button>
+        <input id="file" type="file" />
+      </header>
+      <textarea v-model="text"></textarea>
+    </div>
+    <div class="viewer">
+      <header>
+        <span v-if="lastUpdated">Last updated on {{ lastUpdated }}</span>
+      </header>
+      <item-card
+        v-bind:item="item"
+        v-bind:root="item.parent == null"
+        v-bind:class="[synced ? 'synced' : 'outdated']"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+div.wrapper {
+  @apply flex flex-1;
+  > * {
+    @apply flex-1 flex flex-col;
+  }
+  header {
+    @apply bg-highlightbg text-highlightfg;
+    > * {
+      @apply p-2 inline-block;
+    }
+  }
+}
+div.editor {
+  @apply bg-highlightbg text-highlightfg;
+  button {
+    &:hover {
+      @apply bg-keybg text-keyfg;
+    }
+  }
+  textarea {
+    @apply flex-1 p-2 font-mono bg-overlaybg text-overlayfg;
+  }
+}
+div.viewer {
+  div.item {
+    @apply flex-1;
+  }
+  div.item.outdated {
+    @apply opacity-75;
+  }
+}
+</style>

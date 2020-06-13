@@ -1,3 +1,12 @@
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class Logo extends Vue {
+  @Prop() private theme!: { [key: string]: string };
+}
+</script>
+
 <template>
   <svg width="90" height="90" viewBox="0 0 100 100">
     <defs>
@@ -27,12 +36,3 @@
     </g>
   </svg>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class Logo extends Vue {
-  @Prop() private theme!: { [key: string]: string };
-}
-</script>

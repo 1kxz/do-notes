@@ -1,7 +1,3 @@
-<template>
-  <item-card v-if="item" v-bind:item="item" v-title="item.title" root />
-</template>
-
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { items } from '@/models/database';
@@ -18,3 +14,7 @@ export default class Item extends Vue {
   }
 }
 </script>
+
+<template>
+  <item-card v-if="item" v-bind:item="item" v-title="item.title" root />
+</template>

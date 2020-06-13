@@ -1,124 +1,3 @@
-<template>
-  <div id="app" v-bind:class="themeId.toLowerCase()">
-    <nav>
-      <draggable
-        group="items"
-        class="shortcuts"
-        draggable=".item-link"
-        v-bind:list="dragModel"
-        v-on:change="dragChange"
-      >
-        <router-link to="/" slot="header"># Notes</router-link>
-        <item-link
-          v-for="item in subitems"
-          v-bind:key="item.id"
-          v-bind:item="item"
-        />
-        <button v-if="user" slot="footer" v-on:click="addClick">
-          <fa-icon icon="plus" /> New
-        </button>
-      </draggable>
-      <button v-if="user" v-on:click="showUserMenu = !showUserMenu">
-        <fa-icon icon="user" /> {{ account }}
-      </button>
-      <button
-        v-if="showUserMenu"
-        v-on:click="showUserMenu = false"
-        class="hide-user-menu"
-      />
-      <span v-if="user && showUserMenu" class="user-menu">
-        <button v-on:click="logoutClick">
-          <fa-icon icon="sign-out-alt" /> Sign out
-        </button>
-        <button v-on:click="importClick">
-          <fa-icon icon="upload" /> Import
-        </button>
-        <button v-on:click="exportClick">
-          <fa-icon icon="download" /> Export
-        </button>
-        <button v-on:click="helpClick"><fa-icon icon="question" /> Help</button>
-        <button
-          v-for="themeId in themeOptions"
-          v-bind:key="themeId"
-          v-on:click="changeTheme(themeId)"
-        >
-          <logo v-bind:theme="themeValues(themeId)" class="theme-icon" />
-          {{ themeId }}
-        </button>
-      </span>
-      <router-link v-if="!user" to="/login">
-        <fa-icon icon="sign-in-alt" /> Sign in
-      </router-link>
-    </nav>
-    <router-view class="content" />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-#app {
-  @apply flex flex-col flex-1;
-  nav {
-    @apply flex leading-none relative;
-    a,
-    button {
-      @apply block px-3 py-2 cursor-pointer;
-    }
-    a,
-    button {
-      @apply bg-rimbg text-rimfg text-left;
-      &:hover {
-        @apply bg-backlightbg text-backlightfg;
-      }
-      &.router-link-exact-active {
-        @apply cursor-default text-backlightfg;
-        background-color: transparent;
-      }
-    }
-    button.hide-user-menu {
-      @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
-      background-color: #0004;
-    }
-    span.user-menu {
-      @apply absolute right-0 top-0 z-20 m-2 flex flex-col rounded overflow-hidden shadow;
-      a,
-      button {
-        @apply bg-backlightbg text-backlightfg;
-        &:hover {
-          @apply bg-rimbg text-rimfg;
-        }
-      }
-      svg.theme-icon {
-        width: 1.2rem;
-        height: 1.2rem;
-        margin: -0.1rem;
-        display: inline;
-      }
-    }
-    div.shortcuts {
-      @apply flex flex-1;
-      ::v-deep .item {
-        @apply border-0;
-        .title {
-          @apply block p-2 bg-backlightbg text-backlightfg leading-none;
-        }
-        .body,
-        .subitems,
-        button {
-          @apply hidden;
-        }
-      }
-      &::after {
-        @apply flex-1 bg-rimbg text-rimfg;
-        content: '';
-      }
-    }
-  }
-  div.content {
-    @apply flex-1;
-  }
-}
-</style>
-
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { firebaseAuth } from '@/models/auth';
@@ -291,3 +170,124 @@ export default class App extends Vue {
   }
 }
 </script>
+
+<template>
+  <div id="app" v-bind:class="themeId.toLowerCase()">
+    <nav>
+      <draggable
+        group="items"
+        class="shortcuts"
+        draggable=".item-link"
+        v-bind:list="dragModel"
+        v-on:change="dragChange"
+      >
+        <router-link to="/" slot="header"># Notes</router-link>
+        <item-link
+          v-for="item in subitems"
+          v-bind:key="item.id"
+          v-bind:item="item"
+        />
+        <button v-if="user" slot="footer" v-on:click="addClick">
+          <fa-icon icon="plus" /> New
+        </button>
+      </draggable>
+      <button v-if="user" v-on:click="showUserMenu = !showUserMenu">
+        <fa-icon icon="user" /> {{ account }}
+      </button>
+      <button
+        v-if="showUserMenu"
+        v-on:click="showUserMenu = false"
+        class="hide-user-menu"
+      />
+      <span v-if="user && showUserMenu" class="user-menu">
+        <button v-on:click="logoutClick">
+          <fa-icon icon="sign-out-alt" /> Sign out
+        </button>
+        <button v-on:click="importClick">
+          <fa-icon icon="upload" /> Import
+        </button>
+        <button v-on:click="exportClick">
+          <fa-icon icon="download" /> Export
+        </button>
+        <button v-on:click="helpClick"><fa-icon icon="question" /> Help</button>
+        <button
+          v-for="themeId in themeOptions"
+          v-bind:key="themeId"
+          v-on:click="changeTheme(themeId)"
+        >
+          <logo v-bind:theme="themeValues(themeId)" class="theme-icon" />
+          {{ themeId }}
+        </button>
+      </span>
+      <router-link v-if="!user" to="/login">
+        <fa-icon icon="sign-in-alt" /> Sign in
+      </router-link>
+    </nav>
+    <router-view class="content" />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+#app {
+  @apply flex flex-col flex-1;
+  nav {
+    @apply flex leading-none relative;
+    a,
+    button {
+      @apply block px-3 py-2 cursor-pointer;
+    }
+    a,
+    button {
+      @apply bg-rimbg text-rimfg text-left;
+      &:hover {
+        @apply bg-backlightbg text-backlightfg;
+      }
+      &.router-link-exact-active {
+        @apply cursor-default text-backlightfg;
+        background-color: transparent;
+      }
+    }
+    button.hide-user-menu {
+      @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
+      background-color: #0004;
+    }
+    span.user-menu {
+      @apply absolute right-0 top-0 z-20 m-2 flex flex-col rounded overflow-hidden shadow;
+      a,
+      button {
+        @apply bg-backlightbg text-backlightfg;
+        &:hover {
+          @apply bg-rimbg text-rimfg;
+        }
+      }
+      svg.theme-icon {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin: -0.1rem;
+        display: inline;
+      }
+    }
+    div.shortcuts {
+      @apply flex flex-1;
+      ::v-deep .item {
+        @apply border-0;
+        .title {
+          @apply block p-2 bg-backlightbg text-backlightfg leading-none;
+        }
+        .body,
+        .subitems,
+        button {
+          @apply hidden;
+        }
+      }
+      &::after {
+        @apply flex-1 bg-rimbg text-rimfg;
+        content: '';
+      }
+    }
+  }
+  div.content {
+    @apply flex-1;
+  }
+}
+</style>

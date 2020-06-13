@@ -1,9 +1,3 @@
-<template>
-  <router-link v-bind:to="target" class="item-link">
-    <fa-icon v-bind:icon="icon" /> {{ item.title }}
-  </router-link>
-</template>
-
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
@@ -31,3 +25,9 @@ export default class ItemLink extends Vue {
   }
 }
 </script>
+
+<template>
+  <router-link v-bind:to="target" class="item-link">
+    <fa-icon v-bind:icon="icon" /> {{ item.title }}
+  </router-link>
+</template>

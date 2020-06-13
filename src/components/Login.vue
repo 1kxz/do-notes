@@ -1,13 +1,3 @@
-<template>
-  <div id="auth" v-title="'Login'" />
-</template>
-
-<style lang="scss" scoped>
-#auth {
-  @apply m-6;
-}
-</style>
-
 <script>
 import { authUi, authConfig } from '@/models/auth';
 import { Component, Vue } from 'vue-property-decorator';
@@ -21,3 +11,13 @@ export default class Login extends Vue {
   }
 }
 </script>
+
+<template>
+  <div id="auth" v-title="'Login'" />
+</template>
+
+<style lang="scss" scoped>
+#auth {
+  @apply m-6;
+}
+</style>

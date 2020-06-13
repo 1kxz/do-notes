@@ -1,43 +1,3 @@
-<template>
-  <div class="importer" v-title="'Import'">
-    <div class="editor">
-      <textarea v-model="text"></textarea>
-      <button v-on:click="importClick">Import</button>
-    </div>
-    <div class="preview">
-      <item-card
-        v-for="item in items"
-        v-bind:key="item.id"
-        v-bind:item="item"
-      ></item-card>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-div.importer {
-  @apply flex;
-  > * {
-    @apply flex-1;
-  }
-  > div.editor {
-    @apply flex flex-col;
-    > textarea {
-      @apply p-2 text-keyfg;
-      min-height: 25rem;
-    }
-    > button {
-      @apply bg-rimbg rounded m-2 p-2;
-    }
-  }
-  > div.preview {
-    div.item {
-      @apply rounded m-2;
-    }
-  }
-}
-</style>
-
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { firebaseAuth } from '@/models/auth';
@@ -99,3 +59,43 @@ export default class Import extends Vue {
   }
 }
 </script>
+
+<template>
+  <div class="importer" v-title="'Import'">
+    <div class="editor">
+      <textarea v-model="text"></textarea>
+      <button v-on:click="importClick">Import</button>
+    </div>
+    <div class="preview">
+      <item-card
+        v-for="item in items"
+        v-bind:key="item.id"
+        v-bind:item="item"
+      ></item-card>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+div.importer {
+  @apply flex;
+  > * {
+    @apply flex-1;
+  }
+  > div.editor {
+    @apply flex flex-col;
+    > textarea {
+      @apply p-2 text-keyfg;
+      min-height: 25rem;
+    }
+    > button {
+      @apply bg-rimbg rounded m-2 p-2;
+    }
+  }
+  > div.preview {
+    div.item {
+      @apply rounded m-2;
+    }
+  }
+}
+</style>
