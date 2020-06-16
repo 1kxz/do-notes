@@ -44,6 +44,8 @@ export default class ItemRecent extends Vue {
           <fa-icon icon="edit" />
         </router-link>
       </td>
+      <td>{{ item.format }}</td>
+      <td>{{ item.content.length }}</td>
       <td>{{ dateToString(item.updated) }}</td>
     </tr>
   </table>
