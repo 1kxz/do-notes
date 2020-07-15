@@ -114,10 +114,11 @@ export default class ItemCard extends Vue {
       'item',
       item.view,
       item.format,
-      item.title ? 'headed' : 'headless',
-      item.content ? 'full' : 'empty',
-      subitems.length ? 'branch' : 'leaf',
-      root && !item.parent ? 'transparent' : 'solid'
+      item.title ? 'title' : 'untitled',
+      item.content ? 'content' : 'contentless',
+      subitems.length ? 'length' : 'empty',
+      item.parent ? 'parented' : 'orphan',
+      root ? 'root' : 'nonroot'
     ]"
   >
     <header>
@@ -137,13 +138,13 @@ export default class ItemCard extends Vue {
           <fa-icon icon="trash" /> Delete
         </a>
         <a v-on:click="viewClick('pad')" v-if="item.view !== 'pad'">
-          <fa-icon icon="file-alt" /> Pad view
+          <fa-icon icon="file-alt" /> Notepad view
         </a>
         <a v-on:click="viewClick('board')" v-if="item.view !== 'board'">
           <fa-icon icon="columns" /> Board view
         </a>
         <a v-on:click="viewClick('wide')" v-if="item.view !== 'wide'">
-          <fa-icon icon="book-open" /> Wide view
+          <fa-icon icon="book-open" /> Album view
         </a>
       </nav>
     </header>
@@ -158,7 +159,7 @@ export default class ItemCard extends Vue {
       <draggable
         group="items"
         handle="header"
-        v-bind:class="['subitems', subitems.length > 0 ? 'full' : 'empty']"
+        v-bind:class="['subitems', subitems.length > 0 ? 'length' : 'empty']"
         v-bind:list="dragmodel"
         v-on:change="dragChange"
       >
@@ -175,18 +176,18 @@ export default class ItemCard extends Vue {
 <style lang="scss" scoped>
 // Nesting layout
 div.item.pad {
-  // border: 2px solid #00f;
+  // border: 2px solid #00f !important;
   > section {
     > div.subitems {
       @apply flex flex-col;
       > div.item {
-        max-width: 65rem;
+        max-width: 60rem;
       }
     }
   }
 }
 div.item.board {
-  // border: 2px solid #0f0;
+  // border: 2px solid #0f0 !important;
   display: flex;
   flex-direction: column;
   > section {
@@ -197,23 +198,33 @@ div.item.board {
       align-items: flex-start;
       overflow-x: auto;
       > div.item {
-        min-width: 20rem;
-        max-width: 30rem;
+        min-width: 24rem;
+        max-width: 40rem;
       }
     }
   }
-}
-div.item.wide {
-  // border: 2px solid #f00;
-  > section > div.subitems {
-    @apply flex flex-row items-start justify-start flex-wrap;
-    > div.item {
-      min-width: 30rem;
-      max-width: 65rem;
-    }
+  div.text {
+    max-height: 32em;
+    overflow-y: auto;
   }
 }
-// Note layout
+div.item.wide {
+  // border: 2px solid #f00 !important;
+  > section {
+    > div.subitems {
+      @apply flex flex-row items-start justify-start flex-wrap;
+      > div.item {
+        min-width: 30rem;
+        max-width: calc(50% - 1em);
+      }
+    }
+  }
+  div.text {
+    max-height: 60em;
+    overflow-y: auto;
+  }
+}
+// Content layout
 div.item {
   @apply relative;
   > header {
@@ -236,10 +247,10 @@ div.item {
     }
   }
   > section {
-    > div.text + div.subitems.full {
+    > div.text + div.subitems.length {
       @apply -mt-2;
     }
-    > div.subitems.full {
+    > div.subitems.length {
       @apply p-1;
       > div {
         @apply m-1;
@@ -267,17 +278,44 @@ div.item {
     }
   }
 }
-div.item.transparent.empty {
+div.item.root.contentless {
+  // Fix header options overlap
+  @apply pr-10;
+}
+div.item.root.board {
+  // Fix column margins in board view
+  > section > div.subitems > div.item {
+    @apply -m-1 mt-1;
+    > header > button.show-nav {
+      margin-right: calc(0.5em + 2px);
+    }
+  }
+}
+div.item.root.orphan.empty {
+  // Applies to root notes in the editor
   @apply pr-8;
 }
 // Color & style
 div.item {
   > header {
-    @apply cursor-default;
+    > div.title {
+      @apply font-medium;
+    }
+    > button.show-nav {
+      @apply opacity-0;
+      &:hover {
+        @apply opacity-100;
+      }
+    }
+    &:hover {
+      > .show-nav {
+        @apply opacity-50;
+      }
+    }
     > nav {
       @apply bg-backlightbg text-backlightfg rounded overflow-hidden shadow;
       a:hover {
-        @apply bg-rimbg text-rimfg cursor-pointer;
+        @apply bg-rimbg text-rimfg cursor-pointer no-underline;
       }
     }
   }
@@ -285,27 +323,27 @@ div.item {
     > div.subitems > div.item {
       @apply rounded;
     }
-    > div.text {
-      max-height: 50em;
-      overflow-y: auto;
-    }
-    > div.text::v-deep a {
-      @apply text-keybg;
-    }
-  }
-  img {
-    @apply mx-auto;
-    max-height: 15rem;
-    &:hover {
-      @apply z-10;
-      transform: scale(2.5);
+    > div.text::v-deep {
+      a {
+        @apply text-keybg;
+      }
+      img {
+        @apply block mx-auto;
+        width: 100%;
+      }
     }
   }
 }
-div.item.solid {
+div.viewer div.item.nonroot,
+div.item.root.pad div.item,
+div.item.root.wide div.item,
+div.item.root div.item div.item {
   @apply bg-highlightbg text-highlightfg border-2 border-keybg;
   > header {
-    @apply bg-keybg text-keyfg;
+    @apply bg-keybg text-keyfg cursor-default;
+    > div.title {
+      @apply font-normal;
+    }
   }
   > section {
     > div.text::v-deep a {
@@ -313,7 +351,7 @@ div.item.solid {
     }
   }
 }
-div.item.solid.headless {
+div.item.untitled {
   > header {
     > button.show-nav {
       @apply rounded-bl leading-none;
