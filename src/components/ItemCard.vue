@@ -116,6 +116,7 @@ export default class ItemCard extends Vue {
       item.format,
       item.title ? 'headed' : 'headless',
       item.content ? 'full' : 'empty',
+      subitems.length ? 'branch' : 'leaf',
       root && !item.parent ? 'transparent' : 'solid'
     ]"
   >
@@ -283,6 +284,10 @@ div.item {
   > section {
     > div.subitems > div.item {
       @apply rounded;
+    }
+    > div.text {
+      max-height: 50em;
+      overflow-y: auto;
     }
     > div.text::v-deep a {
       @apply text-keybg;
