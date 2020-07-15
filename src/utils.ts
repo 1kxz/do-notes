@@ -10,6 +10,7 @@ export function splitText(text: string) {
     [title] = body.split('\n', 1);
     body = body.slice(title.length + 1);
   }
+  if (title === ' ') title = '';
   return { title, body };
 }
 
