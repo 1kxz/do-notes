@@ -100,17 +100,17 @@ export const themes: {
     overlayfg: 'var(--backlightbg)',
     background: 'url("../grid.jpg")'
   },
-  Frost: {
-    keybg: '#e7edf6',
+  Skies: {
+    keybg: '#eff6ff',
     keyfg: '#000000',
     rimbg: '#1762c2',
     rimfg: 'var(--keybg)',
-    highlightbg: '#ffffff',
+    highlightbg: '#dcecff',
     highlightfg: 'var(--keyfg)',
-    backlightbg: '#adc4da',
+    backlightbg: '#b1d2ff',
     backlightfg: 'var(--keyfg)',
-    overlaybg: '#ffffff88',
-    overlayfg: 'var(--backlightbg)',
+    overlaybg: '#d4e7ff',
+    overlayfg: 'var(--keyfg)',
     background: 'url("../escheresque.png")'
   }
   // Night: {
