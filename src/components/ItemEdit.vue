@@ -59,6 +59,14 @@ export default class ItemEdit extends Vue {
     }
   }
 
+  updated() {
+    // Update textarea size to match content
+    const editor = document.getElementById('text-editor');
+    if (editor !== null && editor.scrollHeight > editor.clientHeight) {
+      editor.style.height = editor.scrollHeight + 'px';
+    }
+  }
+
   uploadImage() {
     const file = document.getElementById('file');
     const item = this.item;
@@ -98,7 +106,7 @@ export default class ItemEdit extends Vue {
         </button>
         <input id="file" type="file" />
       </header>
-      <textarea v-model="text"></textarea>
+      <textarea id="text-editor" v-model="text"></textarea>
     </div>
     <div class="viewer">
       <header>
@@ -134,7 +142,7 @@ div.editor {
     }
   }
   textarea {
-    @apply flex-1 p-2 font-mono bg-overlaybg text-overlayfg;
+    @apply p-2 font-mono bg-overlaybg text-overlayfg overflow-hidden;
   }
 }
 div.viewer {
