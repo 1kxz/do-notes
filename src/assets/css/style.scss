@@ -30,12 +30,14 @@ svg {
 }
 div.text {
   h1 {
-    @apply m-2;
+    @apply my-2;
+    @apply px-2;
     font-weight: 700;
     font-size: 1.5rem;
   }
   h2 {
-    @apply m-2;
+    @apply my-2;
+    @apply px-2;
     font-weight: 600;
     font-size: 1.24rem;
   }

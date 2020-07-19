@@ -331,6 +331,12 @@ div.item {
         @apply block mx-auto;
         width: 100%;
       }
+      h1 {
+        @apply bg-keybg;
+      }
+      h2 {
+        @apply border-b-2 border-keybg;
+      }
     }
   }
 }
