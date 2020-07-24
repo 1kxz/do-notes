@@ -332,7 +332,7 @@ div.item {
       @apply font-medium;
     }
     > button.show-nav {
-      @apply opacity-25;
+      @apply opacity-0;
       &:hover {
         @apply opacity-100;
       }
