@@ -77,6 +77,11 @@ export default class ItemCard extends Vue {
     items.doc(this.item.id).update({ view: value });
   }
 
+  collapseClick(value: boolean) {
+    this.showNav = false;
+    items.doc(this.item.id).update({ collapsed: value });
+  }
+
   get dragmodel() {
     return this.subitems.map(item => item.id);
   }
@@ -114,15 +119,22 @@ export default class ItemCard extends Vue {
       'item',
       item.view,
       item.format,
-      item.title ? 'title' : 'untitled',
-      item.content ? 'content' : 'contentless',
-      subitems.length ? 'length' : 'empty',
-      item.parent ? 'parented' : 'orphan',
+      item.title ? 'has-title' : 'untitled',
+      item.content ? 'has-content' : 'contentless',
+      item.parent ? 'has-parent' : 'orphan',
+      item.collapsed ? 'collapsed' : 'expanded',
+      subitems.length ? 'has-length' : 'empty',
       root ? 'root' : 'nonroot'
     ]"
   >
     <header>
       <div v-if="!root && item.title" class="title">{{ item.title }}</div>
+      <button
+        v-if="item.collapsed && (item.content || subitems.length)"
+        v-on:click="collapseClick(false)"
+      >
+        <fa-icon icon="plus-circle" /> {{ subitems.length }}
+      </button>
       <button v-on:click="showNav = !showNav" class="show-nav">
         <fa-icon icon="ellipsis-h" />
       </button>
@@ -133,6 +145,12 @@ export default class ItemCard extends Vue {
         </router-link>
         <a v-on:click="addClick" v-if="subitems.length < 100">
           <fa-icon icon="plus" /> Add sub-note
+        </a>
+        <a v-on:click="collapseClick(false)" v-if="item.collapsed">
+          <fa-icon icon="plus-circle" /> Expand
+        </a>
+        <a v-on:click="collapseClick(true)" v-else>
+          <fa-icon icon="minus-circle" /> Collapse
         </a>
         <a v-on:click="deleteClick" v-if="subitems.length === 0">
           <fa-icon icon="trash" /> Delete
@@ -148,7 +166,7 @@ export default class ItemCard extends Vue {
         </a>
       </nav>
     </header>
-    <section>
+    <section v-if="!item.collapsed">
       <component
         class="text"
         v-if="item.content"
@@ -159,7 +177,10 @@ export default class ItemCard extends Vue {
       <draggable
         group="items"
         handle="header"
-        v-bind:class="['subitems', subitems.length > 0 ? 'length' : 'empty']"
+        v-bind:class="[
+          'subitems',
+          subitems.length > 0 ? 'has-length' : 'empty'
+        ]"
         v-bind:list="dragmodel"
         v-on:change="dragChange"
       >
@@ -188,18 +209,20 @@ div.item.pad {
 }
 div.item.board {
   // border: 2px solid #0f0 !important;
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
   > section {
-    flex: 1;
+    @apply flex-1;
     > div.subitems {
+      @apply flex;
       height: 100%;
-      display: flex;
       align-items: flex-start;
       overflow-x: auto;
-      > div.item {
+      > div.item.expanded {
         min-width: 24rem;
         max-width: 40rem;
+      }
+      > div.item.collapsed > header {
+        @apply flex flex-col pr-4;
       }
     }
   }
@@ -228,12 +251,12 @@ div.item.wide {
 div.item {
   @apply relative;
   > header {
-    @apply leading-tight;
+    @apply leading-tight flex p-1;
     > div.title {
-      @apply p-2 pr-8;
+      @apply p-1 flex-1;
     }
-    > button.show-nav {
-      @apply absolute top-0 right-0 p-2;
+    > button {
+      @apply p-1;
     }
     > button.hide-nav {
       @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
@@ -241,16 +264,17 @@ div.item {
     }
     > nav {
       @apply absolute right-0 top-0 z-20 flex flex-col;
+      min-width: 9rem;
       > a {
         @apply p-2;
       }
     }
   }
   > section {
-    > div.text + div.subitems.length {
+    > div.text + div.subitems.has-length {
       @apply -mt-2;
     }
-    > div.subitems.length {
+    > div.subitems.has-length {
       @apply p-1;
       > div {
         @apply m-1;
@@ -278,6 +302,12 @@ div.item {
     }
   }
 }
+div.item.root {
+  @apply relative;
+  > header {
+    @apply absolute right-0;
+  }
+}
 div.item.root.contentless {
   // Fix header options overlap
   @apply pr-10;
@@ -302,7 +332,7 @@ div.item {
       @apply font-medium;
     }
     > button.show-nav {
-      @apply opacity-0;
+      @apply opacity-25;
       &:hover {
         @apply opacity-100;
       }
