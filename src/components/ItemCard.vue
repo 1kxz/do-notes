@@ -128,15 +128,18 @@ export default class ItemCard extends Vue {
     ]"
   >
     <header>
-      <div v-if="!root && item.title" class="title">{{ item.title }}</div>
+      <div v-if="!root && item.title" class="title">
+        {{ item.title }}
+      </div>
+      <button v-on:click="showNav = !showNav" class="show-nav">
+        <fa-icon icon="ellipsis-h" />
+      </button>
       <button
         v-if="item.collapsed && (item.content || subitems.length)"
         v-on:click="collapseClick(false)"
       >
-        <fa-icon icon="plus-circle" /> {{ subitems.length }}
-      </button>
-      <button v-on:click="showNav = !showNav" class="show-nav">
-        <fa-icon icon="ellipsis-h" />
+        <fa-icon icon="plus-circle" />
+        <span v-if="subitems.length">{{ subitems.length }}</span>
       </button>
       <button v-if="showNav" v-on:click="showNav = false" class="hide-nav" />
       <nav v-if="showNav">
@@ -306,6 +309,8 @@ div.item.root {
   @apply relative;
   > header {
     @apply absolute right-0;
+    min-height: 2em;
+    min-width: 2.2em;
   }
 }
 div.item.root.contentless {
@@ -332,14 +337,14 @@ div.item {
       @apply font-medium;
     }
     > button.show-nav {
-      @apply opacity-0;
+      @apply hidden;
       &:hover {
-        @apply opacity-100;
+        @apply block opacity-100;
       }
     }
     &:hover {
       > .show-nav {
-        @apply opacity-50;
+        @apply block opacity-50;
       }
     }
     > nav {
@@ -389,9 +394,15 @@ div.item.root div.item div.item {
 }
 div.item.untitled {
   > header {
+    @apply float-right;
+    min-height: 2em;
+    min-width: 2.2em;
     > button.show-nav {
-      @apply rounded-bl leading-none;
+      @apply leading-none;
     }
+  }
+  &.expanded > header {
+    @apply rounded-bl;
   }
 }
 </style>
