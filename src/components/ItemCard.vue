@@ -137,9 +137,10 @@ export default class ItemCard extends Vue {
       <button
         v-if="item.collapsed && (item.content || subitems.length)"
         v-on:click="collapseClick(false)"
+        class="expand"
       >
-        <fa-icon icon="plus-circle" />
         <span v-if="subitems.length">{{ subitems.length }}</span>
+        <fa-icon icon="plus-circle" />
       </button>
       <button v-if="showNav" v-on:click="showNav = false" class="hide-nav" />
       <nav v-if="showNav">
@@ -258,8 +259,11 @@ div.item {
     > div.title {
       @apply p-1 flex-1;
     }
-    > button {
+    > button.expand {
       @apply p-1;
+      span {
+        @apply pr-1;
+      }
     }
     > button.hide-nav {
       @apply fixed h-full w-full top-0 right-0 bottom-0 left-0 z-10;
