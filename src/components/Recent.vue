@@ -56,7 +56,7 @@ export default class ItemRecent extends Vue {
       <td><item-link v-bind:item="item" /></td>
       <td><fa-icon v-bind:icon="icon(item)" /></td>
       <td>{{ item.format }}</td>
-      <td class="size">{{ item.content.length }} B</td>
+      <td class="size">{{ item.content.length + item.title.length }}</td>
       <td>{{ dateToString(item.updated) }}</td>
       <td>
         <router-link v-bind:to="editUrl(item.id)">
