@@ -168,7 +168,7 @@ export default class ItemCard extends Vue {
         <a v-on:click="viewClick('board')" v-if="item.view !== 'board'">
           <fa-icon icon="columns" /> Board view
         </a>
-        <a v-on:click="viewClick('tabs')" v-if="item.view !== 'tab'">
+        <a v-on:click="viewClick('tab')" v-if="item.view !== 'tab'">
           <fa-icon icon="folder" /> Tabs view
         </a>
       </nav>
