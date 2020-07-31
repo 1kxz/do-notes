@@ -406,7 +406,7 @@ div.item.untitled {
   }
 }
 // Prototyping tabbed items
-div.item.tabs > section {
+div.item.tab > section {
   position: relative;
   height: 100%;
   > div.subitems {
