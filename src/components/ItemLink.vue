@@ -10,24 +10,11 @@ export default class ItemLink extends Vue {
   get target() {
     return { name: 'Item', params: { id: this.item.id } };
   }
-
-  get icon() {
-    switch (this.item.view) {
-      case 'pad':
-        return 'file-alt';
-      case 'board':
-        return 'columns';
-      case 'wide':
-        return 'book-open';
-      default:
-        throw `invalid item view ${this.item.view}`;
-    }
-  }
 }
 </script>
 
 <template>
   <router-link v-bind:to="target" class="item-link">
-    <fa-icon v-bind:icon="icon" /> {{ item.title }}
+    {{ item.title }}
   </router-link>
 </template>

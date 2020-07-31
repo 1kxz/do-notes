@@ -1,12 +1,12 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faBookmark,
-  faBookOpen,
   faColumns,
   faDownload,
   faEdit,
   faEllipsisH,
   faFileAlt,
+  faFolder,
   faHistory,
   faLink,
   faMinusCircle,
@@ -16,6 +16,7 @@ import {
   faQuestion,
   faSignInAlt,
   faSignOutAlt,
+  faThLarge,
   faTrash,
   faUndo,
   faUpload,
@@ -24,12 +25,12 @@ import {
 
 library.add(
   faBookmark,
-  faBookOpen,
   faColumns,
   faDownload,
   faEdit,
   faEllipsisH,
   faFileAlt,
+  faFolder,
   faHistory,
   faLink,
   faMinusCircle,
@@ -39,6 +40,7 @@ library.add(
   faQuestion,
   faSignInAlt,
   faSignOutAlt,
+  faThLarge,
   faTrash,
   faUndo,
   faUpload,

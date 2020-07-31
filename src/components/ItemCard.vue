@@ -162,11 +162,14 @@ export default class ItemCard extends Vue {
         <a v-on:click="viewClick('pad')" v-if="item.view !== 'pad'">
           <fa-icon icon="file-alt" /> Notepad view
         </a>
+        <a v-on:click="viewClick('wide')" v-if="item.view !== 'wide'">
+          <fa-icon icon="th-large" /> Album view
+        </a>
         <a v-on:click="viewClick('board')" v-if="item.view !== 'board'">
           <fa-icon icon="columns" /> Board view
         </a>
-        <a v-on:click="viewClick('wide')" v-if="item.view !== 'wide'">
-          <fa-icon icon="book-open" /> Album view
+        <a v-on:click="viewClick('tabs')" v-if="item.view !== 'tab'">
+          <fa-icon icon="folder" /> Tabs view
         </a>
       </nav>
     </header>
@@ -253,9 +256,8 @@ div.item.wide {
 }
 // Content layout
 div.item {
-  @apply relative;
   > header {
-    @apply leading-tight flex p-1;
+    @apply leading-tight flex p-1 relative;
     > div.title {
       @apply p-1 flex-1;
     }
@@ -337,9 +339,6 @@ div.item.root.orphan.empty {
 // Color & style
 div.item {
   > header {
-    > div.title {
-      @apply font-medium;
-    }
     > button.show-nav {
       @apply hidden;
       &:hover {
@@ -386,9 +385,6 @@ div.item.root div.item div.item {
   @apply bg-highlightbg text-highlightfg border-2 border-keybg;
   > header {
     @apply bg-keybg text-keyfg cursor-default;
-    > div.title {
-      @apply font-normal;
-    }
   }
   > section {
     > div.text::v-deep a {
@@ -407,6 +403,46 @@ div.item.untitled {
   }
   &.expanded > header {
     @apply rounded-bl;
+  }
+}
+// Prototyping tabbed items
+div.item.tabs > section {
+  position: relative;
+  height: 100%;
+  > div.subitems {
+    @apply flex flex-row p-0;
+    @apply bg-rimbg text-rimfg mt-1 rounded-r;
+    width: 100%;
+    > div.item {
+      @apply m-0;
+      > header {
+        > button.show-nav {
+          display: block;
+          opacity: 25%;
+          @apply p-1;
+        }
+      }
+      > section {
+        display: none;
+      }
+      &:hover {
+        @apply text-backlightfg;
+        height: 100%;
+        > header {
+          @apply bg-backlightbg text-backlightfg;
+          > button.show-nav:hover {
+            opacity: 100%;
+          }
+        }
+        > section {
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 2.2em;
+          right: 0;
+        }
+      }
+    }
   }
 }
 </style>

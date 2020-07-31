@@ -22,6 +22,21 @@ export default class ItemRecent extends Vue {
     });
   }
 
+  icon(item: Item) {
+    switch (item.view) {
+      case 'pad':
+        return 'file-alt';
+      case 'board':
+        return 'columns';
+      case 'wide':
+        return 'th-large';
+      case 'tab':
+        return 'folder';
+      default:
+        throw `invalid item view ${item.view}`;
+    }
+  }
+
   dateToString(date: Date) {
     return dateToString(date);
   }
@@ -39,14 +54,15 @@ export default class ItemRecent extends Vue {
         <span v-if="item.parent === null"><fa-icon icon="bookmark"/></span>
       </td>
       <td><item-link v-bind:item="item" /></td>
+      <td><fa-icon v-bind:icon="icon(item)" /></td>
+      <td>{{ item.format }}</td>
+      <td class="size">{{ item.content.length }} B</td>
+      <td>{{ dateToString(item.updated) }}</td>
       <td>
         <router-link v-bind:to="editUrl(item.id)">
           <fa-icon icon="edit" />
         </router-link>
       </td>
-      <td>{{ item.format }}</td>
-      <td>{{ item.content.length }}</td>
-      <td>{{ dateToString(item.updated) }}</td>
     </tr>
   </table>
 </template>
@@ -56,6 +72,12 @@ table {
   @apply mx-auto my-2;
   td {
     @apply p-2;
+  }
+  tr:hover {
+    @apply bg-keybg text-keyfg;
+  }
+  td.size {
+    @apply text-right;
   }
 }
 </style>
