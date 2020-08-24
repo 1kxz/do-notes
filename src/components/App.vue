@@ -17,7 +17,7 @@ export default class App extends Vue {
   user: User | null = null;
   subitems: Item[] = [];
   showUserMenu = false;
-  themeId = 'Random';
+  themeId = 'Surf';
 
   mounted() {
     this.changeTheme(this.themeId);
