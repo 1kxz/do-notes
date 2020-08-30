@@ -99,7 +99,7 @@ export default class App extends Vue {
             delete copy.uid;
             return { id: item.id, ...copy };
           });
-          const dataStr = encodeURIComponent(JSON.stringify(data));
+          const dataStr = encodeURIComponent(JSON.stringify(data, null, 2));
           const a = document.createElement('a');
           a.setAttribute('href', `data:text/json;charset=utf-8,${dataStr}`);
           a.setAttribute('download', 'Notes.json');
