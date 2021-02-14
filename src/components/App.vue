@@ -17,10 +17,8 @@ export default class App extends Vue {
   user: User | null = null;
   subitems: Item[] = [];
   showUserMenu = false;
-  themeId = 'Surf';
 
   mounted() {
-    this.changeTheme(this.themeId);
     firebaseAuth.onAuthStateChanged(auth => {
       if (auth) {
         const user = { name: auth.displayName, email: auth.email };
@@ -41,10 +39,12 @@ export default class App extends Vue {
                 .where('parent', '==', null)
                 .orderBy('order')
             );
+            this.setTheme(doc.data()?.themeId || 'Random');
           });
       } else {
         this.user = null;
         this.subitems = [];
+        this.setTheme('Random');
       }
     });
   }
@@ -53,11 +53,15 @@ export default class App extends Vue {
     return this.user?.name || this.user?.email || 'Unknown';
   }
 
+  get themeId() {
+    return this.user?.themeId?.toLowerCase();
+  }
+
   get themeOptions() {
     const options: string[] = [];
-    for (const theme in themes) {
-      if (theme != this.themeId) {
-        options.push(theme);
+    for (const themeId in themes) {
+      if (themeId != this.user?.themeId) {
+        options.push(themeId);
       }
     }
     return options;
@@ -67,17 +71,23 @@ export default class App extends Vue {
     return themes[themeId];
   }
 
-  changeTheme(themeId: string) {
+  setTheme(themeId: string) {
+    if (this.user) {
+      users.doc(this.user.id).update({ themeId });
+    }
     const options = this.themeOptions;
     while (themeId === 'Random') {
       themeId = options[Math.floor(Math.random() * options.length)];
     }
-    const values = this.themeValues(themeId);
+    this.applyTheme(themeId);
+    this.showUserMenu = false;
+  }
+
+  applyTheme(themeId: string) {
+    const values = themes[themeId];
     for (const key in values) {
       document.documentElement.style.setProperty(`--${key}`, values[key]);
     }
-    this.themeId = themeId;
-    this.showUserMenu = false;
   }
 
   logoutClick() {
@@ -172,7 +182,7 @@ export default class App extends Vue {
 </script>
 
 <template>
-  <div id="app" v-bind:class="themeId.toLowerCase()">
+  <div id="app" v-bind:class="themeId">
     <nav>
       <draggable
         group="items"
@@ -216,7 +226,7 @@ export default class App extends Vue {
         <button
           v-for="themeId in themeOptions"
           v-bind:key="themeId"
-          v-on:click="changeTheme(themeId)"
+          v-on:click="setTheme(themeId)"
         >
           <logo v-bind:theme="themeValues(themeId)" class="theme-icon" />
           {{ themeId }}

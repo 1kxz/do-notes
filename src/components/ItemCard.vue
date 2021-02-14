@@ -84,7 +84,6 @@ export default class ItemCard extends Vue {
 
   subitemEnter(value: number) {
     if (this.item.view == 'tab' && this.item.active !== value) {
-      console.log(this.item.id, '->', value);
       items.doc(this.item.id).update({ active: value });
     }
   }
