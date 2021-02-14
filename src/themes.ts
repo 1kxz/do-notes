@@ -18,7 +18,7 @@ export const themes: {
     highlightfg: 'var(--backlightbg)',
     backlightbg: '#00223d',
     backlightfg: 'var(--highlightbg)',
-    overlaybg: '#ffffff88',
+    overlaybg: '#ffffff',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../seigaiha.png")'
   },
@@ -31,7 +31,7 @@ export const themes: {
     highlightfg: 'var(--backlightbg)',
     backlightbg: '#172126',
     backlightfg: 'var(--highlightbg)',
-    overlaybg: '#ffffff88',
+    overlaybg: '#ffffff',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../circuit.png")'
   },
@@ -44,7 +44,7 @@ export const themes: {
     highlightfg: 'var(--backlightbg)',
     backlightbg: '#2b191f',
     backlightfg: 'var(--highlightbg)',
-    overlaybg: '#ffffff88',
+    overlaybg: '#ffffff',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../symphony.png")'
   },
@@ -57,7 +57,7 @@ export const themes: {
     highlightfg: 'var(--backlightbg)',
     backlightbg: '#3b2e2a',
     backlightfg: 'var(--highlightbg)',
-    overlaybg: '#ffffff88',
+    overlaybg: '#ffffff',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../leaves.jpg")'
   },
@@ -70,7 +70,7 @@ export const themes: {
     highlightfg: 'var(--backlightbg)',
     backlightbg: '#361717',
     backlightfg: 'var(--highlightbg)',
-    overlaybg: '#ffffff88',
+    overlaybg: '#ffffff',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../vichy.png")'
   },
@@ -83,7 +83,7 @@ export const themes: {
     highlightfg: 'var(--backlightbg)',
     backlightbg: '#221c4a',
     backlightfg: 'var(--highlightbg)',
-    overlaybg: '#ffffff88',
+    overlaybg: '#ffffff',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../escheresque.png")'
   },
@@ -96,7 +96,7 @@ export const themes: {
     highlightfg: 'var(--backlightbg)',
     backlightbg: '#31014c',
     backlightfg: 'var(--highlightbg)',
-    overlaybg: '#ffffff88',
+    overlaybg: '#ffffff',
     overlayfg: 'var(--backlightbg)',
     background: 'url("../grid.jpg")'
   },
@@ -109,7 +109,7 @@ export const themes: {
     highlightfg: 'var(--keyfg)',
     backlightbg: '#b1d2ff',
     backlightfg: 'var(--keyfg)',
-    overlaybg: '#d4e7ff',
+    overlaybg: '#d4e7',
     overlayfg: 'var(--keyfg)',
     background: 'url("../escheresque.png")'
   }
@@ -122,7 +122,7 @@ export const themes: {
   //   highlightfg: '#eeeeee',
   //   backlightbg: '#111111',
   //   backlightfg: '#cccccc',
-  //   overlaybg: '#00000088',
+  //   overlaybg: '#000000',
   //   overlayfg: '#eeeeee',
   //   background: 'none'
   // }

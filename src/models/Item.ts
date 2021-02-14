@@ -7,6 +7,8 @@ export default interface Item extends String {
   format: string;
   view: string;
   collapsed: boolean;
+  order: number;
+  active: number;
   created: Date;
   updated: Date;
 }

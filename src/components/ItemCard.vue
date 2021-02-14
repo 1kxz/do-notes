@@ -82,6 +82,13 @@ export default class ItemCard extends Vue {
     items.doc(this.item.id).update({ collapsed: value });
   }
 
+  subitemEnter(value: number) {
+    if (this.item.view == 'tab' && this.item.active !== value) {
+      console.log(this.item.id, '->', value);
+      items.doc(this.item.id).update({ active: value });
+    }
+  }
+
   get dragmodel() {
     return this.subitems.map(item => item.id);
   }
@@ -195,6 +202,8 @@ export default class ItemCard extends Vue {
           v-for="subitem in subitems"
           v-bind:key="subitem.id"
           v-bind:item="subitem"
+          v-on:click.native="subitemEnter(subitem.order)"
+          v-bind:class="{ active: item.active == subitem.order }"
         />
       </draggable>
     </section>
@@ -415,17 +424,10 @@ div.item.tab > section {
     width: 100%;
     > div.item {
       @apply m-0;
-      > header {
-        > button.show-nav {
-          display: block;
-          opacity: 25%;
-          @apply p-1;
-        }
-      }
       > section {
         display: none;
       }
-      &:hover {
+      &.active {
         @apply text-backlightfg;
         height: 100%;
         > header {
@@ -440,6 +442,12 @@ div.item.tab > section {
           left: 0;
           top: 2.2em;
           right: 0;
+        }
+      }
+      &:hover {
+        > header {
+          @apply bg-backlightbg text-backlightfg;
+          cursor: pointer;
         }
       }
     }

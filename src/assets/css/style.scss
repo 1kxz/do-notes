@@ -77,11 +77,13 @@ div.text {
   blockquote {
     @apply px-2;
     @apply py-1;
+    color: var(--overlayfg);
     background-color: var(--overlaybg);
   }
   pre {
     @apply px-2;
     @apply py-1;
+    color: var(--overlayfg);
     background-color: var(--overlaybg);
     overflow-x: auto;
     code, * {
@@ -91,6 +93,7 @@ div.text {
   :not(pre) > code {
     @apply px-1;
     @apply rounded;
+    color: var(--overlayfg);
     background-color: var(--overlaybg);
     @apply font-mono;
   }
