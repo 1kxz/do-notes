@@ -109,7 +109,7 @@ export const themes: {
     highlightfg: 'var(--keyfg)',
     backlightbg: '#b1d2ff',
     backlightfg: 'var(--keyfg)',
-    overlaybg: '#d4e7',
+    overlaybg: '#d4e7ff',
     overlayfg: 'var(--keyfg)',
     background: 'url("../escheresque.png")'
   }
