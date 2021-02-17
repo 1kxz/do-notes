@@ -37,6 +37,12 @@ export default class ItemRecent extends Vue {
     }
   }
 
+  size(item: Item) {
+    return (
+      item.title.length + (item.content !== null ? item.content.length : 0)
+    );
+  }
+
   dateToString(date: Date) {
     return dateToString(date);
   }
@@ -56,7 +62,7 @@ export default class ItemRecent extends Vue {
       <td><item-link v-bind:item="item" /></td>
       <td><fa-icon v-bind:icon="icon(item)" /></td>
       <td>{{ item.format }}</td>
-      <td class="size">{{ item.content.length + item.title.length }}</td>
+      <td class="size">{{ size(item) }}</td>
       <td>{{ dateToString(item.updated) }}</td>
       <td>
         <router-link v-bind:to="editUrl(item.id)">

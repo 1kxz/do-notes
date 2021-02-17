@@ -123,18 +123,6 @@ export const itemRemove = functions.https.onCall(
   }
 );
 
-function splitText(text: string) {
-  let title = '';
-  let body = text;
-  while (!title.length && body.length) {
-    [title] = body.split('\n', 1);
-    body = body.slice(title.length + 1);
-  }
-  title = title.trim();
-  body = body.trim();
-  return { title, body };
-}
-
 export const itemFixIndices = functions.https.onRequest((request, response) => {
   const database = admin.firestore();
   const items = database.collection('items');
@@ -142,16 +130,6 @@ export const itemFixIndices = functions.https.onRequest((request, response) => {
     .get()
     .then(qs => {
       qs.forEach(qds => {
-        console.log(`processsing ${qds.id}`);
-        const { text, ...newDoc } = qds.data();
-        const { title, body } = splitText(text);
-        return qds.ref
-          .set({
-            title,
-            content: body,
-            ...newDoc
-          })
-          .catch(console.log);
         // return items
         //   .where('parent', '==', qds.ref)
         //   .orderBy('order')

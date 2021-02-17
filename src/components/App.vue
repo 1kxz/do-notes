@@ -191,7 +191,7 @@ export default class App extends Vue {
         v-bind:list="dragModel"
         v-on:change="dragChange"
       >
-        <router-link to="/" slot="header"># Notes</router-link>
+        <router-link to="/" slot="header" class="home"># Notes</router-link>
         <item-link
           v-for="item in subitems"
           v-bind:key="item.id"
@@ -243,6 +243,9 @@ export default class App extends Vue {
 <style lang="scss" scoped>
 #app {
   @apply flex flex-col flex-1;
+}
+a.home {
+  @apply font-bold;
 }
 nav {
   @apply flex leading-none relative;

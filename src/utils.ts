@@ -4,14 +4,19 @@ import 'firebase/firestore';
 const { Timestamp } = firebase.firestore;
 
 export function splitText(text: string) {
-  let title = '';
-  let body = text;
-  while (!title.length && body.length) {
-    [title] = body.split('\n', 1);
-    body = body.slice(title.length + 1);
+  const n = text.indexOf('\n');
+  const i = text[0] === '#' ? text[1] === ' ' ? 2 : 1 : 0;
+  if (n < 0) {
+    return { title: text.slice(i), content: null };
   }
-  if (title === ' ') title = '';
-  return { title, body };
+  return { title: text.slice(i, n), content: text.slice(n + 1) };
+}
+
+export function joinText(title: string, content: string | null) {
+  if (content !== null) {
+    return `# ${title}\n${content}`;
+  }
+  return `# ${title}`;
 }
 
 export function dateToString(date: typeof Timestamp | Date | undefined) {

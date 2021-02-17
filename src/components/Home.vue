@@ -8,7 +8,7 @@ export default class Home extends Vue {}
 <template>
   <div class="home text" v-title="'# Notes'">
     <h1># Notes</h1>
-    <p>Simple app to write notes in Mardown.</p>
+    <p>Write notes in Markdown.</p>
   </div>
 </template>
 

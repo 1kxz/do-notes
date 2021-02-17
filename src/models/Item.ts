@@ -2,13 +2,13 @@ export default interface Item extends String {
   id: string;
   uid: string;
   parent: string;
-  content: string;
   title: string;
+  content: string | null;
   format: string;
   view: string;
-  collapsed: boolean;
+  collapsed: boolean | null;
   order: number;
-  active: number;
+  active: number | null;
   created: Date;
   updated: Date;
 }

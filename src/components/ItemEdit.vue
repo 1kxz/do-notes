@@ -1,6 +1,6 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { dateToString, splitText } from '@/utils';
+import { dateToString, splitText, joinText } from '@/utils';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
 import { items } from '@/database';
 import { Route } from 'vue-router';
@@ -30,7 +30,7 @@ export default class ItemEdit extends Vue {
 
   get text() {
     if (this.item) {
-      return this.item.title + '\n' + this.item.content;
+      return joinText(this.item.title, this.item.content);
     }
     return '';
   }
@@ -38,9 +38,9 @@ export default class ItemEdit extends Vue {
   set text(value: string) {
     if (this.item) {
       this.synced = false;
-      const { title, body } = splitText(value);
+      const { title, content } = splitText(value);
       this.item.title = title;
-      this.item.content = body;
+      this.item.content = content;
       this.item.format = 'markdown';
       this.upload();
     }
