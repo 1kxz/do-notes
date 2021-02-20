@@ -212,7 +212,7 @@ export default class ItemCard extends Vue {
 <style lang="scss" scoped>
 // Nesting layout
 div.item.pad {
-  // border: 2px solid #00f !important;
+  // box-shadow: 1px 1px 3px #04f;
   > section {
     > div.subitems {
       @apply flex flex-col;
@@ -222,8 +222,24 @@ div.item.pad {
     }
   }
 }
+div.item.wide {
+  // box-shadow: 1px 1px 3px #0f0;
+  > section {
+    > div.subitems {
+      @apply flex flex-row items-start justify-start flex-wrap;
+      > div.item {
+        min-width: 30rem;
+        max-width: calc(50% - 1em);
+      }
+    }
+  }
+  div.text {
+    max-height: 60em;
+    overflow-y: auto;
+  }
+}
 div.item.board {
-  // border: 2px solid #0f0 !important;
+  // box-shadow: 1px 1px 3px #f04;
   @apply flex flex-col;
   > section {
     @apply flex-1;
@@ -237,7 +253,14 @@ div.item.board {
         max-width: 40rem;
       }
       > div.item.collapsed > header {
-        @apply flex flex-col pr-4;
+        @apply flex flex-col;
+        > div.title {
+          writing-mode: sideways-lr;
+          white-space: nowrap;
+        }
+        > button.show-nav {
+          display: none;
+        }
       }
     }
   }
@@ -246,20 +269,33 @@ div.item.board {
     overflow-y: auto;
   }
 }
-div.item.wide {
-  // border: 2px solid #f00 !important;
+div.item.tab {
+  // box-shadow: 1px 1px 3px #f90;
   > section {
     > div.subitems {
-      @apply flex flex-row items-start justify-start flex-wrap;
+      @apply flex m-2;
       > div.item {
-        min-width: 30rem;
-        max-width: calc(50% - 1em);
+        @apply m-0;
+        &.active {
+          > section {
+            display: block;
+          }
+        }
+        &:not(.active) {
+          overflow: hidden;
+          width: 2.5em;
+          > section {
+            width: 10em;
+            opacity: 0.25;
+          }
+          > header {
+            white-space: nowrap;
+            width: 2.5em;
+            writing-mode: sideways-lr;
+          }
+        }
       }
     }
-  }
-  div.text {
-    max-height: 60em;
-    overflow-y: auto;
   }
 }
 // Content layout
@@ -411,45 +447,6 @@ div.item.untitled {
   }
   &.expanded > header {
     @apply rounded-bl;
-  }
-}
-// Prototyping tabbed items
-div.item.tab > section {
-  position: relative;
-  height: 100%;
-  > div.subitems {
-    @apply flex flex-row p-0;
-    @apply bg-rimbg text-rimfg mt-1 rounded-r;
-    width: 100%;
-    > div.item {
-      @apply m-0;
-      > section {
-        display: none;
-      }
-      &.active {
-        @apply text-backlightfg;
-        height: 100%;
-        > header {
-          @apply bg-backlightbg text-backlightfg;
-          > button.show-nav:hover {
-            opacity: 100%;
-          }
-        }
-        > section {
-          display: block;
-          position: absolute;
-          left: 0;
-          top: 2.2em;
-          right: 0;
-        }
-      }
-      &:hover {
-        > header {
-          @apply bg-backlightbg text-backlightfg;
-          cursor: pointer;
-        }
-      }
-    }
   }
 }
 </style>
