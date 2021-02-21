@@ -5,7 +5,7 @@ const { Timestamp } = firebase.firestore;
 
 export function splitText(text: string) {
   const n = text.indexOf('\n');
-  const i = text[0] === '#' ? text[1] === ' ' ? 2 : 1 : 0;
+  const i = text[0] === '#' ? (text[1] === ' ' ? 2 : 1) : 0;
   if (n < 0) {
     return { title: text.slice(i), content: null };
   }

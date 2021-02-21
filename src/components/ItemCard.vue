@@ -141,7 +141,7 @@ export default class ItemCard extends Vue {
         <fa-icon icon="ellipsis-h" />
       </button>
       <button
-        v-if="item.collapsed && (item.content || subitems.length)"
+        v-if="item.collapsed"
         v-on:click="collapseClick(false)"
         class="expand"
       >
@@ -217,7 +217,7 @@ div.item.pad {
     > div.subitems {
       @apply flex flex-col;
       > div.item {
-        max-width: 60rem;
+        max-width: 64rem;
       }
     }
   }
@@ -228,8 +228,8 @@ div.item.wide {
     > div.subitems {
       @apply flex flex-row items-start justify-start flex-wrap;
       > div.item {
-        min-width: 30rem;
-        max-width: calc(50% - 1em);
+        // min-width: 30rem;
+        max-width: 64rem;
       }
     }
   }
@@ -240,26 +240,25 @@ div.item.wide {
 }
 div.item.board {
   // box-shadow: 1px 1px 3px #f04;
-  @apply flex flex-col;
   > section {
-    @apply flex-1;
     > div.subitems {
       @apply flex;
-      height: 100%;
-      align-items: flex-start;
-      overflow-x: auto;
+      align-items: stretch;
+      // overflow-x: auto;
       > div.item.expanded {
-        min-width: 24rem;
-        max-width: 40rem;
+        min-width: 16rem;
+        max-width: 32rem;
       }
-      > div.item.collapsed > header {
-        @apply flex flex-col;
-        > div.title {
-          writing-mode: sideways-lr;
-          white-space: nowrap;
-        }
-        > button.show-nav {
-          display: none;
+      > div.item.collapsed {
+        width: 2.2em;
+        @apply pt-4;
+        white-space: nowrap;
+        > header {
+          transform: rotate(-90deg);
+          direction: rtl;
+          > button.show-nav {
+            display: none;
+          }
         }
       }
     }
@@ -273,25 +272,31 @@ div.item.tab {
   // box-shadow: 1px 1px 3px #f90;
   > section {
     > div.subitems {
-      @apply flex m-2;
-      > div.item {
-        @apply m-0;
-        &.active {
-          > section {
-            display: block;
-          }
+      @apply flex;
+      align-items: stretch;
+      > div.item.active {
+        min-width: 24rem;
+        max-width: 64rem;
+      }
+      > div.item:not(.active) {
+        width: 5em;
+        overflow: hidden;
+        transform: perspective(5em) rotateY(0.5deg);
+        -webkit-mask-image: -webkit-gradient(
+          linear,
+          left top,
+          right top,
+          from(#000f),
+          to(#0000)
+        );
+        > header {
+          min-width: 24rem;
+          max-width: 64rem;
         }
-        &:not(.active) {
-          overflow: hidden;
-          width: 2.5em;
-          > section {
-            width: 10em;
-            opacity: 0.25;
-          }
-          > header {
-            white-space: nowrap;
-            width: 2.5em;
-            writing-mode: sideways-lr;
+        > section {
+          width: 24rem;
+          section {
+            display: none;
           }
         }
       }
@@ -382,6 +387,7 @@ div.item.root.orphan.empty {
 }
 // Color & style
 div.item {
+  // box-shadow: 0px 0px 3px #f30, 0px 0px 3px #07f inset;
   > header {
     > button.show-nav {
       @apply hidden;
@@ -425,7 +431,8 @@ div.item {
 div.viewer div.item.nonroot,
 div.item.root.pad div.item,
 div.item.root.wide div.item,
-div.item.root div.item div.item {
+div.item.root div.item div.item,
+div.item.root.tab div.item {
   @apply bg-highlightbg text-highlightfg border-2 border-keybg;
   > header {
     @apply bg-keybg text-keyfg cursor-default;
