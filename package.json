@@ -24,7 +24,7 @@
     "firebase": "^7.24.0",
     "firebaseui": "^4.7.3",
     "lodash-decorators": "^6.0.1",
-    "prismjs": "^1.23.0",
+    "prismjs": "^1.25.0",
     "tailwindcss": "^1.9.6",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.6",
